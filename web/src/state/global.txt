@@ -2,5 +2,6 @@ level:
 levelTotal:
 levelScore:
 (percentageCorrect):
+question locks after click until Retry button is clicked
 
 globalScore:

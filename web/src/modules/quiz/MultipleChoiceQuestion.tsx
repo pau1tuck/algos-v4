@@ -14,6 +14,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
     const handleAnswer = (index: number) => {
         setUserAnswerIndex(index);
         setIsCorrect(index === correctAnswerIndex);
+        // disable other buttons
     };
 
     return (

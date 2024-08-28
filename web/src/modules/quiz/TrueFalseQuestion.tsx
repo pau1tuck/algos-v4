@@ -13,6 +13,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
     const handleAnswer = (answer: boolean) => {
         setUserAnswer(answer);
         setIsCorrect(answer === correctAnswer);
+        // disable other button
     };
 
     return (

@@ -10,8 +10,6 @@ import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestio
 
 I just want to see `embedded code` in the MDX, not the
 
-## True or False
-
 <TrueFalseQuestion
   question="JavaScript is a strongly-typed language."
   correctAnswer={false}
@@ -20,13 +18,13 @@ Reveal?
 JavaScript is a weakly-typed language, meaning that variables cannot change __.
 Low-level languages like C++ and Rust have greater control over the system hardware, like memory and CPU, and so...
 
-## Multiple Choice
+## Parsing Integers
 
 ```js
-const result = Number.parseInt("21 February 2024");
+const date = Number.parseInt("21 February 2024");
 ```
 <MultipleChoiceQuestion
-  question={"What is the value of `result`?"}
+  question={"What is the value of `date`?"}
   options={["Null", "21", "NaN", "212024"]}
   correctAnswerIndex={3}
 />
