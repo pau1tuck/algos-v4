@@ -47,10 +47,12 @@
 
 .multiple-choice-option {
   background-color: #fff;
+  font-size: 1.3rem;
   border: 2px solid #ddd;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
+  text-align: center;
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
 }
@@ -73,4 +75,72 @@
 .multiple-choice-feedback {
   margin-top: 15px;
   font-size: 1rem;
+}
+
+.true-false-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  /*margin: 20px auto; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.true-false-question {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.true-false-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.true-false-option {
+  flex: 1;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  text-align: center;
+}
+
+.true-false-option:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.true-false-option.correct {
+  border-color: #4caf50;
+  background-color: #e8f5e9;
+}
+
+.true-false-option.incorrect {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.true-false-feedback {
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+/* Center items in the container for both question types */
+.true-false-options,
+.multiple-choice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align items horizontally */
+}
+
+/* Ensure buttons also maintain their styling */
+.true-false-option,
+.multiple-choice-option {
+  width: 100%; /* Full width to fill the parent container */
+  max-width: 200px; /* Limit the max width for better visuals */
+  margin-bottom: 10px; /* Add some space between buttons */
 }

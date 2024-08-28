@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 type TrueFalseQuestionProps = {
     question: string;
@@ -15,19 +16,27 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
     };
 
     return (
-        <div>
-            <p>{question}</p>
-            <button
-                onClick={() => handleAnswer(true)}
-                style={{
-                    cursor: "pointer",
-                    margin: "5px 0",
-                }}
-            >
-                True
-            </button>
-            <button onClick={() => handleAnswer(false)}>False</button>
-            {userAnswer !== null && <p>{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>}
+        <div className="true-false-container">
+            <p className="true-false-question">{question}</p>
+            <div className="true-false-options">
+                <button
+                    onClick={() => handleAnswer(true)}
+                    className={`true-false-option ${userAnswer === true ? (isCorrect ? "correct" : "incorrect") : ""}`}
+                >
+                    True
+                </button>
+                <button
+                    onClick={() => handleAnswer(false)}
+                    className={`true-false-option ${
+                        userAnswer === false ? (!isCorrect ? "incorrect" : "correct") : ""
+                    }`}
+                >
+                    False
+                </button>
+            </div>
+            {userAnswer !== null && (
+                <p className="true-false-feedback">{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>
+            )}
         </div>
     );
 };
