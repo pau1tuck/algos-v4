@@ -21,7 +21,6 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"all": true,
 			"correctness": {
 				"noUnusedVariables": "warn"
 			},

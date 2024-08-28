@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 type MultipleChoiceQuestionProps = {
     question?: string;
@@ -17,21 +18,23 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
 
     return (
         <div className="multiple-choice-container">
-            {question && <p className="multiple-choice-question">{question}</p>}
+            {question && (
+                <p className="multiple-choice-question">
+                    <ReactMarkdown>{question}</ReactMarkdown>
+                </p>
+            )}
             {options.map((option, index) => (
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
                     className={`multiple-choice-option ${
-                        userAnswerIndex !== null ? (index === correctAnswerIndex ? "correct" : "incorrect") : ""
+                        userAnswerIndex === index ? (isCorrect ? "correct" : "incorrect") : ""
                     }`}
                 >
-                    {option}
+                    <ReactMarkdown>{option}</ReactMarkdown>
                 </div>
             ))}
-            {isCorrect !== null && (
-                <p className="multiple-choice-feedback">{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>
-            )}
+            {isCorrect !== null && <div />}
         </div>
     );
 };

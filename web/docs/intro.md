@@ -20,10 +20,10 @@ import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestio
 ```js
 const result = Number.parseInt("21 February 2024");
 ```
-What is the value of `result`?
+
 <MultipleChoiceQuestion
-  question=""
-  options={['Null', 'NaN', '21', '212024']}
+  question={"What is the value of `result`?"}
+  options={["Null", "21", "NaN", "212024"]}
   correctAnswerIndex={3}
 />
 

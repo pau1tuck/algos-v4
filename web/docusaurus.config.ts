@@ -1,7 +1,7 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
-import { themes as prismThemes } from "prism-react-renderer";
 import tailwindPlugin from "@site/lib/tailwind-config.cjs";
+import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
 	title: "AlgoBeast",
@@ -129,10 +129,10 @@ const config: Config = {
 			copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
 		},
 		prism: {
-			theme: prismThemes.github,
+			theme: prismThemes.dracula,
 			darkTheme: prismThemes.dracula,
 		},
-/*		plugins: [
+		/*		plugins: [
 			tailwindPlugin
 		] */
 	} satisfies Preset.ThemeConfig,
