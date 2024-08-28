@@ -25,7 +25,8 @@
     "postinstall-postinstall": "^2.1.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-markdown": "^9.0.1"
   },
   "devDependencies": {
     "@biomejs/monorepo": "biomejs/biome",
