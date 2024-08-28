@@ -46,6 +46,7 @@
 }
 
 .multiple-choice-option {
+  align-items: center;
   background-color: #fff;
   font-size: 1.3rem;
   border: 2px solid #ddd;
@@ -87,9 +88,8 @@
 }
 
 .true-false-question {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
 .true-false-options {
@@ -130,7 +130,7 @@
 }
 
 /* Center items in the container for both question types */
-.true-false-options,
+
 .multiple-choice-container {
   display: flex;
   flex-direction: column;

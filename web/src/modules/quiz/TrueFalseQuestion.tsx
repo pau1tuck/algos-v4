@@ -20,12 +20,14 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
             <p className="true-false-question">{question}</p>
             <div className="true-false-options">
                 <button
+                    type="submit"
                     onClick={() => handleAnswer(true)}
                     className={`true-false-option ${userAnswer === true ? (isCorrect ? "correct" : "incorrect") : ""}`}
                 >
                     True
                 </button>
                 <button
+                    type="submit"
                     onClick={() => handleAnswer(false)}
                     className={`true-false-option ${
                         userAnswer === false ? (!isCorrect ? "incorrect" : "correct") : ""
@@ -34,9 +36,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
                     False
                 </button>
             </div>
-            {userAnswer !== null && (
-                <p className="true-false-feedback">{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>
-            )}
+            {userAnswer !== null && <div />}
         </div>
     );
 };

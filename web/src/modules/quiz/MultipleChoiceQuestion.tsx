@@ -27,6 +27,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
+                    onKeyPress={() => handleAnswer(index)}
                     className={`multiple-choice-option ${
                         userAnswerIndex === index ? (isCorrect ? "correct" : "incorrect") : ""
                     }`}
