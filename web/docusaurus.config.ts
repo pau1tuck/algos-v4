@@ -3,8 +3,8 @@ import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
-	title: "Algobeast",
-	tagline: "Dinosaurs are cool",
+	title: "AlgoBeast",
+	tagline: "",
 	favicon: "img/favicon.ico",
 
 	// Set the production url of your site here
