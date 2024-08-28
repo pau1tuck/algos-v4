@@ -17,12 +17,15 @@ import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestio
 
 ## Multiple Choice
 
+```js
+const result = Number.parseInt("21 February 2024");
+```
+What is the value of `result`?
 <MultipleChoiceQuestion
-  question="Which of the following is not a JavaScript data type?"
-  options={['String', 'Number', 'Boolean', 'Float']}
+  question=""
+  options={['Null', 'NaN', '21', '212024']}
   correctAnswerIndex={3}
 />
-
 
 ## Getting Started
 

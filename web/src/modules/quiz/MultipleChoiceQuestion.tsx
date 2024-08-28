@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 type MultipleChoiceQuestionProps = {
-    question: string;
+    question?: string;
     options: string[];
     correctAnswerIndex: number;
 };
@@ -16,22 +16,22 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
     };
 
     return (
-        <div>
-            <p>{question}</p>
+        <div className="multiple-choice-container">
+            {question && <p className="multiple-choice-question">{question}</p>}
             {options.map((option, index) => (
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
-                    style={{
-                        cursor: "pointer",
-                        margin: "5px 0",
-                        textAlign: "left",
-                    }}
+                    className={`multiple-choice-option ${
+                        userAnswerIndex !== null ? (index === correctAnswerIndex ? "correct" : "incorrect") : ""
+                    }`}
                 >
                     {option}
                 </div>
             ))}
-            {isCorrect !== null && <p>{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>}
+            {isCorrect !== null && (
+                <p className="multiple-choice-feedback">{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>
+            )}
         </div>
     );
 };

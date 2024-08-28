@@ -12,18 +12,23 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@docusaurus/core": "^3.5.2",
     "@docusaurus/preset-classic": "^3.5.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
+    "patch-package": "^8.0.0",
+    "postcss-import": "^16.1.0",
+    "postinstall-postinstall": "^2.1.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@biomejs/monorepo": "biomejs/biome",
     "@docusaurus/module-type-aliases": "3.5.1",
     "@docusaurus/tsconfig": "3.5.1",
     "@docusaurus/types": "3.5.1",
