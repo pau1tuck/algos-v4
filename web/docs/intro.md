@@ -3,7 +3,16 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+import TrueFalseQuestion from '@site/src/modules/quiz/TrueFalseQuestion';
+
+# JavaScript Quiz
+
+Here’s a simple JavaScript True or False question for you:
+
+<TrueFalseQuestion
+  question="JavaScript is a compiled language."
+  correctAnswer={false}
+/>
 
 Let's discover **Docusaurus in less than 5 minutes**.
 
