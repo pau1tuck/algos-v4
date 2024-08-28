@@ -7,29 +7,30 @@ type MultipleChoiceQuestionProps = {
 };
 
 const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ question, options, correctAnswerIndex }) => {
-    const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
+    const [userAnswerIndex, setUserAnswerIndex] = useState<number | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
-    const handleSubmit = () => {
-        if (selectedOptionIndex !== null) {
-            setIsCorrect(selectedOptionIndex === correctAnswerIndex);
-        }
+    const handleAnswer = (index: number) => {
+        setUserAnswerIndex(index);
+        setIsCorrect(index === correctAnswerIndex);
     };
 
     return (
         <div>
             <h3>{question}</h3>
-            <select onChange={e => setSelectedOptionIndex(Number(e.target.value))} defaultValue="">
-                <option value="" disabled>
-                    Select an answer
-                </option>
-                {options.map((option, index) => (
-                    <option key={index} value={index}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-            <button onClick={handleSubmit}>Submit</button>
+            {options.map((option, index) => (
+                <div
+                    key={index}
+                    onClick={() => handleAnswer(index)}
+                    style={{
+                        cursor: "pointer",
+                        margin: "5px 0",
+                        textAlign: "left",
+                    }}
+                >
+                    {option}
+                </div>
+            ))}
             {isCorrect !== null && <p>{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>}
         </div>
     );

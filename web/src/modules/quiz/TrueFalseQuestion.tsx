@@ -17,7 +17,15 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
     return (
         <div>
             <h3>{question}</h3>
-            <button onClick={() => handleAnswer(true)}>True</button>
+            <button
+                onClick={() => handleAnswer(true)}
+                style={{
+                    cursor: "pointer",
+                    margin: "5px 0",
+                }}
+            >
+                True
+            </button>
             <button onClick={() => handleAnswer(false)}>False</button>
             {userAnswer !== null && <p>{isCorrect ? "Correct!" : "Incorrect. Try again!"}</p>}
         </div>

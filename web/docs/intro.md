@@ -8,14 +8,14 @@ import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestio
 
 # JavaScript Quiz
 
-Here’s a simple JavaScript True or False question for you:
+## True or False
 
 <TrueFalseQuestion
   question="JavaScript is a compiled language."
   correctAnswer={false}
 />
 
-Here’s a multiple-choice question for you:
+## Multiple Choice
 
 <MultipleChoiceQuestion
   question="Which of the following is not a JavaScript data type?"
@@ -23,7 +23,6 @@ Here’s a multiple-choice question for you:
   correctAnswerIndex={3}
 />
 
-Let's discover **Docusaurus in less than 5 minutes**.
 
 ## Getting Started
 
