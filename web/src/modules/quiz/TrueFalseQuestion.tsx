@@ -16,7 +16,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
 
     return (
         <div>
-            <h3>{question}</h3>
+            <p>{question}</p>
             <button
                 onClick={() => handleAnswer(true)}
                 style={{

@@ -17,7 +17,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
 
     return (
         <div>
-            <h3>{question}</h3>
+            <p>{question}</p>
             {options.map((option, index) => (
                 <div
                     key={index}
