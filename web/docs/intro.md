@@ -4,6 +4,7 @@ sidebar_position: 1
 ---
 
 import TrueFalseQuestion from '@site/src/modules/quiz/TrueFalseQuestion';
+import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestion';
 
 # JavaScript Quiz
 
@@ -12,6 +13,14 @@ Here’s a simple JavaScript True or False question for you:
 <TrueFalseQuestion
   question="JavaScript is a compiled language."
   correctAnswer={false}
+/>
+
+Here’s a multiple-choice question for you:
+
+<MultipleChoiceQuestion
+  question="Which of the following is not a JavaScript data type?"
+  options={['String', 'Number', 'Boolean', 'Float']}
+  correctAnswerIndex={3}
 />
 
 Let's discover **Docusaurus in less than 5 minutes**.
