@@ -1,42 +1,59 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 type MultipleChoiceQuestionProps = {
-    question?: string;
+    question: string;
     options: string[];
-    correctAnswerIndex: number;
+    correctAnswer: number;
 };
 
-const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ question, options, correctAnswerIndex }) => {
+const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ question, options, correctAnswer }) => {
     const [userAnswerIndex, setUserAnswerIndex] = useState<number | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
     const handleAnswer = (index: number) => {
         setUserAnswerIndex(index);
-        setIsCorrect(index === correctAnswerIndex);
-        // disable other buttons
+        setIsCorrect(index === correctAnswer - 1);
     };
 
     return (
-        <div className="multiple-choice-container">
-            {question && (
-                <p className="multiple-choice-question">
-                    <ReactMarkdown>{question}</ReactMarkdown>
-                </p>
-            )}
+        <div className="question-container">
+            <ReactMarkdown
+                components={{
+                    code({ node, inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                            <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" {...props}>
+                                {String(children).replace(/\n$/, "")}
+                            </SyntaxHighlighter>
+                        ) : (
+                            <code className={className} {...props}>
+                                {children}
+                            </code>
+                        );
+                    },
+                }}
+            >
+                {question}
+            </ReactMarkdown>
             {options.map((option, index) => (
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
-                    onKeyPress={() => handleAnswer(index)}
-                    className={`multiple-choice-option ${
-                        userAnswerIndex === index ? (isCorrect ? "correct" : "incorrect") : ""
+                    className={`question-option ${
+                        userAnswerIndex === index + 1 ? (isCorrect ? "correct" : "incorrect") : ""
                     }`}
                 >
-                    <ReactMarkdown>{option}</ReactMarkdown>
+                    {option}
                 </div>
             ))}
-            {isCorrect !== null && <div />}
+            {isCorrect !== null && (
+                <p className={`question-feedback ${isCorrect ? "correct" : "incorrect"}`}>
+                    {isCorrect ? "Correct!" : "Incorrect. Try again!"}
+                </p>
+            )}
         </div>
     );
 };
