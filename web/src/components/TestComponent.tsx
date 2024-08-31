@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { incrementCorrectAnswers as incrementReduxCorrectAnswers } from "@site/src/redux/slices/quizSlice"; // Adjust path
 import { RootState } from "@site/src/redux/store"; // Adjust path
-import { useQuizContext } from "@site/src/modules/quiz/Provider/QuizContext"; // Adjust path
+import { useQuizContext } from "@site/src/modules/quiz/utils/useQuizContext"; // Adjust path
 
 const TestComponent: React.FC = () => {
     const dispatch = useDispatch();
@@ -11,11 +11,8 @@ const TestComponent: React.FC = () => {
         (state: RootState) => state.quiz.correctAnswers
     );
 
-    const {
-        correctAnswers: contextCorrectAnswers,
-        incrementCorrectAnswers,
-        resetCorrectAnswers,
-    } = useQuizContext();
+    const { correctAnswers: contextCorrectAnswers, incrementCorrectAnswers } =
+        useQuizContext();
 
     return (
         <div>
@@ -30,9 +27,7 @@ const TestComponent: React.FC = () => {
             <button onClick={incrementCorrectAnswers}>
                 Answer Correctly (Context)
             </button>
-            <button onClick={resetCorrectAnswers}>
-                Reset Correct Answers (Context)
-            </button>
+            <button onClick={null}>Reset Correct Answers (Context)</button>
         </div>
     );
 };

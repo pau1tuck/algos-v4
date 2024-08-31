@@ -9,7 +9,7 @@ import {
 } from "@docusaurus/theme-common/internal";
 import { DocsPreferredVersionContextProvider } from "@docusaurus/plugin-content-docs/client";
 import type { Props } from "@theme/Layout/Provider";
-import QuizProvider from "@site/src/modules/quiz/Provider/QuizProvider";
+import QuizProvider from "@site/src/modules/quiz/utils/QuizProvider";
 
 const Provider = composeProviders([
     ColorModeProvider,
