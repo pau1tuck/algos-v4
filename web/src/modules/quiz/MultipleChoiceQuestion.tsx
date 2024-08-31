@@ -21,8 +21,6 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
 
     return (
         <div className={styles["question-container"]}>
-            {" "}
-            {/* Correct usage of CSS Module */}
             <ReactMarkdown
                 components={{
                     code({ node, inline, className, children, ...props }) {
@@ -52,8 +50,8 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                     {option}
                 </div>
             ))}
-            {isCorrect !== null &&
-                null
+            {
+                isCorrect !== null && null
                 /*<p className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}>
                     {isCorrect ? "Correct!" : "Incorrect. Try again!"}
                 </p>*/

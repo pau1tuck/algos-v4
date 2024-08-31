@@ -3,6 +3,7 @@
     border-radius: 8px;
     padding: 20px;
     max-width: 600px;
+    background-color: #fafafa;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -19,18 +20,26 @@
     margin-bottom: 10px;
 }
 
+/* True-False Specific Styles */
+.true-false-options {
+    display: flex;  /* Changed from block to flex to align items side by side */
+    gap: 10px;      /* Space between the buttons */
+    margin-bottom: 10px;
+    justify-content: left; /* Align items to the left */
+}
+
 /* Option and Input Styling */
 .question-option,
 .short-answer-input,
-.short-answer-submit,
 .true-false-option {
     width: 100%;
     max-width: 200px; /* Consistent width */
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     background-color: #fff;
     border: 2px solid #ddd;
     border-radius: 4px;
     padding: 10px;
+    padding-left: 15px;
     margin-bottom: 10px;
     text-align: left;
     cursor: pointer;
@@ -38,7 +47,11 @@
 }
 
 .true-false-option {
+    padding-left: 10px;
     text-align: center;
+}
+.short-answer-input {
+    cursor: unset;
 }
 
 .question-option:hover,
@@ -88,9 +101,3 @@
     color: #f44336;
 }
 
-/* True-False Specific Styles */
-.true-false-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}

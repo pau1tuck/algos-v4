@@ -33,7 +33,8 @@ What is the value of \`date\`?`}
 
 <ShortAnswerQuestion   question={`
 \`\`\`js
-const date = Number.parseInt("21 February 2024");
+const array = [1, 2, 3, 4, 5, 6];
+const output = 6 in array;
 \`\`\`
 
-What is the value of \`date\`?`}/>
+What is the value of \`output\`?`}/>
