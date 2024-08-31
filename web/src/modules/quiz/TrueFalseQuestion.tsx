@@ -1,5 +1,6 @@
 import type React from "react";
 import { useState } from "react";
+import styles from "./quiz.module.css";
 
 type TrueFalseQuestionProps = {
     question: string;
@@ -13,25 +14,26 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({ question, correct
     const handleAnswer = (answer: boolean) => {
         setUserAnswer(answer);
         setIsCorrect(answer === correctAnswer);
-        // disable other button
     };
 
     return (
-        <div className="true-false-container">
-            <p className="true-false-question">{question}</p>
-            <div className="true-false-options">
+        <div className={styles["question-container"]}>
+            <p className={styles["question-title"]}>{question}</p>
+            <div className={styles["true-false-options"]}>
                 <button
-                    type="submit"
+                    type="button"
                     onClick={() => handleAnswer(true)}
-                    className={`true-false-option ${userAnswer === true ? (isCorrect ? "correct" : "incorrect") : ""}`}
+                    className={`${styles["true-false-option"]} ${
+                        userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""
+                    }`}
                 >
                     True
                 </button>
                 <button
-                    type="submit"
+                    type="button"
                     onClick={() => handleAnswer(false)}
-                    className={`true-false-option ${
-                        userAnswer === false ? (!isCorrect ? "incorrect" : "correct") : ""
+                    className={`${styles["true-false-option"]} ${
+                        userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""
                     }`}
                 >
                     False

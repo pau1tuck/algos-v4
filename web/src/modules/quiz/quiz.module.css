@@ -1,4 +1,4 @@
-/* Shared Container Styling */
+/* Shared Container Styling for All Questions */
 .question-container {
     border-radius: 8px;
     padding: 20px;
@@ -6,48 +6,90 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 25px; /* consistent with true-false-container */
+    align-items: left;
+    margin-bottom: 25px; /* Consistent margin for all question types */
 }
 
-.question-title {
+/* Common Title Styling */
+.question-title,
+.multiple-choice-question,
+.true-false-question {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-/* Input and Button Styling for ShortAnswerQuestion */
-.short-answer-input {
-    font-size: 1.2rem;
-    padding: 10px;
+/* Option and Input Styling */
+.question-option,
+.short-answer-input,
+.short-answer-submit,
+.true-false-option {
+    background-color: #fff; /* Set default white background */
+    width: 100%;
+    max-width: 200px;
+    font-size: 1.1rem;
     border: 2px solid #ddd;
     border-radius: 4px;
+    padding: 10px;
     margin-bottom: 10px;
-    width: 100%;
-    max-width: 200px; /* consistent button width */
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.true-false-option {
     text-align: center;
 }
 
-.short-answer-submit {
-    padding: 10px;
-    border-radius: 4px;
-    border: 2px solid #ddd;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    width: 100%;
-    max-width: 200px; /* consistent button width */
-    margin-bottom: 10px;
-}
-
-.short-answer-submit:hover {
+.question-option:hover,
+.short-answer-submit:hover,
+.true-false-option:hover {
     background-color: #f0f0f0;
     border-color: #ccc;
 }
 
-.short-answer-feedback.correct {
+/* Correct and Incorrect Styling for Multiple Choice Options */
+.question-option.correct {
+    border-color: #4caf50;
+    background-color: #e8f5e9;
+}
+
+.question-option.incorrect {
+    border-color: #f44336;
+    background-color: #ffebee;
+}
+
+/* Correct and Incorrect Styling for True-False Options */
+.true-false-option.correct {
+    border-color: #4caf50;
+    background-color: #e8f5e9;
+}
+
+.true-false-option.incorrect {
+    border-color: #f44336;
+    background-color: #ffebee;
+}
+
+/* Feedback Styling */
+.question-feedback,
+.short-answer-feedback,
+.true-false-feedback {
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.short-answer-feedback.correct,
+.question-feedback.correct {
     color: #4caf50;
 }
 
-.short-answer-feedback.incorrect {
+.short-answer-feedback.incorrect,
+.question-feedback.incorrect {
     color: #f44336;
+}
+
+/* True-False Specific Styles */
+.true-false-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
 }

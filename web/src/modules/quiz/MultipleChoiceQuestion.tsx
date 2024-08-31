@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import styles from "./quiz.module.css";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styles from "./quiz.module.css"; // Importing CSS Module
 
 type MultipleChoiceQuestionProps = {
     question: string;
@@ -16,17 +16,19 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
 
     const handleAnswer = (index: number) => {
         setUserAnswerIndex(index);
-        setIsCorrect(index === correctAnswer - 1);
+        setIsCorrect(index === correctAnswer);
     };
 
     return (
-        <div className="styles.question-container">
+        <div className={styles["question-container"]}>
+            {" "}
+            {/* Correct usage of CSS Module */}
             <ReactMarkdown
                 components={{
                     code({ node, inline, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
                         return !inline && match ? (
-                            <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" {...props}>
+                            <SyntaxHighlighter style={dracula} language={match[1]} PreTag="div" {...props}>
                                 {String(children).replace(/\n$/, "")}
                             </SyntaxHighlighter>
                         ) : (
@@ -43,18 +45,19 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
-                    className={`styles.question-option ${
-                        userAnswerIndex === index + 1 ? (isCorrect ? "correct" : "incorrect") : ""
+                    className={`${styles["question-option"]} ${
+                        userAnswerIndex === index ? (isCorrect ? styles.correct : styles.incorrect) : ""
                     }`}
                 >
                     {option}
                 </div>
             ))}
-            {isCorrect !== null && (
-                <p className={`styles.question-feedback ${isCorrect ? "correct" : "incorrect"}`}>
+            {isCorrect !== null &&
+                null
+                /*<p className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}>
                     {isCorrect ? "Correct!" : "Incorrect. Try again!"}
-                </p>
-            )}
+                </p>*/
+            }
         </div>
     );
 };

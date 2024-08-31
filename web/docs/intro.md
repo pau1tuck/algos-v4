@@ -25,9 +25,9 @@ Low-level languages like C++ and Rust have greater control over the system hardw
 const date = Number.parseInt("21 February 2024");
 \`\`\`
 
-Based on this code, what is the value of \`date\`?`}
+What is the value of \`date\`?`}
   options={["Null", "21", "NaN", "212024"]}
-  correctAnswer={4}
+  correctAnswer={1}
 />
 
 <button>COMPLETE</button>
