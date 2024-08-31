@@ -19,9 +19,6 @@ Low-level languages like C++ and Rust have greater control over the system hardw
 
 ## Parsing Integers
 
-```js
-const date = Number.parseInt("21 February 2024");
-```
 <MultipleChoiceQuestion
   question={`
 \`\`\`js

@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styles from "./quiz.module.css";
 
 type MultipleChoiceQuestionProps = {
     question: string;
@@ -19,7 +20,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
     };
 
     return (
-        <div className="question-container">
+        <div className="styles.question-container">
             <ReactMarkdown
                 components={{
                     code({ node, inline, className, children, ...props }) {
@@ -42,7 +43,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
-                    className={`question-option ${
+                    className={`styles.question-option ${
                         userAnswerIndex === index + 1 ? (isCorrect ? "correct" : "incorrect") : ""
                     }`}
                 >
@@ -50,7 +51,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                 </div>
             ))}
             {isCorrect !== null && (
-                <p className={`question-feedback ${isCorrect ? "correct" : "incorrect"}`}>
+                <p className={`styles.question-feedback ${isCorrect ? "correct" : "incorrect"}`}>
                     {isCorrect ? "Correct!" : "Incorrect. Try again!"}
                 </p>
             )}
