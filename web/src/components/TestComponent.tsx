@@ -1,20 +1,37 @@
-// TestComponent.tsx
+// src/components/TestComponent.tsx
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementCorrectAnswers } from "@site/src/redux/slices/quizSlice"; // Adjust path
+import { incrementCorrectAnswers as incrementReduxCorrectAnswers } from "@site/src/redux/slices/quizSlice"; // Adjust path
 import { RootState } from "@site/src/redux/store"; // Adjust path
+import { useQuizContext } from "@site/src/modules/quiz/Provider/QuizContext"; // Adjust path
 
 const TestComponent: React.FC = () => {
     const dispatch = useDispatch();
-    const correctAnswers = useSelector(
+    const reduxCorrectAnswers = useSelector(
         (state: RootState) => state.quiz.correctAnswers
     );
 
+    const {
+        correctAnswers: contextCorrectAnswers,
+        incrementCorrectAnswers,
+        resetCorrectAnswers,
+    } = useQuizContext();
+
     return (
         <div>
-            <p>Correct Answers: {correctAnswers}</p>
-            <button onClick={() => dispatch(incrementCorrectAnswers())}>
-                Answer Correctly
+            <h2>Redux State:</h2>
+            <p>Correct Answers: {reduxCorrectAnswers}</p>
+            <button onClick={() => dispatch(incrementReduxCorrectAnswers())}>
+                Answer Correctly (Redux)
+            </button>
+
+            <h2>Context State:</h2>
+            <p>Correct Answers: {contextCorrectAnswers}</p>
+            <button onClick={incrementCorrectAnswers}>
+                Answer Correctly (Context)
+            </button>
+            <button onClick={resetCorrectAnswers}>
+                Reset Correct Answers (Context)
             </button>
         </div>
     );
