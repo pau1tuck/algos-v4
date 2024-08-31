@@ -1,4 +1,3 @@
-// src/modules/quiz/Provider/QuizProvider.tsx
 import React, { useState, ReactNode } from "react";
 import { QuizContext } from "./QuizContext";
 
@@ -21,5 +20,7 @@ const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         </QuizContext.Provider>
     );
 };
+
+QuizProvider.displayName = "QuizProvider";
 
 export default QuizProvider;

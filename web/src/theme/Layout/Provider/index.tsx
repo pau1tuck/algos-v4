@@ -18,7 +18,7 @@ const Provider = composeProviders([
     DocsPreferredVersionContextProvider,
     PluginHtmlClassNameProvider,
     NavbarProvider,
-    // CUSTOM
+    // CUSTOM:
     QuizProvider,
 ]);
 
