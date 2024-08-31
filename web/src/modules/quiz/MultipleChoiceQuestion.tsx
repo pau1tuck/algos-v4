@@ -10,7 +10,11 @@ type MultipleChoiceQuestionProps = {
     correctAnswer: number;
 };
 
-const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ question, options, correctAnswer }) => {
+const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
+    question,
+    options,
+    correctAnswer,
+}) => {
     const [userAnswerIndex, setUserAnswerIndex] = useState<number | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
@@ -26,7 +30,12 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                     code({ node, inline, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
                         return !inline && match ? (
-                            <SyntaxHighlighter style={dracula} language={match[1]} PreTag="div" {...props}>
+                            <SyntaxHighlighter
+                                style={dracula}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                            >
                                 {String(children).replace(/\n$/, "")}
                             </SyntaxHighlighter>
                         ) : (
@@ -44,7 +53,11 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({ questio
                     key={index}
                     onClick={() => handleAnswer(index)}
                     className={`${styles["question-option"]} ${
-                        userAnswerIndex === index ? (isCorrect ? styles.correct : styles.incorrect) : ""
+                        userAnswerIndex === index
+                            ? isCorrect
+                                ? styles.correct
+                                : styles.incorrect
+                            : ""
                     }`}
                 >
                     {option}
