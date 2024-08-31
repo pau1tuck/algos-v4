@@ -10,24 +10,12 @@
     margin-bottom: 25px; /* Consistent margin for all question types */
 }
 
-/* Common Title Styling */
-.question-title,
-.multiple-choice-question,
-.true-false-question {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-/* Option and Input Styling */
-.question-option,
+/* Common Input and Button Styling */
 .short-answer-input,
-.short-answer-submit,
-.true-false-option {
-    background-color: #fff; /* Set default white background */
+.short-answer-submit {
     width: 100%;
-    max-width: 200px;
-    font-size: 1.1rem;
+    max-width: 200px; /* Consistent width */
+    font-size: 1.2rem;
     border: 2px solid #ddd;
     border-radius: 4px;
     padding: 10px;
@@ -36,60 +24,24 @@
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
 }
-.true-false-option {
-    text-align: center;
-}
 
-.question-option:hover,
-.short-answer-submit:hover,
-.true-false-option:hover {
+.short-answer-submit:hover {
     background-color: #f0f0f0;
     border-color: #ccc;
 }
 
-/* Correct and Incorrect Styling for Multiple Choice Options */
-.question-option.correct {
+/* Correct and Incorrect Feedback Styling */
+.correct {
     border-color: #4caf50;
     background-color: #e8f5e9;
 }
 
-.question-option.incorrect {
+.incorrect {
     border-color: #f44336;
     background-color: #ffebee;
 }
 
-/* Correct and Incorrect Styling for True-False Options */
-.true-false-option.correct {
-    border-color: #4caf50;
-    background-color: #e8f5e9;
-}
-
-.true-false-option.incorrect {
-    border-color: #f44336;
-    background-color: #ffebee;
-}
-
-/* Feedback Styling */
-.question-feedback,
-.short-answer-feedback,
-.true-false-feedback {
+.question-feedback {
     margin-top: 15px;
     font-size: 1rem;
-}
-
-.short-answer-feedback.correct,
-.question-feedback.correct {
-    color: #4caf50;
-}
-
-.short-answer-feedback.incorrect,
-.question-feedback.incorrect {
-    color: #f44336;
-}
-
-/* True-False Specific Styles */
-.true-false-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
 }

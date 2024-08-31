@@ -1,5 +1,8 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styles from "./quiz.module.css";
 
 type ShortAnswerQuestionProps = {
     question?: string;
@@ -15,23 +18,38 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({ question, cor
     };
 
     return (
-        <div className="short-answer-container">
+        <div className={styles["question-container"]}>
             {question && (
-                <p className="short-answer-question">
-                    <ReactMarkdown>{question}</ReactMarkdown>
-                </p>
+                <ReactMarkdown
+                    components={{
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || "");
+                            return !inline && match ? (
+                                <SyntaxHighlighter style={dracula} language={match[1]} PreTag="div" {...props}>
+                                    {String(children).replace(/\n$/, "")}
+                                </SyntaxHighlighter>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        },
+                    }}
+                >
+                    {question}
+                </ReactMarkdown>
             )}
             <input
                 type="text"
                 value={userAnswer}
                 onChange={e => setUserAnswer(e.target.value)}
-                className="short-answer-input"
+                className={styles["short-answer-input"]}
             />
-            <button type="submit" onClick={handleAnswer} className="short-answer-submit">
+            <button type="button" onClick={handleAnswer} className={styles["short-answer-submit"]}>
                 Submit
             </button>
             {isCorrect !== null && (
-                <p className={`short-answer-feedback ${isCorrect ? "correct" : "incorrect"}`}>
+                <p className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}>
                     {isCorrect ? "Correct!" : "Incorrect. Try again!"}
                 </p>
             )}
