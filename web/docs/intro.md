@@ -2,8 +2,9 @@
 sidebar_position: 1
 ---
 
-import TrueFalseQuestion from '@site/src/modules/quiz/TrueFalseQuestion';
-import MultipleChoiceQuestion from '@site/src/modules/quiz/MultipleChoiceQuestion';
+import TrueFalseQuestion from "@site/src/modules/quiz/TrueFalseQuestion";
+import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
+import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
 
 # Type Coercion
 
@@ -30,4 +31,9 @@ What is the value of \`date\`?`}
   correctAnswer={1}
 />
 
-<button>COMPLETE</button>
+<ShortAnswerQuestion   question={`
+\`\`\`js
+const date = Number.parseInt("21 February 2024");
+\`\`\`
+
+What is the value of \`date\`?`}/>
