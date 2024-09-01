@@ -1,0 +1,48 @@
+/* Style the accordion button */
+.accordion {
+    position: relative; /* Needed for positioning the icon */
+    background-color: #f7f7f7;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: background-color 0.4s ease;
+    font-size: 1.1rem;
+}
+
+/* Hover and active state for accordion button */
+.accordion:hover {
+    background-color: #f1f1f1; 
+}
+.accordion.active {
+    background-color: #f1f1f1;
+}
+
+/* Panel styling with animation */
+.panel {
+    padding: 0 18px;
+    padding-top: 10px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden; /* Ensure content is hidden */
+    transition: max-height 0.2s ease-out; /* Smooth max-height transition */
+}
+
+/* Icon for accordion */
+.accordion::after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+    transition: transform 0.4s ease; /* Smooth rotation transition */
+}
+
+/* Rotate icon when active */
+.accordion.active::after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+    transform: rotate(180deg); /* Rotate icon when active */
+}

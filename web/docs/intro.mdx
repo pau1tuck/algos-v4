@@ -6,6 +6,7 @@ import TestComponent from "@site/src/components/TestComponent";
 import TrueFalseQuestion from "@site/src/modules/quiz/TrueFalseQuestion";
 import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
 import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
+import Accordion from "@site/src/components/Accordion";
 
 # Type Coercion
 
@@ -15,9 +16,13 @@ I just want to see `embedded code` in the MDX, not the
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
 />
-Reveal? JavaScript is a weakly-typed language, meaning that variables cannot
-change __. Low-level languages like C++ and Rust have greater control over the
-system hardware, like memory and CPU, and so...
+<br />
+
+<Accordion title="Explanation">
+    Reveal? JavaScript is a weakly-typed language, meaning that variables cannot
+    change __. Low-level languages like C++ and Rust have greater control over
+    the system hardware, like memory and CPU, and so... **Dog**
+</Accordion>
 
 ## Parsing Integers
 
