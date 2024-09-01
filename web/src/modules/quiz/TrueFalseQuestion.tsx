@@ -42,7 +42,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
         setIsCorrect(answer === correctAnswer);
 
         if (answer === correctAnswer) {
-            updateQuestionStatus(1, QuestionStatus.Correct); // Remove incrementCorrectAnswers() here
+            updateQuestionStatus(1, QuestionStatus.Correct);
         } else {
             updateQuestionStatus(1, QuestionStatus.Incorrect);
         }
@@ -79,10 +79,10 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
                     onClick={() => handleAnswer(true)}
                     disabled={userAnswer !== null}
                     className={`${styles["true-false-option"]} ${userAnswer === true
-                            ? isCorrect
-                                ? styles.correct
-                                : styles.incorrect
-                            : ""
+                        ? isCorrect
+                            ? styles.correct
+                            : styles.incorrect
+                        : ""
                         }`}
                 >
                     True
@@ -92,10 +92,10 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
                     onClick={() => handleAnswer(false)}
                     disabled={userAnswer !== null}
                     className={`${styles["true-false-option"]} ${userAnswer === false
-                            ? isCorrect
-                                ? styles.correct
-                                : styles.incorrect
-                            : ""
+                        ? isCorrect
+                            ? styles.correct
+                            : styles.incorrect
+                        : ""
                         }`}
                 >
                     False

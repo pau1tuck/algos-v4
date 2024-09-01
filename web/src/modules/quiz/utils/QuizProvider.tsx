@@ -26,7 +26,11 @@ const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             setQuestions(prevQuestions =>
                 prevQuestions.map(q =>
                     q.questionId === questionId
-                        ? { ...q, questionStatus: status }
+                        ? {
+                            ...q,
+                            questionStatus: status,
+                            attemptCount: q.attemptCount + 1
+                        }
                         : q
                 )
             );
@@ -35,9 +39,10 @@ const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
             }
             console.log("Callback complete");
         },
-        []
+        [incrementCorrectAnswers]
     );
 
+    // Keep this function for potential future use
     const incrementAttemptCount = useCallback((questionId: number) => {
         setQuestions(prevQuestions =>
             prevQuestions.map(q =>
