@@ -25,7 +25,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
     const { registerQuestion, updateQuestionStatus, incrementCorrectAnswers } =
         useQuizContext();
 
-    // Register the question when the component mounts
+    // Register the question with quiz page context when the component mounts
     useEffect(() => {
         registerQuestion({
             questionId: 1, // Replace with dynamic ID
@@ -42,8 +42,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
         setIsCorrect(answer === correctAnswer);
 
         if (answer === correctAnswer) {
-            updateQuestionStatus(1, QuestionStatus.Correct);
-            incrementCorrectAnswers();
+            updateQuestionStatus(1, QuestionStatus.Correct); // Remove incrementCorrectAnswers() here
         } else {
             updateQuestionStatus(1, QuestionStatus.Incorrect);
         }

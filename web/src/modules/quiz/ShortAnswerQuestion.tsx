@@ -9,12 +9,18 @@ type ShortAnswerQuestionProps = {
     correctAnswer: string;
 };
 
-const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({ question, correctAnswer }) => {
+const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
+    question,
+    correctAnswer,
+}) => {
     const [userAnswer, setUserAnswer] = useState<string>("");
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
     const handleAnswer = () => {
-        setIsCorrect(userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase());
+        setIsCorrect(
+            userAnswer.trim().toLowerCase() ===
+                correctAnswer.trim().toLowerCase()
+        );
     };
 
     return (
@@ -23,9 +29,16 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({ question, cor
                 <ReactMarkdown
                     components={{
                         code({ node, inline, className, children, ...props }) {
-                            const match = /language-(\w+)/.exec(className || "");
+                            const match = /language-(\w+)/.exec(
+                                className || ""
+                            );
                             return !inline && match ? (
-                                <SyntaxHighlighter style={dracula} language={match[1]} PreTag="div" {...props}>
+                                <SyntaxHighlighter
+                                    style={dracula}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    {...props}
+                                >
                                     {String(children).replace(/\n$/, "")}
                                 </SyntaxHighlighter>
                             ) : (
@@ -40,16 +53,24 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({ question, cor
                 </ReactMarkdown>
             )}
             <input
+                id="user-answer"
                 type="text"
                 value={userAnswer}
                 onChange={e => setUserAnswer(e.target.value)}
                 className={styles["short-answer-input"]}
             />
-            <button type="button" onClick={handleAnswer} className={styles["short-answer-submit"]}>
+            <button
+                id="user-submit"
+                type="button"
+                onClick={handleAnswer}
+                className={styles["short-answer-submit"]}
+            >
                 Submit
             </button>
             {isCorrect !== null && (
-                <p className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}>
+                <p
+                    className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}
+                >
                     {isCorrect ? "Correct!" : "Incorrect. Try again!"}
                 </p>
             )}
