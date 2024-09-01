@@ -1,6 +1,6 @@
 // src/modules/quiz/TrueFalseQuestion.tsx
 import React, { useState, useEffect } from "react";
-import styles from "./quiz.module.css";
+import styles from "./css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -78,13 +78,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
                     type="button"
                     onClick={() => handleAnswer(true)}
                     disabled={userAnswer !== null}
-                    className={`${styles["true-false-option"]} ${
-                        userAnswer === true
+                    className={`${styles["true-false-option"]} ${userAnswer === true
                             ? isCorrect
                                 ? styles.correct
                                 : styles.incorrect
                             : ""
-                    }`}
+                        }`}
                 >
                     True
                 </button>
@@ -92,13 +91,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
                     type="button"
                     onClick={() => handleAnswer(false)}
                     disabled={userAnswer !== null}
-                    className={`${styles["true-false-option"]} ${
-                        userAnswer === false
+                    className={`${styles["true-false-option"]} ${userAnswer === false
                             ? isCorrect
                                 ? styles.correct
                                 : styles.incorrect
                             : ""
-                    }`}
+                        }`}
                 >
                     False
                 </button>

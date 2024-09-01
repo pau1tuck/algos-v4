@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import styles from "./quiz.module.css"; // Importing CSS Module
+import styles from "./css/quiz.module.css"; // Importing CSS Module
 
 type MultipleChoiceQuestionProps = {
     question: string;
@@ -52,13 +52,12 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
                 <div
                     key={index}
                     onClick={() => handleAnswer(index)}
-                    className={`${styles["question-option"]} ${
-                        userAnswerIndex === index
+                    className={`${styles["question-option"]} ${userAnswerIndex === index
                             ? isCorrect
                                 ? styles.correct
                                 : styles.incorrect
                             : ""
-                    }`}
+                        }`}
                 >
                     {option}
                 </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import styles from "./quiz.module.css";
+import styles from "./css/quiz.module.css";
 
 type ShortAnswerQuestionProps = {
     question?: string;
@@ -19,7 +19,7 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
     const handleAnswer = () => {
         setIsCorrect(
             userAnswer.trim().toLowerCase() ===
-                correctAnswer.trim().toLowerCase()
+            correctAnswer.trim().toLowerCase()
         );
     };
 
