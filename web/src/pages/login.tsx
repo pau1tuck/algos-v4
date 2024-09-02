@@ -1,4 +1,5 @@
 import React from "react";
+import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/Login";
 
 const LoginPage = () => {
@@ -22,10 +23,12 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="">
-            <div>Hello, Bitch!</div>
-            <Login onLogin={dummyOnLogin} />
-        </div>
+        <Layout>
+            <div className="">
+                <div>Hello, Bitch!</div>
+                <Login onLogin={dummyOnLogin} />
+            </div>
+        </Layout>
     );
 };
 
