@@ -2,7 +2,6 @@
 import { useContext } from "react";
 import { QuizContext } from "./QuizContext";
 
-// Custom hook to use the QuizContext
 export const useQuizContext = () => {
     const context = useContext(QuizContext);
     if (!context) {
