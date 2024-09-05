@@ -22,9 +22,9 @@ declare module "@mui/material/Typography" {
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#1976d2",
-            light: "#42a5f5",
-            dark: "#1565c0",
+            main: "#0984e3", // Electron Blue
+            light: "#a29bfe",
+            dark: "#6c5ce7",
         },
         secondary: {
             main: "#dc004e",
@@ -70,6 +70,7 @@ const theme = createTheme({
                     fontWeight: 600,
                 },
                 outlined: {
+                    height: "38px",
                     borderColor: "#CCD1D7", // Lighter grey border
                     "&:hover": {
                         borderColor: "rgba(0, 0, 0, 0.23)", // Keep the same color on hover
