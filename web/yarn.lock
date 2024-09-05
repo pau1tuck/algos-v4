@@ -1838,10 +1838,25 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.4.0.tgz#5e13fac887f08c44f76b0ccaf3370eb00fec9bb6"
   integrity sha512-snKqtPW01tN0ui7yu9rGv69aJXr/a/Ywvl11sUjNtEcRc+ng/mQriFL0wLXMef74iHa/EkftbDzU9F8iFbH+zg==
 
+"@fontsource/montserrat@^5.0.19":
+  version "5.0.19"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-5.0.19.tgz#e062bf93b6c244b92a9d798a71c5bba5ee5178d0"
+  integrity sha512-d2JyNIE0i2FOqLFkaSrfsyDzFzkzdER7d3xeHqFOTK5OFE+yiFyvlIBMXg5q+nNpMmVoW+2Q182Csn28o+kijQ==
+
+"@fontsource/quicksand@^5.0.19":
+  version "5.0.19"
+  resolved "https://registry.yarnpkg.com/@fontsource/quicksand/-/quicksand-5.0.19.tgz#efef93b1c35af91e2420434a3214c41cf7c97682"
+  integrity sha512-Ci+VvjkwFQq5OLJxcdhWiVRmOc82LjkMBanoiaQHqri/o7tehjhJZOPfQ+elFZm/Be7QrlV+D4GTUVTipK7XwA==
+
 "@fontsource/roboto@^5.0.14":
   version "5.0.14"
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-5.0.14.tgz#a3f67e47116309233ff3bba2c3613d2cf0302529"
   integrity sha512-zHAxlTTm9RuRn9/StwclFJChf3z9+fBrOxC3fw71htjHP1BgXNISwRjdJtAKAmMe5S2BzgpnjkQR93P9EZYI/Q==
+
+"@fontsource/ubuntu-mono@^5.0.21":
+  version "5.0.21"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-5.0.21.tgz#a6c8630f1d3c3d86d03edd6ddd6362a9b8db91bc"
+  integrity sha512-QJdyLathCVxb2EY2kW0+cuw13AO2QYLhF08JxjL5STdhm5oZA+mM74ur9VuyaUzQ+5OMTr4fDus0hVyb56t9MQ==
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
