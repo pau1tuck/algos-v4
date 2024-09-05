@@ -4,8 +4,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Quicksand", sans-serif;
-    font-weight: 500;
+    font-family: "Lora", serif;
+    font-weight: 600;
 }
 body {
     font-family: "Montserrat", sans-serif;
@@ -15,6 +15,9 @@ body {
     --ifm-font-family-monospace: "Ubuntu Mono", monospace;
 }
 
+pre,
+pre code,
 code {
-    font-family: var(--ifm-font-family-monospace);
+    font-family: var(--ifm-font-family-monospace) !important;
+    font-size: 1.1rem !important;
 }

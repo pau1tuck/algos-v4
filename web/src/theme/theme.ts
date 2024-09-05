@@ -36,9 +36,10 @@ const theme = createTheme({
         fontFamily:
             '"Montserrat", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
         h1: {
-            fontFamily:
-                '"Quicksand", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-            fontWeight: 500,
+            h1: {
+                fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+                fontWeight: 600, // Semi-bold
+            },
         },
         code: {
             fontFamily: '"Ubuntu Mono", monospace',

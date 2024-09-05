@@ -1,6 +1,5 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
-import tailwindPlugin from "@site/lib/tailwind-config.cjs";
 import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
@@ -133,9 +132,7 @@ const config: Config = {
             theme: prismThemes.dracula,
             darkTheme: prismThemes.dracula,
         },
-        /*		plugins: [
-			tailwindPlugin
-		] */
+        plugins: ["docusaurus-plugin-sass"],
     } satisfies Preset.ThemeConfig,
 };
 
