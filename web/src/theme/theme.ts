@@ -23,12 +23,12 @@ const theme = createTheme({
     palette: {
         primary: {
             main: "#0984e3", // Electron Blue
-            light: "#a29bfe",
-            dark: "#6c5ce7",
+            light: "#74b9ff", // Green Darner Tail
+            dark: "#0768b3",
         },
         secondary: {
-            main: "#dc004e",
-            light: "#f06292",
+            main: "#0984e3", // Exodus Fruit
+            light: "#a29bfe", // Shy Moment
             dark: "#ad1457",
         },
     },
@@ -68,6 +68,9 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     fontWeight: 600,
+                },
+                contained: {
+                    height: "48px",
                 },
                 outlined: {
                     height: "38px",

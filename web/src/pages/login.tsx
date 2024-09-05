@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import Login from "@site/src/modules/auth/Login";
+import Login from "@site/src/modules/auth/components/Login";
 
 const LoginPage = () => {
     // Dummy onLogin function

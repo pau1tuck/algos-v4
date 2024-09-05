@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import Register from "@site/src/modules/auth/Register";
+import Register from "@site/src/modules/auth/components/Register";
 
 const RegisterPage = () => {
     // Dummy onRegister function

@@ -24,7 +24,12 @@ const GoogleLogo = props => (
     </SvgIcon>
 );
 
-const GoogleButton = ({ onClick }) => (
+interface GoogleButtonProps {
+    onClick: () => void;
+    children?: React.ReactNode;
+}
+
+const GoogleButton: React.FC<GoogleButtonProps> = ({ onClick, children }) => (
     <Button
         fullWidth
         variant="outlined"
@@ -39,7 +44,7 @@ const GoogleButton = ({ onClick }) => (
             },
         }}
     >
-        Continue with Google
+        {children || "Continue with Google"}
     </Button>
 );
 

@@ -25,6 +25,7 @@
     "@fontsource/quicksand": "^5.0.19",
     "@fontsource/roboto": "^5.0.14",
     "@fontsource/ubuntu-mono": "^5.0.21",
+    "@hookform/resolvers": "^3.9.0",
     "@mdx-js/react": "^3.0.0",
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.2",
@@ -36,9 +37,11 @@
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-hook-form": "^7.53.0",
     "react-markdown": "^9.0.1",
     "react-redux": "^9.1.2",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@biomejs/monorepo": "biomejs/biome",
