@@ -8,11 +8,12 @@ import {
     Container,
     Typography,
     Box,
-    Alert,
     MenuItem,
     Divider,
+    Link as MuiLink,
 } from "@mui/material";
 import GoogleButton from "./GoogleButton";
+import Link from "@docusaurus/Link";
 
 interface RegisterProps {
     onRegister: (
@@ -81,8 +82,14 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
                     mt: 2,
                 }}
             >
-                <Typography component="h1" variant="h3" pb={5}>
-                    Register
+                <Typography component="h1" variant="h3" pb={2}>
+                    Sign up
+                </Typography>
+                <Typography variant="body2" pb={3}>
+                    Already registered?{" "}
+                    <MuiLink component={Link} to="/login">
+                        Log in
+                    </MuiLink>
                 </Typography>
                 <GoogleButton
                     onClick={() => {

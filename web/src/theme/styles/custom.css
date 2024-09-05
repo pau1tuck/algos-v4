@@ -23,3 +23,17 @@
     --ifm-color-primary-lightest: #4fddbf;
     --docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
 }
+
+:not(pre) > code {
+    background-color: #f2f2f2;
+    color: #6c5ce7; /* Exodus Fruit */
+    padding: 2px 4px;
+    border: 1px solid #e1e4e8;
+    border-radius: 3px;
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease-in-out;
+}
+:not(pre) > code:hover {
+    background-color: #e8e8e8;
+}

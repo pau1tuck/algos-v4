@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
+import { Box } from "@mui/material";
 
 const LoginPage = () => {
     // Dummy onLogin function
@@ -29,13 +30,22 @@ const LoginPage = () => {
 
     return (
         <Layout>
-            <div className="">
+            <Box
+                sx={{
+                    display: "flex",
+                    minHeight: "100vh",
+                    marginTop: "-50px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
                 <Login
                     onLogin={dummyOnLogin}
                     onGoogleLogin={dummyGoogleLogin}
                 />
-            </div>
+            </Box>
         </Layout>
     );
 };
+
 export default LoginPage;
