@@ -22,14 +22,20 @@ const LoginPage = () => {
         return isSuccessful;
     };
 
+    const dummyGoogleLogin = () => {
+        console.log("Google login clicked");
+        // Implement actual Google login logic here
+    };
+
     return (
         <Layout>
             <div className="">
-                <div>Hello, Bitch!</div>
-                <Login onLogin={dummyOnLogin} />
+                <Login
+                    onLogin={dummyOnLogin}
+                    onGoogleLogin={dummyGoogleLogin}
+                />
             </div>
         </Layout>
     );
 };
-
 export default LoginPage;

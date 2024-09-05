@@ -36,13 +36,48 @@ const theme = createTheme({
         fontFamily:
             '"Montserrat", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
         h1: {
-            h1: {
-                fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
-                fontWeight: 600, // Semi-bold
-            },
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
+        },
+        h2: {
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
+        },
+        h3: {
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
+        },
+        h4: {
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
+        },
+        h5: {
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
+        },
+        h6: {
+            fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+            fontWeight: 600,
         },
         code: {
             fontFamily: '"Ubuntu Mono", monospace',
+        },
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontWeight: 600,
+                },
+                outlined: {
+                    borderColor: "#CCD1D7", // Lighter grey border
+                    "&:hover": {
+                        borderColor: "rgba(0, 0, 0, 0.23)", // Keep the same color on hover
+                        backgroundColor: "#F1F3F5",
+                    },
+                    borderRadius: "8px",
+                },
+            },
         },
     },
 });
