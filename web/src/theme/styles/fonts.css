@@ -25,3 +25,18 @@ pre code {
     font-family: var(--ifm-font-family-monospace) !important;
     font-size: 1.1rem !important;
 }
+
+:not(pre) > code {
+    background-color: #f2f2f2;
+    color: #2d3436;
+    padding: 2px 4px;
+    border: 1px solid #e1e4e8;
+    border-radius: 3px;
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+:not(pre) > code:hover {
+    background-color: #e8e8e8;
+}
