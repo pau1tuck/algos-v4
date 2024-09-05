@@ -19,7 +19,6 @@ interface RegisterProps {
         firstName: string,
         lastName: string,
         country: string,
-        city: string,
         email: string,
         password: string
     ) => Promise<boolean>;
@@ -29,7 +28,6 @@ const schema = yup.object().shape({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
     country: yup.string().required("Country is required"),
-    city: yup.string().required("City is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup
         .string()
@@ -52,7 +50,6 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
                 data.firstName,
                 data.lastName,
                 data.country,
-                data.city,
                 data.email,
                 data.password
             );
@@ -81,7 +78,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    mt: 8,
+                    mt: 2,
                 }}
             >
                 <Typography component="h1" variant="h3" pb={5}>
@@ -160,23 +157,6 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                        )}
-                    />
-                    <Controller
-                        name="city"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="city"
-                                label="City"
-                                error={!!errors.city}
-                                helperText={errors.city?.message}
-                            />
                         )}
                     />
                     <Controller
