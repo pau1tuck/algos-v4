@@ -27,9 +27,9 @@ const theme = createTheme({
             dark: "#0768b3",
         },
         secondary: {
-            main: "#0984e3", // Exodus Fruit
+            main: "#6c5ce7", // Exodus Fruit
             light: "#a29bfe", // Shy Moment
-            dark: "#ad1457",
+            dark: "#5649c0",
         },
     },
     typography: {
@@ -71,6 +71,10 @@ const theme = createTheme({
                 },
                 contained: {
                     height: "48px",
+                    color: "#fff",
+                    "&:hover": {
+                        color: "#fff",
+                    },
                 },
                 outlined: {
                     height: "38px",

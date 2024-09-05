@@ -11,16 +11,25 @@ import {
     Alert,
 } from "@mui/material";
 
-interface ForgotPasswordProps {
-    onForgotPassword: (email: string) => Promise<boolean>;
+interface ResetPasswordProps {
+    onResetPassword: (password: string, token: string) => Promise<boolean>;
+    token: string;
 }
 
 const schema = yup.object().shape({
-    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup
+        .string()
+        .min(8, "Password must be at least 8 characters")
+        .required("Password is required"),
+    confirmPassword: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Passwords must match")
+        .required("Confirm Password is required"),
 });
 
-const ForgotPassword: React.FC<ForgotPasswordProps> = ({
-    onForgotPassword,
+const ResetPassword: React.FC<ResetPasswordProps> = ({
+    onResetPassword,
+    token,
 }) => {
     const {
         control,
@@ -31,14 +40,16 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = async (data: { email: string }) => {
+    const onSubmit = async (data: {
+        password: string;
+        confirmPassword: string;
+    }) => {
         try {
-            const success = await onForgotPassword(data.email);
+            const success = await onResetPassword(data.password, token);
             if (!success) {
                 setError("root", {
                     type: "manual",
-                    message:
-                        "Failed to send password reset email. Please try again.",
+                    message: "Failed to reset password. Please try again.",
                 });
             }
             // If successful, show a success message or redirect
@@ -63,17 +74,13 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
                 <Typography component="h1" variant="h3" pb={3}>
                     Reset Password
                 </Typography>
-                <Typography variant="body1" pb={1}>
-                    Enter your email address and we'll send you a link to reset
-                    your password.
-                </Typography>
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
                     sx={{ mt: 1, width: "100%" }}
                 >
                     <Controller
-                        name="email"
+                        name="password"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
@@ -82,12 +89,33 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email address"
-                                autoComplete="email"
-                                autoFocus
-                                error={!!errors.email}
-                                helperText={errors.email?.message}
+                                name="password"
+                                label="New Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="confirmPassword"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="Confirm New Password"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="new-password"
+                                error={!!errors.confirmPassword}
+                                helperText={errors.confirmPassword?.message}
                             />
                         )}
                     />
@@ -100,7 +128,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        SUBMIT
+                        Reset Password
                     </Button>
                 </Box>
             </Box>
@@ -108,4 +136,4 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
     );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
