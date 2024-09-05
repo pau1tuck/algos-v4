@@ -5,7 +5,6 @@ import store from "@site/src/redux/store";
 // Import Material UI theme provider
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
-import CssBaseline from "@mui/material/CssBaseline";
 // Import required fonts
 import "@fontsource/quicksand/500.css";
 import "@fontsource/lora/400.css";
@@ -22,10 +21,7 @@ interface RootProps {
 const Root = ({ children }: RootProps) => {
     return (
         <Provider store={store}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                {children}
-            </ThemeProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </Provider>
     );
 };

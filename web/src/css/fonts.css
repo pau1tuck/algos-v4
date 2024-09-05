@@ -15,9 +15,13 @@ body {
     --ifm-font-family-monospace: "Ubuntu Mono", monospace;
 }
 
-pre,
-pre code,
 code {
+    font-family: var(--ifm-font-family-monospace) !important;
+    font-size: 0.9rem !important;
+}
+
+pre,
+pre code {
     font-family: var(--ifm-font-family-monospace) !important;
     font-size: 1.1rem !important;
 }
