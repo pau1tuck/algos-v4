@@ -1,5 +1,4 @@
 // src/modules/quiz/utils/PageProvider.tsx
-
 import React, { useReducer, useCallback } from "react";
 import {
     PageContext,
@@ -13,8 +12,21 @@ const REGISTER_QUESTION = "REGISTER_QUESTION";
 const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 
+type PageState = {
+    questions: QuestionStatusProps[];
+    // Add other state properties if needed
+};
+
+type PageAction =
+    | { type: "REGISTER_QUESTION"; payload: QuestionStatusProps }
+    | {
+          type: "UPDATE_QUESTION_STATUS";
+          payload: { id: number; updates: Partial<QuestionStatusProps> };
+      }
+    | { type: "RESET_PAGE" };
+
 // Reducer function to handle page state changes
-const pageReducer = (state, action) => {
+const pageReducer = (state: PageState, action: PageAction): PageState => {
     switch (action.type) {
         case REGISTER_QUESTION:
             return {
