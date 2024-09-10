@@ -1,0 +1,2231 @@
+---
+sidebar_position: 2
+sidebar_label: Date Information
+---
+
+# Date Information
+
+## Extracting Date Information
+
+Once you have a `Date` object, you can use the following methods to extract specific parts:
+
+```js
+const date = new Date("2024-09-15");
+const year = date.getFullYear(); // 2024 - Returns the 4-digit year.
+const month = date.getMonth(); // 8 - Returns the month, 0-11, where January is 0.
+const day = date.getDate(); // 15 - Returns the day of the month (1-31)
+const dayOfWeek = date.getDay(); // 0 - Returns the day of the week, 0-6, where Sunday is 0.
+```
+
+## Challenge: Full Date
+
+JavaScript provides basic formatting methods.
+
+Input: 01/24/2024
+
+We can use `toDateString()` to output a human-readable date string (e.g., `"Mon Jan 20 2024"`).
+
+However, we want our blog to display the full date in the correct US format: `Thursday, September 5, 2024`.
+
+How to solve this problem:
+
+- Create an array containing the days of the week starting with Sunday.
+- Create an array containing the names of the months.
+- Use the `Date` object to get the day of the week.
+- Use the `Date` object to get the month.
+- Use the `Date` object to get the day of the month.
+- Use the `Date` object to get the year.
+- Return the formatted date.
+
+### Example
+
+```js
+const today = new Date();
+console.log(today.getFullYear()); // Outputs current year
+console.log(today.getMonth()); // Outputs current month (0-based)
+console.log(today.toDateString()); // Outputs: Mon Jan 20 2024
+```
+
+For non-ISO formats, behaviour can be unpredictable and vary by browser. To ensure consistency, validate or preprocess the input first.
+The **safest format** to convert a string into a `Date` object is the **ISO 8601** format (`YYYY-MM-DD`), as it's well-supported across different browsers:
+
+---
+
+## sidebar_position: 1
+
+import TestComponent from "@site/src/components/TestComponent";
+import TrueFalseQuestion from "@site/src/modules/quiz/TrueFalseQuestion";
+import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
+import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
+import Accordion1 from "@site/src/components/Accordion";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Button from "@mui/material/Button";
+
+# Test Page
+
+I just want to see `embedded code` in the MDX, not the
+
+<TrueFalseQuestion
+  question="JavaScript is a strongly-typed language."
+  correctAnswer={false}
+/>
+<br />
+
+<Accordion1 title="Explanation">
+  Reveal? JavaScript is a weakly-typed language, meaning that variables cannot
+  change __. Low-level languages like C++ and Rust have greater control over the
+  system hardware, like memory and CPU, and so... **Dog**
+</Accordion1>
+
+## Parsing Integers
+
+<MultipleChoiceQuestion
+  question={`
+\`\`\`js
+const date = Number.parseInt("21 February 2024");
+\`\`\`
+
+What is the value of \`date\`?`}
+options={["Null", "21", "NaN", "212024"]}
+correctAnswer={1}
+/>
+
+<ShortAnswerQuestion   question={`
+\`\`\`js
+const array = [1, 2, 3, 4, 5, 6];
+const output = 6 in array;
+\`\`\`
+
+What is the value of \`output\`?`}/>
+
+<TestComponent />
+<br />
+
+import React, { useState } from "react";
+import styles from "./components.module.css";
+
+const Accordion = ({ title, children }) => {
+const [isOpen, setIsOpen] = useState(false);
+
+    const toggleAccordion = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <div>
+            <button
+                className={`${styles.accordion} ${isOpen ? styles.active : ''}`}
+                onClick={toggleAccordion}
+            >
+                {title}
+            </button>
+            <div
+                className={styles.panel}
+                style={{ maxHeight: isOpen ? '100px' : '0', overflow: 'hidden' }} // Ensure overflow is hidden for smooth animation
+            >
+                {children}
+            </div>
+        </div>
+    );
+
+};
+
+export default Accordion;
+
+/_ Style the accordion button _/
+.accordion {
+position: relative; /_ Needed for positioning the icon _/
+background-color: #f7f7f7;
+color: #444;
+cursor: pointer;
+padding: 18px;
+width: 100%;
+text-align: left;
+border: none;
+outline: none;
+transition: background-color 0.4s ease;
+font-size: 1.1rem;
+}
+
+/_ Hover and active state for accordion button _/
+.accordion:hover {
+background-color: #f1f1f1;
+}
+.accordion.active {
+background-color: #f1f1f1;
+}
+
+/_ Panel styling with animation _/
+.panel {
+padding: 0 18px;
+padding-top: 10px;
+background-color: white;
+max-height: 0;
+overflow: hidden; /_ Ensure content is hidden _/
+transition: max-height 0.2s ease-out; /_ Smooth max-height transition _/
+}
+
+/_ Icon for accordion _/
+.accordion::after {
+content: '\02795'; /_ Unicode character for "plus" sign (+) _/
+font-size: 13px;
+color: #777;
+float: right;
+margin-left: 5px;
+transition: transform 0.4s ease; /_ Smooth rotation transition _/
+}
+
+/_ Rotate icon when active _/
+.accordion.active::after {
+content: "\2796"; /_ Unicode character for "minus" sign (-) _/
+transform: rotate(180deg); /_ Rotate icon when active _/
+}
+
+/_ You can override the default Infima variables here. _/
+
+:root {
+--ifm-color-primary: #2e8555;
+--ifm-color-primary-dark: #29784c;
+--ifm-color-primary-darker: #277148;
+--ifm-color-primary-darkest: #205d3b;
+--ifm-color-primary-light: #33925d;
+--ifm-color-primary-lighter: #359962;
+--ifm-color-primary-lightest: #3cad6e;
+--ifm-code-font-size: 100%;
+--docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+}
+
+/_ For readability concerns, you should choose a lighter palette in dark mode. _/
+[data-theme="dark"] {
+--ifm-color-primary: #25c2a0;
+--ifm-color-primary-dark: #21af90;
+--ifm-color-primary-darker: #1fa588;
+--ifm-color-primary-darkest: #1a8870;
+--ifm-color-primary-light: #29d5b0;
+--ifm-color-primary-lighter: #32d8b4;
+--ifm-color-primary-lightest: #4fddbf;
+--docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-family: "Lora", serif;
+font-weight: 600;
+}
+body {
+font-family: "Montserrat", sans-serif;
+}
+
+:root {
+--ifm-font-family-monospace: "Ubuntu Mono", monospace;
+}
+
+code {
+font-family: var(--ifm-font-family-monospace) !important;
+font-size: 0.9rem !important;
+}
+
+pre,
+pre code {
+font-family: var(--ifm-font-family-monospace) !important;
+font-size: 1.1rem !important;
+}
+
+:not(pre) > code {
+background-color: #f2f2f2;
+color: #2d3436;
+padding: 2px 4px;
+border: 1px solid #e1e4e8;
+border-radius: 3px;
+font-family: "Ubuntu Mono", monospace;
+font-size: 1em;
+font-weight: 500;
+transition: background-color 0.2s ease-in-out;
+}
+:not(pre) > code:hover {
+background-color: #e8e8e8;
+}
+
+import React, { ReactNode } from "react";
+// Import React Redux provider and global store
+import { Provider } from "react-redux";
+import store from "@site/src/redux/store";
+// Import Material UI theme provider
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+// Import required fonts
+import "@fontsource/quicksand/500.css";
+import "@fontsource/lora/400.css";
+import "@fontsource/lora/600.css";
+import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/600.css";
+import "@fontsource/ubuntu-mono/400.css";
+import "@fontsource/ubuntu-mono/700.css";
+
+interface RootProps {
+children: ReactNode;
+}
+
+const Root = ({ children }: RootProps) => {
+return (
+
+<Provider store={store}>
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+</Provider>
+); };
+
+export default Root;
+
+import { createTheme } from "@mui/material/styles";
+
+// Extend the typography variants in Material UI
+declare module "@mui/material/styles" {
+interface TypographyVariants {
+code: React.CSSProperties; // Add 'code' variant
+}
+
+    // Allow configuration using `createTheme`
+    interface TypographyVariantsOptions {
+        code?: React.CSSProperties; // Add 'code' option
+    }
+
+}
+
+// Update the Typography's variant prop options
+declare module "@mui/material/Typography" {
+interface TypographyPropsVariantOverrides {
+code: true; // Add 'code' to the variant prop
+}
+}
+
+const theme = createTheme({
+palette: {
+primary: {
+main: "#0984e3", // Electron Blue
+light: "#74b9ff", // Green Darner Tail
+dark: "#0768b3",
+},
+secondary: {
+main: "#6c5ce7", // Exodus Fruit
+light: "#a29bfe", // Shy Moment
+dark: "#5649c0",
+},
+},
+typography: {
+fontFamily:
+'"Montserrat", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+h1: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+h2: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+h3: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+h4: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+h5: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+h6: {
+fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+fontWeight: 600,
+},
+code: {
+fontFamily: '"Ubuntu Mono", monospace',
+},
+},
+components: {
+MuiButton: {
+styleOverrides: {
+root: {
+fontWeight: 600,
+},
+contained: {
+height: "48px",
+color: "#fff",
+"&:hover": {
+color: "#fff",
+},
+},
+outlined: {
+height: "38px",
+borderColor: "#CCD1D7", // Lighter grey border
+"&:hover": {
+borderColor: "rgba(0, 0, 0, 0.23)", // Keep the same color on hover
+backgroundColor: "#F1F3F5",
+},
+borderRadius: "8px",
+},
+},
+},
+},
+});
+
+export default theme;
+
+// store.ts
+import { configureStore } from "@reduxjs/toolkit";
+import quizReducer from "./slices/quizSlice"; // Adjust the path as necessary
+
+const store = configureStore({
+reducer: {
+quiz: quizReducer,
+},
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default store;
+
+// redux/quizSlice.ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface QuizState {
+correctAnswers: number;
+}
+
+const initialState: QuizState = {
+correctAnswers: 0,
+};
+
+const quizSlice = createSlice({
+name: "quiz",
+initialState,
+reducers: {
+incrementCorrectAnswers: (state) => {
+state.correctAnswers += 1;
+},
+resetCorrectAnswers: (state) => {
+state.correctAnswers = 0;
+},
+},
+});
+
+export const { incrementCorrectAnswers, resetCorrectAnswers } =
+  quizSlice.actions;
+export default quizSlice.reducer;
+
+import React from "react";
+import Layout from "@theme/Layout";
+import ForgotPassword from "@site/src/modules/auth/components/ForgotPassword";
+
+const ForgotPasswordPage = () => {
+// Dummy onForgotPassword function
+const dummyOnForgotPassword = async (email: string): Promise<boolean> => {
+console.log(`Attempting to send password reset email to: ${email}`);
+
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // For testing, let's say the password reset email is always sent successfully
+        const isSuccessful = true;
+
+        console.log(
+            isSuccessful
+                ? "Password reset email sent successfully"
+                : "Failed to send password reset email"
+        );
+        return isSuccessful;
+    };
+
+    return (
+        <Layout>
+            <div className="">
+                <ForgotPassword onForgotPassword={dummyOnForgotPassword} />
+            </div>
+        </Layout>
+    );
+
+};
+
+export default ForgotPasswordPage;
+
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import Heading from "@theme/Heading";
+
+import styles from "./index.module.css";
+
+function HomepageHeader() {
+const {siteConfig} = useDocusaurusContext();
+return (
+
+<header className={clsx("hero hero--primary", styles.heroBanner)}>
+  <div className="container">
+    <Heading as="h1" className="hero__title">
+      {siteConfig.title}
+    </Heading>
+    <p className="hero__subtitle">{siteConfig.tagline}</p>
+    <div className={styles.buttons}>
+      <Link className="button button--secondary button--lg" to="/docs/intro">
+        Docusaurus Tutorial - 5min ⏱️
+      </Link>
+    </div>
+  </div>
+</header>
+); }
+
+export default function Home(): JSX.Element {
+  const { siteConfig } = useDocusaurusContext();
+  return (
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />"
+    >
+      <HomepageHeader />
+      <main>
+        <HomepageFeatures />
+      </main>
+    </Layout>
+  );
+}
+
+import React from "react";
+import Layout from "@theme/Layout";
+import Login from "@site/src/modules/auth/components/Login";
+import { Box } from "@mui/material";
+
+const LoginPage = () => {
+// Dummy onLogin function
+const dummyOnLogin = async (
+username: string,
+password: string
+): Promise<boolean> => {
+console.log(
+`Attempting login with username: ${username} and password: ${password}`
+);
+
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // For testing, let's say login is successful if username is "test" and password is "password"
+        const isSuccessful = username === "test" && password === "password";
+
+        console.log(isSuccessful ? "Login successful" : "Login failed");
+        return isSuccessful;
+    };
+
+    const dummyGoogleLogin = () => {
+        console.log("Google login clicked");
+        // Implement actual Google login logic here
+    };
+
+    return (
+        <Layout>
+            <Box
+                sx={{
+                    display: "flex",
+                    minHeight: "100vh",
+                    marginTop: "-50px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <Login
+                    onLogin={dummyOnLogin}
+                    onGoogleLogin={dummyGoogleLogin}
+                />
+            </Box>
+        </Layout>
+    );
+
+};
+
+export default LoginPage;
+
+import React from "react";
+import Layout from "@theme/Layout";
+import Register from "@site/src/modules/auth/components/Register";
+import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
+
+const RegisterPage = () => {
+const theme = useTheme();
+const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
+
+    // Dummy onRegister function
+    const dummyOnRegister = async (
+        email: string,
+        password: string,
+        country: string,
+        firstName: string,
+        lastName: string
+    ): Promise<boolean> => {
+        console.log(
+            `Attempting registration with email: ${email}, country: ${country}, firstName: ${firstName}, lastName: ${lastName}`
+        );
+
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // For testing, let's say registration is always successful
+        const isSuccessful = true;
+
+        console.log(
+            isSuccessful ? "Registration successful" : "Registration failed"
+        );
+        return isSuccessful;
+    };
+
+    return (
+        <Layout>
+            <Box
+                sx={{
+                    flexGrow: 1,
+                    minHeight: "100vh",
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
+                <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    sx={{ flexGrow: 1 }}
+                >
+                    {isLargeScreen && (
+                        <Box
+                            sx={{
+                                flex: 1,
+                                backgroundImage:
+                                    "url(/img/register-background.jpg)",
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                            }}
+                        />
+                    )}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            p: 3,
+                        }}
+                    >
+                        <Register onRegister={dummyOnRegister} />
+                    </Box>
+                </Stack>
+            </Box>
+        </Layout>
+    );
+
+};
+
+export default RegisterPage;
+import React from "react";
+import Layout from "@theme/Layout";
+import ResetPassword from "@site/src/modules/auth/components/ResetPassword";
+import { useLocation } from "@docusaurus/router";
+import { Container, Typography, Box, Button } from "@mui/material";
+import Link from "@docusaurus/Link";
+
+const ResetPasswordPage = () => {
+const location = useLocation();
+const searchParams = new URLSearchParams(location.search);
+const token = searchParams.get("token");
+
+    // Dummy onResetPassword function
+    const dummyOnResetPassword = async (
+        password: string,
+        token: string
+    ): Promise<boolean> => {
+        console.log(`Attempting to reset password with token: ${token}`);
+
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // For testing, let's say the password reset is always successful
+        const isSuccessful = true;
+
+        console.log(
+            isSuccessful ? "Password reset successful" : "Password reset failed"
+        );
+        return isSuccessful;
+    };
+
+    if (!token) {
+        return (
+            <Layout>
+                <Container maxWidth="md">
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            mt: 8,
+                        }}
+                    >
+                        <Typography component="h1" variant="h3" pb={3}>
+                            404 Not Found
+                        </Typography>
+                        <Typography variant="body1" pb={3} textAlign="center">
+                            Your password reset link is invalid or has expired.
+                            Please request a new one.
+                        </Typography>
+                        <Button
+                            component={Link}
+                            to="/forgot"
+                            variant="contained"
+                            color="secondary"
+                        >
+                            Reset Password
+                        </Button>
+                    </Box>
+                </Container>
+            </Layout>
+        );
+    }
+
+    return (
+        <Layout>
+            <ResetPassword
+                onResetPassword={dummyOnResetPassword}
+                token={token}
+            />
+        </Layout>
+    );
+
+};
+
+export default ResetPasswordPage;
+
+import React from 'react';
+import clsx from 'clsx';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import {
+  PageMetadata,
+  SkipToContentFallbackId,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
+import {useKeyboardNavigation} from '@docusaurus/theme-common/internal';
+import SkipToContent from '@theme/SkipToContent';
+import AnnouncementBar from '@theme/AnnouncementBar';
+import Navbar from '@theme/Navbar';
+import Footer from '@theme/Footer';
+import LayoutProvider from '@theme/Layout/Provider';
+import ErrorPageContent from '@theme/ErrorPageContent';
+import type {Props} from '@theme/Layout';
+import styles from './styles.module.css';
+
+export default function Layout(props: Props): JSX.Element {
+  const {
+    children,
+    noFooter,
+    wrapperClassName,
+    // Not really layout-related, but kept for convenience/retro-compatibility
+    title,
+    description,
+  } = props;
+
+useKeyboardNavigation();
+
+return (
+
+<LayoutProvider>
+<PageMetadata title={title} description={description} />
+
+      <SkipToContent />
+
+      <AnnouncementBar />
+
+      <Navbar />
+
+      <div
+        id={SkipToContentFallbackId}
+        className={clsx(
+          ThemeClassNames.wrapper.main,
+          styles.mainWrapper,
+          wrapperClassName,
+        )}>
+        <ErrorBoundary fallback={(params) => <ErrorPageContent {...params} />}>
+          {children}
+        </ErrorBoundary>
+      </div>
+
+      {!noFooter && <Footer />}
+    </LayoutProvider>
+
+);
+}
+
+import React from "react";
+import { composeProviders } from "@docusaurus/theme-common";
+import {
+  ColorModeProvider,
+  AnnouncementBarProvider,
+  ScrollControllerProvider,
+  NavbarProvider,
+  PluginHtmlClassNameProvider,
+} from "@docusaurus/theme-common/internal";
+import { DocsPreferredVersionContextProvider } from "@docusaurus/plugin-content-docs/client";
+import type { Props } from "@theme/Layout/Provider";
+import QuizProvider from "@site/src/modules/quiz/utils/QuizProvider";
+
+const Provider = composeProviders([
+ColorModeProvider,
+AnnouncementBarProvider,
+ScrollControllerProvider,
+DocsPreferredVersionContextProvider,
+PluginHtmlClassNameProvider,
+NavbarProvider,
+// CUSTOM:
+QuizProvider,
+]);
+
+export default function LayoutProvider({ children }: Props): JSX.Element {
+  return <Provider>{children}</Provider>;
+}
+
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styles from "./css/quiz.module.css"; // Importing CSS Module
+
+type MultipleChoiceQuestionProps = {
+question: string;
+options: string[];
+correctAnswer: number;
+};
+
+const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
+question,
+options,
+correctAnswer,
+}) => {
+const [userAnswerIndex, setUserAnswerIndex] = useState<number | null>(null);
+const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+
+    const handleAnswer = (index: number) => {
+        setUserAnswerIndex(index);
+        setIsCorrect(index === correctAnswer);
+    };
+
+    return (
+        <div className={styles["question-container"]}>
+            <ReactMarkdown
+                components={{
+                    code({ node, inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                            <SyntaxHighlighter
+                                style={dracula}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                            >
+                                {String(children).replace(/\n$/, "")}
+                            </SyntaxHighlighter>
+                        ) : (
+                            <code className={className} {...props}>
+                                {children}
+                            </code>
+                        );
+                    },
+                }}
+            >
+                {question}
+            </ReactMarkdown>
+            {options.map((option, index) => (
+                <div
+                    key={index}
+                    onClick={() => handleAnswer(index)}
+                    className={`${styles["question-option"]} ${userAnswerIndex === index
+                            ? isCorrect
+                                ? styles.correct
+                                : styles.incorrect
+                            : ""
+                        }`}
+                >
+                    {option}
+                </div>
+            ))}
+            {
+                isCorrect !== null && null
+                /*<p className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}>
+                    {isCorrect ? "Correct!" : "Incorrect. Try again!"}
+                </p>*/
+            }
+        </div>
+    );
+
+};
+
+export default MultipleChoiceQuestion;
+
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import styles from "./css/quiz.module.css";
+
+type ShortAnswerQuestionProps = {
+question?: string;
+correctAnswer: string;
+};
+
+const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
+question,
+correctAnswer,
+}) => {
+const [userAnswer, setUserAnswer] = useState<string>("");
+const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+
+    const handleAnswer = () => {
+        setIsCorrect(
+            userAnswer.trim().toLowerCase() ===
+            correctAnswer.trim().toLowerCase()
+        );
+    };
+
+    return (
+        <div className={styles["question-container"]}>
+            {question && (
+                <ReactMarkdown
+                    components={{
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(
+                                className || ""
+                            );
+                            return !inline && match ? (
+                                <SyntaxHighlighter
+                                    style={dracula}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    {...props}
+                                >
+                                    {String(children).replace(/\n$/, "")}
+                                </SyntaxHighlighter>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        },
+                    }}
+                >
+                    {question}
+                </ReactMarkdown>
+            )}
+            <input
+                id="user-answer"
+                type="text"
+                value={userAnswer}
+                onChange={e => setUserAnswer(e.target.value)}
+                className={styles["short-answer-input"]}
+            />
+            <button
+                id="user-submit"
+                type="button"
+                onClick={handleAnswer}
+                className={styles["short-answer-submit"]}
+            >
+                Submit
+            </button>
+            {isCorrect !== null && (
+                <p
+                    className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}
+                >
+                    {isCorrect ? "Correct!" : "Incorrect. Try again!"}
+                </p>
+            )}
+        </div>
+    );
+
+};
+
+export default ShortAnswerQuestion;
+
+// src/modules/quiz/TrueFalseQuestion.tsx
+import React, { useState, useEffect } from "react";
+import styles from "./css/quiz.module.css";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import {
+QuestionType,
+QuestionStatus,
+} from "@site/src/modules/quiz/utils/QuizContext";
+import { useQuizContext } from "@site/src/modules/quiz/utils/useQuizContext";
+
+type TrueFalseQuestionProps = {
+question: string;
+correctAnswer: boolean;
+};
+
+const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
+question,
+correctAnswer,
+}) => {
+const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
+const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+
+    const { registerQuestion, updateQuestionStatus, incrementCorrectAnswers } =
+        useQuizContext();
+
+    // Register the question with quiz page context when the component mounts
+    useEffect(() => {
+        registerQuestion({
+            questionId: 1, // Replace with dynamic ID
+            order: 1, // Replace with dynamic order
+            questionType: QuestionType.TrueFalse,
+            questionStatus: QuestionStatus.Unanswered,
+            attemptCount: 0,
+            hintUsed: false,
+        });
+    }, []);
+
+    const handleAnswer = (answer: boolean) => {
+        setUserAnswer(answer);
+        setIsCorrect(answer === correctAnswer);
+
+        if (answer === correctAnswer) {
+            updateQuestionStatus(1, QuestionStatus.Correct);
+        } else {
+            updateQuestionStatus(1, QuestionStatus.Incorrect);
+        }
+    };
+
+    return (
+        <div className={styles["question-container"]}>
+            <ReactMarkdown
+                components={{
+                    code({ node, inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                            <SyntaxHighlighter
+                                style={dracula}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                            >
+                                {String(children).replace(/\n$/, "")}
+                            </SyntaxHighlighter>
+                        ) : (
+                            <code className={className} {...props}>
+                                {children}
+                            </code>
+                        );
+                    },
+                }}
+            >
+                {question}
+            </ReactMarkdown>
+            <div className={styles["true-false-options"]}>
+                <button
+                    type="button"
+                    onClick={() => handleAnswer(true)}
+                    disabled={userAnswer !== null}
+                    className={`${styles["true-false-option"]} ${userAnswer === true
+                        ? isCorrect
+                            ? styles.correct
+                            : styles.incorrect
+                        : ""
+                        }`}
+                >
+                    True
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleAnswer(false)}
+                    disabled={userAnswer !== null}
+                    className={`${styles["true-false-option"]} ${userAnswer === false
+                        ? isCorrect
+                            ? styles.correct
+                            : styles.incorrect
+                        : ""
+                        }`}
+                >
+                    False
+                </button>
+                {userAnswer !== null && <div />}
+            </div>
+        </div>
+    );
+
+};
+
+export default TrueFalseQuestion;
+/* Shared Container Styling for All Questions */
+.question-container {
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #fafafa;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-bottom: 25px; /* Consistent margin for all question types */
+}
+
+/_ Common Title Styling _/
+.question-title,
+.multiple-choice-question,
+.true-false-question {
+font-size: 1.2rem;
+font-weight: bold;
+margin-bottom: 10px;
+}
+
+/_ True-False Specific Styles _/
+.true-false-options {
+display: flex; /_ Changed from block to flex to align items side by side _/
+gap: 10px; /_ Space between the buttons _/
+margin-bottom: 10px;
+justify-content: left; /_ Align items to the left _/
+}
+
+/_ Option and Input Styling _/
+.question-option,
+.short-answer-input,
+.true-false-option {
+width: 100%;
+max-width: 200px; /_ Consistent width _/
+font-size: 1.1rem;
+background-color: #fff;
+border: 2px solid #ddd;
+border-radius: 4px;
+padding: 10px;
+padding-left: 15px;
+margin-bottom: 10px;
+text-align: left;
+cursor: pointer;
+transition:
+background-color 0.4s,
+border-color 0.4s;
+}
+
+.true-false-option {
+padding-left: 10px;
+text-align: center;
+}
+.short-answer-input {
+cursor: unset;
+}
+
+.question-option:hover,
+.short-answer-submit:hover,
+.true-false-option:hover {
+background-color: #fafafa;
+border-color: #ccc;
+}
+
+/_ Correct and Incorrect Styling for Multiple Choice Options _/
+.question-option.correct {
+border-color: #4caf50;
+background-color: #e8f5e9;
+}
+
+.question-option.incorrect {
+border-color: #f44336;
+background-color: #ffebee;
+}
+
+/_ Correct and Incorrect Styling for True-False Options _/
+.true-false-option.correct {
+border-color: #4caf50;
+background-color: #e8f5e9;
+}
+
+.true-false-option.incorrect {
+border-color: #f44336;
+background-color: #ffebee;
+}
+
+/_ Feedback Styling _/
+.question-feedback,
+.short-answer-feedback,
+.true-false-feedback {
+margin-top: 15px;
+font-size: 1rem;
+}
+
+.short-answer-feedback.correct,
+.question-feedback.correct {
+color: #4caf50;
+}
+
+.short-answer-feedback.incorrect,
+.question-feedback.incorrect {
+color: #f44336;
+}
+
+// src/modules/quiz/Provider/QuizContext.tsx
+import { createContext, useContext } from "react";
+
+export enum QuestionType {
+    MultipleChoice = "multiple-choice",
+    TrueFalse = "true-false",
+    ShortAnswer = "short-answer",
+}
+
+export enum QuestionStatus {
+    Unanswered = "unanswered",
+    Correct = "correct",
+    Incorrect = "incorrect",
+}
+
+interface QuestionState {
+questionId: number;
+order: number;
+questionType: QuestionType;
+questionStatus: QuestionStatus; // default unanswered
+attemptCount: number; // default 0
+hintUsed: boolean; // default false
+// Optional fields for future expansion
+// questionText?: string;
+// answerChoices?: string[];
+// userAnswer?: string | null;
+// difficulty?: string;
+// hint?: string;
+// explanation?: string;
+// timeTaken?: number;
+// tags?: string[];
+// isSkipped?: boolean;
+}
+
+interface QuizContextType {
+questions: QuestionState[];
+registerQuestion: (question: QuestionState) => void;
+updateQuestionStatus: (questionId: number, status: QuestionStatus) => void;
+incrementAttemptCount: (questionId: number) => void;
+correctAnswers: number; // default 0
+incrementCorrectAnswers: () => void;
+resetQuiz: () => void;
+}
+
+export const QuizContext =
+  (createContext < QuizContextType) | (undefined > undefined);
+
+// src/modules/quiz/utils/QuizProvider.tsx
+import React, { useState, useCallback, ReactNode } from "react";
+import { QuizContext, QuestionStatus } from "./QuizContext";
+
+const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const [questions, setQuestions] = useState<any[]>([]);
+const [correctAnswers, setCorrectAnswers] = useState(0);
+
+    const registerQuestion = useCallback((question: any) => {
+        setQuestions(prevQuestions => [...prevQuestions, question]);
+    }, []);
+
+    const incrementCorrectAnswers = () => {
+        console.log("Increment correct answers called.");
+        setCorrectAnswers(prev => prev + 1);
+    };
+
+    const updateQuestionStatus = useCallback(
+        (questionId: number, status: QuestionStatus) => {
+            console.log(
+                "updateQuestionStatus called for question:",
+                questionId,
+                "with status:",
+                status
+            );
+            setQuestions(prevQuestions =>
+                prevQuestions.map(q =>
+                    q.questionId === questionId
+                        ? {
+                            ...q,
+                            questionStatus: status,
+                            attemptCount: q.attemptCount + 1
+                        }
+                        : q
+                )
+            );
+            if (status === QuestionStatus.Correct) {
+                incrementCorrectAnswers();
+            }
+            console.log("Callback complete");
+        },
+        [incrementCorrectAnswers]
+    );
+
+    // Keep this function for potential future use
+    const incrementAttemptCount = useCallback((questionId: number) => {
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q =>
+                q.questionId === questionId
+                    ? { ...q, attemptCount: q.attemptCount + 1 }
+                    : q
+            )
+        );
+    }, []);
+
+    const resetQuiz = useCallback(() => {
+        setCorrectAnswers(0);
+        setQuestions(prevQuestions =>
+            prevQuestions.map(q => ({
+                ...q,
+                questionStatus: QuestionStatus.Unanswered,
+                attemptCount: 0,
+                hintUsed: false,
+            }))
+        );
+    }, []);
+
+    return (
+        <QuizContext.Provider
+            value={{
+                questions,
+                correctAnswers,
+                incrementCorrectAnswers,
+                resetQuiz,
+                registerQuestion,
+                updateQuestionStatus,
+                incrementAttemptCount,
+            }}
+        >
+            {children}
+        </QuizContext.Provider>
+    );
+
+};
+
+export default QuizProvider;
+
+// src/modules/quiz/utils/useQuizContext.tsx
+import { useContext } from "react";
+import { QuizContext } from "./QuizContext";
+
+export const useQuizContext = () => {
+  const context = useContext(QuizContext);
+  if (!context) {
+    throw new Error("useQuizContext must be used within a QuizProvider");
+  }
+  return context;
+};
+
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
+
+interface ForgotPasswordProps {
+onForgotPassword: (email: string) => Promise<boolean>;
+}
+
+const schema = yup.object().shape({
+email: yup.string().email("Invalid email").required("Email is required"),
+});
+
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({
+onForgotPassword,
+}) => {
+const {
+control,
+handleSubmit,
+formState: { errors },
+setError,
+} = useForm({
+resolver: yupResolver(schema),
+});
+
+    const onSubmit = async (data: { email: string }) => {
+        try {
+            const success = await onForgotPassword(data.email);
+            if (!success) {
+                setError("root", {
+                    type: "manual",
+                    message:
+                        "Failed to send password reset email. Please try again.",
+                });
+            }
+            // If successful, show a success message or redirect
+        } catch (err) {
+            setError("root", {
+                type: "manual",
+                message: "An error occurred. Please try again.",
+            });
+        }
+    };
+
+    return (
+        <Container maxWidth="xs">
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mt: 8,
+                }}
+            >
+                <Typography component="h1" variant="h3" pb={3}>
+                    Reset Password
+                </Typography>
+                <Typography variant="body1" pb={1}>
+                    Enter your email address and we'll send you a link to reset
+                    your password.
+                </Typography>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{ mt: 1, width: "100%" }}
+                >
+                    <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email address"
+                                autoComplete="email"
+                                autoFocus
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
+                            />
+                        )}
+                    />
+                    {errors.root && (
+                        <Alert severity="error">{errors.root.message}</Alert>
+                    )}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        SUBMIT
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
+    );
+
+};
+
+export default ForgotPassword;
+
+import React from "react";
+import { Button, SvgIcon } from "@mui/material";
+
+const GoogleLogo = props => (
+
+<SvgIcon {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <path
+      fill="#FFC107"
+      d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+    />
+    <path
+      fill="#FF3D00"
+      d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+    />
+    <path
+      fill="#4CAF50"
+      d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+    />
+    <path
+      fill="#1976D2"
+      d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+    />
+  </svg>
+</SvgIcon>
+);
+
+interface GoogleButtonProps {
+onClick: () => void;
+children?: React.ReactNode;
+}
+
+const GoogleButton: React.FC<GoogleButtonProps> = ({ onClick, children }) => (
+
+<Button
+  fullWidth
+  variant="outlined"
+  startIcon={<GoogleLogo />}
+  onClick={onClick}
+  sx={{
+    color: "rgba(0, 0, 0, 0.54)",
+    backgroundColor: "#fff",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "#f1f3f4",
+    },
+  }}
+>
+  {children || "Continue with Google"}
+</Button>
+);
+
+export default GoogleButton;
+
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+  Divider,
+  Link as MuiLink,
+  Paper,
+} from "@mui/material";
+import GoogleButton from "@site/src/modules/auth/components/GoogleButton";
+import Link from "@docusaurus/Link";
+
+interface LoginProps {
+onLogin: (email: string, password: string) => Promise<boolean>;
+onGoogleLogin: () => void;
+}
+
+const schema = yup.object().shape({
+email: yup.string().email("Invalid email").required("Email is required"),
+password: yup.string().required("Password is required"),
+});
+
+const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
+const {
+control,
+handleSubmit,
+formState: { errors },
+setError,
+} = useForm({
+resolver: yupResolver(schema),
+});
+
+    const onSubmit = async data => {
+        try {
+            const success = await onLogin(data.email, data.password);
+            if (!success) {
+                setError("root", {
+                    type: "manual",
+                    message: "Invalid email address or password",
+                });
+            }
+            // If successful, navigation should be handled by the parent component
+        } catch (err) {
+            setError("root", {
+                type: "manual",
+                message: "An error occurred. Please try again.",
+            });
+        }
+    };
+
+    return (
+        <Container
+            maxWidth="xs"
+            sx={{
+                minHeight: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography component="h1" variant="h4" pb={2}>
+                        Log in
+                    </Typography>
+                    <Box
+                        component="form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        sx={{ mt: 1, width: "100%" }}
+                    >
+                        <Controller
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email address"
+                                    autoComplete="email"
+                                    autoFocus
+                                    error={!!errors.email}
+                                    helperText={errors.email?.message}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="password"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    error={!!errors.password}
+                                    helperText={errors.password?.message}
+                                />
+                            )}
+                        />
+                        {errors.root && (
+                            <Alert severity="error">
+                                {errors.root.message}
+                            </Alert>
+                        )}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 1 }}
+                        >
+                            SUBMIT
+                        </Button>
+                        <MuiLink
+                            component={Link}
+                            to="/forgot"
+                            variant="body2"
+                            sx={{
+                                display: "block",
+                                textAlign: "center",
+                                mt: 2,
+                            }}
+                        >
+                            Forgot password?
+                        </MuiLink>
+                        <Divider sx={{ my: 2 }}>or</Divider>
+                        <GoogleButton onClick={onGoogleLogin} />
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
+    );
+
+};
+
+export default Login;
+
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  MenuItem,
+  Divider,
+  Link as MuiLink,
+} from "@mui/material";
+import GoogleButton from "./GoogleButton";
+import Link from "@docusaurus/Link";
+
+interface RegisterProps {
+onRegister: (
+firstName: string,
+lastName: string,
+country: string,
+email: string,
+password: string
+) => Promise<boolean>;
+}
+
+const schema = yup.object().shape({
+firstName: yup.string().required("First name is required"),
+lastName: yup.string().required("Last name is required"),
+country: yup.string().required("Country is required"),
+email: yup.string().email("Invalid email").required("Email is required"),
+password: yup
+.string()
+.min(8, "Password must be at least 8 characters")
+.required("Password is required"),
+});
+
+const Register: React.FC<RegisterProps> = ({ onRegister }) => {
+const {
+control,
+handleSubmit,
+formState: { errors },
+} = useForm({
+resolver: yupResolver(schema),
+});
+
+    const onSubmit = async data => {
+        try {
+            const success = await onRegister(
+                data.firstName,
+                data.lastName,
+                data.country,
+                data.email,
+                data.password
+            );
+            if (success) {
+                // Navigate to user dashboard or login page
+            } else {
+                // Handle registration failure
+            }
+        } catch (err) {
+            // Handle error
+        }
+    };
+
+    // Placeholder for countries dropdown
+    const countries = [
+        { value: "us", label: "United States" },
+        { value: "uk", label: "United Kingdom" },
+        { value: "ca", label: "Canada" },
+        // Add more countries as needed
+    ];
+
+    return (
+        <Container maxWidth="xs" sx={{ mb: 10 }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mt: 2,
+                }}
+            >
+                <Typography component="h1" variant="h3" pb={2}>
+                    Sign up
+                </Typography>
+                <Typography variant="body2" pb={3}>
+                    Already registered?{" "}
+                    <MuiLink component={Link} to="/login">
+                        Log in
+                    </MuiLink>
+                </Typography>
+                <GoogleButton
+                    onClick={() => {
+                        // Handle Google Sign Up
+                    }}
+                >
+                    Sign up with Google
+                </GoogleButton>
+                <Divider sx={{ my: 2, width: "100%" }}>or</Divider>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{ width: "100%" }}
+                >
+                    <Controller
+                        name="firstName"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                                error={!!errors.firstName}
+                                helperText={errors.firstName?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="lastName"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                error={!!errors.lastName}
+                                helperText={errors.lastName?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="country"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                select
+                                id="country"
+                                label="Country"
+                                error={!!errors.country}
+                                helperText={errors.country?.message}
+                            >
+                                {countries.map(option => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        )}
+                    />
+                    <Controller
+                        name="email"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email address"
+                                autoComplete="email"
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="password"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
+                            />
+                        )}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        SUBMIT
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
+    );
+
+};
+
+export default Register;
+
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
+
+interface ResetPasswordProps {
+onResetPassword: (password: string, token: string) => Promise<boolean>;
+token: string;
+}
+
+const schema = yup.object().shape({
+password: yup
+.string()
+.min(8, "Password must be at least 8 characters")
+.required("Password is required"),
+confirmPassword: yup
+.string()
+.oneOf([yup.ref("password"), null], "Passwords must match")
+.required("Confirm Password is required"),
+});
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({
+onResetPassword,
+token,
+}) => {
+const {
+control,
+handleSubmit,
+formState: { errors },
+setError,
+} = useForm({
+resolver: yupResolver(schema),
+});
+
+    const onSubmit = async (data: {
+        password: string;
+        confirmPassword: string;
+    }) => {
+        try {
+            const success = await onResetPassword(data.password, token);
+            if (!success) {
+                setError("root", {
+                    type: "manual",
+                    message: "Failed to reset password. Please try again.",
+                });
+            }
+            // If successful, show a success message or redirect
+        } catch (err) {
+            setError("root", {
+                type: "manual",
+                message: "An error occurred. Please try again.",
+            });
+        }
+    };
+
+    return (
+        <Container maxWidth="xs">
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mt: 8,
+                }}
+            >
+                <Typography component="h1" variant="h3" pb={3}>
+                    Reset Password
+                </Typography>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{ mt: 1, width: "100%" }}
+                >
+                    <Controller
+                        name="password"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="New Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="confirmPassword"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="Confirm New Password"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="new-password"
+                                error={!!errors.confirmPassword}
+                                helperText={errors.confirmPassword?.message}
+                            />
+                        )}
+                    />
+                    {errors.root && (
+                        <Alert severity="error">{errors.root.message}</Alert>
+                    )}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Reset Password
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
+    );
+
+};
+
+export default ResetPassword;
+
+{
+"name": "web",
+"version": "0.0.0",
+"private": true,
+"scripts": {
+"docusaurus": "docusaurus",
+"start": "docusaurus start",
+"build": "docusaurus build",
+"swizzle": "docusaurus swizzle",
+"deploy": "docusaurus deploy",
+"clear": "docusaurus clear",
+"serve": "docusaurus serve",
+"write-translations": "docusaurus write-translations",
+"write-heading-ids": "docusaurus write-heading-ids",
+"typecheck": "tsc",
+"postinstall": "patch-package"
+},
+"dependencies": {
+"@docusaurus/core": "^3.5.2",
+"@docusaurus/preset-classic": "^3.5.2",
+"@emotion/react": "^11.13.3",
+"@emotion/styled": "^11.13.0",
+"@fontsource/lora": "^5.0.18",
+"@fontsource/montserrat": "^5.0.19",
+"@fontsource/quicksand": "^5.0.19",
+"@fontsource/roboto": "^5.0.14",
+"@fontsource/ubuntu-mono": "^5.0.21",
+"@hookform/resolvers": "^3.9.0",
+"@mdx-js/react": "^3.0.0",
+"@mui/icons-material": "^6.0.2",
+"@mui/material": "^6.0.2",
+"@reduxjs/toolkit": "^2.2.7",
+"clsx": "^2.0.0",
+"patch-package": "^8.0.0",
+"postcss-import": "^16.1.0",
+"postinstall-postinstall": "^2.1.0",
+"prism-react-renderer": "^2.3.0",
+"react": "^18.0.0",
+"react-dom": "^18.0.0",
+"react-hook-form": "^7.53.0",
+"react-markdown": "^9.0.1",
+"react-redux": "^9.1.2",
+"react-syntax-highlighter": "^15.5.0",
+"yup": "^1.4.0"
+},
+"devDependencies": {
+"@biomejs/biome": "^1.8.3",
+"@biomejs/monorepo": "biomejs/biome",
+"@docusaurus/module-type-aliases": "3.5.1",
+"@docusaurus/tsconfig": "3.5.1",
+"@docusaurus/types": "3.5.1",
+"@testing-library/jest-dom": "^6.5.0",
+"@testing-library/react": "^16.0.1",
+"@testing-library/user-event": "^14.5.2",
+"@types/jest": "^29.5.12",
+"@types/react-redux": "^7.1.33",
+"autoprefixer": "^10.4.20",
+"docusaurus-plugin-sass": "^0.2.5",
+"jest": "^29.7.0",
+"jest-environment-jsdom": "^29.7.0",
+"postcss": "^8.4.41",
+"prettier": "^3.3.3",
+"sass": "^1.78.0",
+"tailwindcss": "^3.4.10",
+"typescript": "~5.5.2"
+},
+"browserslist": {
+"production": [
+">0.5%",
+"not dead",
+"not op_mini all"
+],
+"development": [
+"last 3 chrome version",
+"last 3 firefox version",
+"last 5 safari version"
+]
+},
+"engines": {
+"node": ">=18.0"
+}
+}
+
+import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
+
+const config: Config = {
+title: "AlgoBeast",
+tagline: "",
+favicon: "img/favicon.ico",
+
+    // Set the production url of your site here
+    url: "https://your-docusaurus-site.example.com",
+    // Set the /<baseUrl>/ pathname under which your site is served
+    // For GitHub pages deployment, it is often '/<projectName>/'
+    baseUrl: "/",
+
+    // GitHub pages deployment config.
+    // If you aren't using GitHub pages, you don't need these.
+    organizationName: "facebook", // Usually your GitHub org/user name.
+    projectName: "docusaurus", // Usually your repo name.
+
+    onBrokenLinks: "throw",
+    onBrokenMarkdownLinks: "warn",
+
+    // Even if you don't use internationalization, you can use this field to set
+    // useful metadata like html lang. For example, if your site is Chinese, you
+    // may want to replace "en" with "zh-Hans".
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en"],
+    },
+
+    presets: [
+        [
+            "classic",
+            {
+                docs: {
+                    sidebarPath: "./sidebars.ts",
+                    // Please change this to your repo.
+                    // Remove this to remove the "edit this page" links.
+                    editUrl:
+                        "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+                },
+                blog: {
+                    showReadingTime: true,
+                    feedOptions: {
+                        type: ["rss", "atom"],
+                        xslt: true,
+                    },
+                    // Please change this to your repo.
+                    // Remove this to remove the "edit this page" links.
+                    editUrl:
+                        "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+                    onUntruncatedBlogPosts: "ignore",
+                },
+                theme: {
+                    customCss: [
+                        "./src/theme/styles/custom.css",
+                        "./src/theme/styles/fonts.css",
+                    ],
+                },
+            } satisfies Preset.Options,
+        ],
+    ],
+
+    themeConfig: {
+        // Replace with your project's social card
+        image: "img/docusaurus-social-card.jpg",
+        navbar: {
+            title: "algobeast",
+            logo: {
+                alt: "My Site Logo",
+                src: "img/logo.svg",
+            },
+            items: [
+                {
+                    type: "docSidebar",
+                    sidebarId: "tutorialSidebar",
+                    position: "left",
+                    label: "Course",
+                },
+                { to: "/blog", label: "Blog", position: "left" },
+                {
+                    href: "https://github.com/facebook/docusaurus",
+                    label: "GitHub",
+                    position: "right",
+                },
+            ],
+        },
+        footer: {
+            style: "dark",
+            links: [
+                {
+                    title: "JavaScript",
+                    items: [
+                        {
+                            label: "Course",
+                            to: "/docs/intro",
+                        },
+                    ],
+                },
+                {
+                    title: "Community",
+                    items: [
+                        {
+                            label: "Stack Overflow",
+                            href: "https://stackoverflow.com/questions/tagged/docusaurus",
+                        },
+                        {
+                            label: "Discord",
+                            href: "https://discordapp.com/invite/docusaurus",
+                        },
+                        {
+                            label: "Twitter",
+                            href: "https://twitter.com/docusaurus",
+                        },
+                    ],
+                },
+                {
+                    title: "More",
+                    items: [
+                        {
+                            label: "Blog",
+                            to: "/blog",
+                        },
+                        {
+                            label: "GitHub",
+                            href: "https://github.com/facebook/docusaurus",
+                        },
+                    ],
+                },
+            ],
+            copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        },
+        prism: {
+            theme: prismThemes.dracula,
+            darkTheme: prismThemes.dracula,
+        },
+        plugins: ["docusaurus-plugin-sass"],
+    } satisfies Preset.ThemeConfig,
+
+};
+
+export default config;
