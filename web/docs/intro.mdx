@@ -13,14 +13,30 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Button from "@mui/material/Button";
+import PageWrapper from "@site/src/modules/quiz/components/PageWrapper";
 
 # Test Page
 
-I just want to see `embedded code` in the MDX, not the
+<PageWrapper
+    pageData={{
+        page_id: 1,
+        title: "Test Page",
+        section: "Introduction",
+        module: "Module 1",
+        topic: "Topic 1",
+        order: 1,
+        type: "quiz",
+        role: "guest",
+        // You can leave out unnecessary properties like pageScore, points, etc.
+    }}
+/>
 
 <TrueFalseQuestion
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
+    questionId="1"
+    order={1}
+    pointValue={10}
 />
 <br />
 

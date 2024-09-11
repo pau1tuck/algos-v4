@@ -9,6 +9,7 @@ export enum PageType {
 export enum QuestionStatus {
     NotStarted = "notStarted",
     InProgress = "inProgress",
+    Complete = "complete",
     Correct = "correct",
     Incorrect = "incorrect",
 }
@@ -16,7 +17,8 @@ export enum QuestionStatus {
 export enum UserRole {
     Admin = "admin",
     Guest = "guest",
-    Viewer = "viewer",
+    Member = "member",
+    Subscriber = "subscriber",
 }
 
 export enum DifficultyLevel {
@@ -33,7 +35,7 @@ export interface QuestionStatusProps {
     correct: boolean;
 }
 
-// Define the shape of the PageContext
+// Define the shape of the PageContext, making some fields optional
 export interface PageContextProps {
     page_id: number;
     title: string;
@@ -43,30 +45,31 @@ export interface PageContextProps {
     order: number;
     type: PageType;
     role: UserRole;
-    prerequisites: number[];
-    difficulty: DifficultyLevel;
-    pageScore: number;
-    points: number;
-    estimatedTime: string;
-    completed: QuestionStatus;
-    tags: string[];
-    relatedPages: number[];
-    resources: string[];
-    lastAccessed: Date | null;
-    learningObjectives: string[];
-    coursePathProgress: number;
-    questions: QuestionStatusProps[];
+    prerequisites?: number[]; // Optional
+    difficulty?: DifficultyLevel; // Optional
+    pageScore?: number; // Optional with a default value
+    points?: number; // Optional with a default value
+    estimatedTime?: string; // Optional with a default value
+    completed?: QuestionStatus; // Optional with a default value
+    tags?: string[]; // Optional
+    relatedPages?: number[]; // Optional
+    resources?: string[]; // Optional
+    lastAccessed?: Date | null; // Optional
+    learningObjectives?: string[]; // Optional
+    coursePathProgress?: number; // Optional
+    questions?: QuestionStatusProps[]; // Optional with a default value
 
-    // Functions
+    // Functions that modify the context
     registerQuestion: (question: QuestionStatusProps) => void;
     updateQuestionStatus: (
         id: number,
         status: Partial<QuestionStatusProps>
     ) => void;
     calculatePageScore: () => number;
+    resetPage: () => void;
 }
 
-// Create the context (no state or logic here)
+// Create the context
 export const PageContext = createContext<PageContextProps | undefined>(
     undefined
 );

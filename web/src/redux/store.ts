@@ -1,10 +1,12 @@
-// store.ts
+// src/redux/store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import quizReducer from "./slices/quizSlice"; // Adjust the path as necessary
+import quizReducer from "./slices/quizSlice"; // Existing quiz slice
+import userProgressReducer from "./slices/userProgressSlice"; // Import userProgress slice
 
 const store = configureStore({
     reducer: {
-        quiz: quizReducer,
+        quiz: quizReducer, // Existing quiz logic
+        userProgress: userProgressReducer, // User progress
     },
 });
 

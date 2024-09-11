@@ -1,6 +1,7 @@
 // src/modules/quiz/utils/PageProvider.tsx
 import React, { useReducer, useCallback } from "react";
 import {
+    DifficultyLevel,
     PageContext,
     PageContextProps,
     QuestionStatusProps,
@@ -14,7 +15,6 @@ const RESET_PAGE = "RESET_PAGE";
 
 type PageState = {
     questions: QuestionStatusProps[];
-    // Add other state properties if needed
 };
 
 type PageAction =
@@ -57,11 +57,36 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 };
 
 export const PageProvider: React.FC<{
-    pageData: PageContextProps;
+    pageData: Partial<PageContextProps>; // pageData can be partial
     children: React.ReactNode;
 }> = ({ children, pageData }) => {
+    // Define default values for missing properties
+    const {
+        page_id,
+        title,
+        section,
+        module,
+        topic,
+        order,
+        type,
+        role,
+        prerequisites = [],
+        difficulty = DifficultyLevel.Junior,
+        pageScore = 0,
+        points = 0,
+        estimatedTime = "Unknown",
+        completed = QuestionStatus.NotStarted,
+        tags = [],
+        relatedPages = [],
+        resources = [],
+        lastAccessed = null,
+        learningObjectives = [],
+        coursePathProgress = 0,
+        questions = [],
+    } = pageData;
+
     const [state, dispatch] = useReducer(pageReducer, {
-        ...pageData,
+        questions, // Initialize questions array
     });
 
     // Register a question with the page context
@@ -88,18 +113,38 @@ export const PageProvider: React.FC<{
     }, [state.questions]);
 
     // Reset the page state
-    const resetPageState = useCallback(() => {
+    const resetPage = useCallback(() => {
         dispatch({ type: RESET_PAGE });
     }, []);
 
     return (
         <PageContext.Provider
             value={{
-                ...state,
+                page_id,
+                title,
+                section,
+                module,
+                topic,
+                order,
+                type,
+                role,
+                prerequisites,
+                difficulty,
+                pageScore,
+                points,
+                estimatedTime,
+                completed,
+                tags,
+                relatedPages,
+                resources,
+                lastAccessed,
+                learningObjectives,
+                coursePathProgress,
+                questions: state.questions,
                 registerQuestion,
                 updateQuestionStatus,
                 calculatePageScore,
-                resetPageState,
+                resetPage,
             }}
         >
             {children}

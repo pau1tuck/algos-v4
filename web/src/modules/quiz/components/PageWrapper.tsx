@@ -2,9 +2,12 @@
 
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { QuestionStatus } from "@site/src/modules/quiz/utils/PageContext";
+import {
+    QuestionStatus,
+    PageType,
+} from "@site/src/modules/quiz/utils/PageContext"; // Import PageType enum
 import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
-import { usePageContext } from "@site/src/modules/quiz/utils//usePageContext";
+import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
 
 interface PageWrapperProps {
@@ -15,7 +18,7 @@ interface PageWrapperProps {
         module: string;
         topic: string;
         order: number;
-        type: string;
+        type: string; // Still a string here but will be mapped to enum
         role: string;
         prerequisites: number[];
         difficulty: string;
@@ -31,7 +34,7 @@ interface PageWrapperProps {
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({ pageData, children }) => {
-    const { calculatePageScore, questions, completed } = usePageContext();
+    const { calculatePageScore, questions } = usePageContext();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -52,10 +55,20 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ pageData, children }) => {
         };
 
         // Dispatch to the Redux store to update global user progress
+        console.log("Dispatching page progress to Redux:", pageProgress);
         dispatch(updatePageProgress(pageProgress));
     }, [questions, calculatePageScore, dispatch]);
 
-    return <PageProvider pageData={pageData}>{children}</PageProvider>;
+    return (
+        <PageProvider
+            pageData={{
+                ...pageData,
+                type: pageData.type as PageType, // Explicitly map `type` to `PageType` enum
+            }}
+        >
+            {children}
+        </PageProvider>
+    );
 };
 
 export default PageWrapper;

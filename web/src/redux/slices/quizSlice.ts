@@ -13,11 +13,19 @@ const quizSlice = createSlice({
     name: "quiz",
     initialState,
     reducers: {
-        incrementCorrectAnswers: (state) => {
+        incrementCorrectAnswers: state => {
             state.correctAnswers += 1;
+            console.log(
+                "Redux: Incremented correct answers to",
+                state.correctAnswers
+            );
         },
-        resetCorrectAnswers: (state) => {
+        resetCorrectAnswers: state => {
             state.correctAnswers = 0;
+            console.log(
+                "Redux: Reset correct answers to",
+                state.correctAnswers
+            );
         },
     },
 });
