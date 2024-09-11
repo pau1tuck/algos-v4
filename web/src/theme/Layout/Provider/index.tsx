@@ -9,7 +9,7 @@ import {
 } from "@docusaurus/theme-common/internal";
 import { DocsPreferredVersionContextProvider } from "@docusaurus/plugin-content-docs/client";
 import type { Props } from "@theme/Layout/Provider";
-import QuizProvider from "@site/src/modules/quiz/utils/QuizProvider";
+import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
 
 const Provider = composeProviders([
     ColorModeProvider,
@@ -19,7 +19,7 @@ const Provider = composeProviders([
     PluginHtmlClassNameProvider,
     NavbarProvider,
     // CUSTOM:
-    QuizProvider,
+    PageProvider,
 ]);
 
 export default function LayoutProvider({ children }: Props): JSX.Element {

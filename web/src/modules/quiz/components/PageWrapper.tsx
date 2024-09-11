@@ -40,8 +40,10 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ pageData, children }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (!pageData) return;
+
         const pageProgress = {
-            page_id: pageData.page_id,
+            page_id: Number(pageData.page_id),
             completed: questions.every(
                 q =>
                     q.status === QuestionStatus.Correct ||
@@ -56,10 +58,13 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ pageData, children }) => {
             })),
         };
 
-        // Dispatch to the Redux store to update global user progress
         console.log("Dispatching page progress to Redux:", pageProgress);
         dispatch(updatePageProgress(pageProgress));
-    }, [questions, calculatePageScore, dispatch]);
+    }, [questions, calculatePageScore, dispatch, pageData]);
+
+    if (!pageData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <PageProvider

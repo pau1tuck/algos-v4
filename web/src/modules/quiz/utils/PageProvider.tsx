@@ -6,6 +6,8 @@ import {
     PageContextProps,
     QuestionStatusProps,
     QuestionStatus,
+    PageType, // Import PageType
+    UserRole, // Import UserRole
 } from "./PageContext";
 
 // Action types
@@ -57,19 +59,20 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 };
 
 export const PageProvider: React.FC<{
-    pageData: Partial<PageContextProps>; // pageData can be partial
+    pageData?: Partial<PageContextProps>; // pageData can be partial and optional
     children: React.ReactNode;
-}> = ({ children, pageData }) => {
+}> = ({ children, pageData = {} }) => {
+    // Provide a default empty object for pageData
     // Define default values for missing properties
     const {
-        page_id,
-        title,
-        section,
-        module,
-        topic,
-        order,
-        type,
-        role,
+        page_id = 0, // Default page_id to 0
+        title = "",
+        section = "",
+        module = "",
+        topic = "",
+        order = 0,
+        type = PageType.Quiz,
+        role = UserRole.Guest,
         prerequisites = [],
         difficulty = DifficultyLevel.Junior,
         pageScore = 0,
