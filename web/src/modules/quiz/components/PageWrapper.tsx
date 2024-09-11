@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import {
     QuestionStatus,
     PageType,
-} from "@site/src/modules/quiz/utils/PageContext"; // Import PageType enum
+    UserRole,
+    DifficultyLevel,
+} from "@site/src/modules/quiz/utils/PageContext"; // Import DifficultyLevel and other enums
 import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
@@ -19,9 +21,9 @@ interface PageWrapperProps {
         topic: string;
         order: number;
         type: string; // Still a string here but will be mapped to enum
-        role: string;
+        role: string; // Still a string here but will be mapped to enum
         prerequisites: number[];
-        difficulty: string;
+        difficulty: string; // Still a string here but will be mapped to enum
         pageScore: number;
         points: number;
         estimatedTime: string;
@@ -63,7 +65,9 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ pageData, children }) => {
         <PageProvider
             pageData={{
                 ...pageData,
-                type: pageData.type as PageType, // Explicitly map `type` to `PageType` enum
+                type: pageData.type as PageType, // Cast `type` to enum
+                role: pageData.role as UserRole, // Cast `role` to enum
+                difficulty: pageData.difficulty as DifficultyLevel, // Cast `difficulty` to enum
             }}
         >
             {children}
