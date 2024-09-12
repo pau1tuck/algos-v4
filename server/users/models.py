@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from allauth.account.models import EmailAddress
 
 
 class CustomUserManager(BaseUserManager):
@@ -22,7 +23,12 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
 
-        return self.create_user(email, password, **extra_fields)
+        user = self.create_user(email, password, **extra_fields)
+
+        # Automatically verify the superuser's email
+        EmailAddress.objects.create(user=user, email=email, verified=True, primary=True)
+
+        return user
 
 
 class CustomUser(AbstractUser):

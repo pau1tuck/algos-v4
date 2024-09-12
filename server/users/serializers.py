@@ -11,6 +11,7 @@ class CustomLoginSerializer(DefaultLoginSerializer):
     email = serializers.EmailField(required=True)  # Ensure email is required
 
     def get_auth_user(self, username, email, password):
+        print("CustomLoginSerializer is being used")  # Add this line for debugging
         # Override to use email for authentication
         user = authenticate(email=email, password=password)
         return user
