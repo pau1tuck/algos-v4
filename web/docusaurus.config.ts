@@ -34,28 +34,21 @@ const config: Config = {
             "classic",
             {
                 docs: {
-                    sidebarPath: "./sidebars.ts",
+                    sidebarPath: require.resolve("./sidebars.ts"),
                     // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
                     editUrl:
                         "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
                 },
                 blog: {
                     showReadingTime: true,
-                    feedOptions: {
-                        type: ["rss", "atom"],
-                        xslt: true,
-                    },
                     // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
                     editUrl:
                         "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
-                    onUntruncatedBlogPosts: "ignore",
                 },
                 theme: {
                     customCss: [
-                        "./src/theme/styles/custom.css",
-                        "./src/theme/styles/fonts.css",
+                        require.resolve("./src/theme/styles/custom.css"),
+                        require.resolve("./src/theme/styles/fonts.css"),
                     ],
                 },
             } satisfies Preset.Options,
@@ -76,7 +69,14 @@ const config: Config = {
                     type: "docSidebar",
                     sidebarId: "tutorialSidebar",
                     position: "left",
-                    label: "Course",
+                    label: "Default",
+                },
+                {
+                    type: "docSidebar",
+                    sidebarId: "javascriptSidebar",
+                    position: "left",
+                    label: "JavaScript",
+                    docsPluginId: "javascript",
                 },
                 { to: "/blog", label: "Blog", position: "left" },
                 {
@@ -135,8 +135,20 @@ const config: Config = {
             theme: prismThemes.dracula,
             darkTheme: prismThemes.dracula,
         },
-        plugins: ["docusaurus-plugin-sass"],
     } satisfies Preset.ThemeConfig,
+
+    plugins: [
+        "docusaurus-plugin-sass",
+        [
+            "@docusaurus/plugin-content-docs",
+            {
+                id: "javascript",
+                path: "content/course/javascript",
+                routeBasePath: "course/javascript",
+                sidebarPath: require.resolve("./sidebars.ts"),
+            },
+        ],
+    ],
 };
 
 export default config;

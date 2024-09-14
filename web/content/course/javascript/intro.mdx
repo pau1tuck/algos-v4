@@ -1,0 +1,85 @@
+---
+sidebar_position: 1
+---
+
+import TestComponent from "@site/src/components/TestComponent";
+import TrueFalseQuestion from "@site/src/modules/quiz/TrueFalseQuestion";
+import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
+import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
+import Accordion1 from "@site/src/components/Accordion";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Button from "@mui/material/Button";
+import PageWrapper from "@site/src/modules/quiz/components/PageWrapper";
+import {
+    UserRole,
+    DifficultyLevel,
+} from "@site/src/modules/quiz/utils/PageContext"; // Import DifficultyLevel and UserRole
+
+# Test Page
+
+<PageWrapper
+    pageData={{
+        page_id: 1,
+        title: "Test Page",
+        section: "Introduction",
+        module: "Module 1",
+        topic: "Topic 1",
+        order: 1,
+        type: "quiz",
+        role: UserRole.Guest, // Use the UserRole enum here
+        prerequisites: [],
+        difficulty: DifficultyLevel.Junior, // Use the DifficultyLevel enum here
+        pageScore: 0,
+        points: 10,
+        estimatedTime: "5 minutes",
+        tags: ["test", "intro"],
+        relatedPages: [],
+        resources: [],
+        lastAccessed: null,
+        learningObjectives: ["Understand the basics"],
+        coursePathProgress: 0,
+    }}
+/>
+
+<TrueFalseQuestion
+    question="JavaScript is a strongly-typed language."
+    correctAnswer={false}
+    questionId="1"
+    order={1}
+    pointValue={10}
+/>
+<br />
+
+<Accordion1 title="Explanation">
+    Reveal? JavaScript is a weakly-typed language, meaning that variables cannot
+    change __. Low-level languages like C++ and Rust have greater control over
+    the system hardware, like memory and CPU, and so... **Dog**
+</Accordion1>
+
+## Parsing Integers
+
+<MultipleChoiceQuestion
+  question={`
+\`\`\`js
+const date = Number.parseInt("21 February 2024");
+\`\`\`
+
+What is the value of \`date\`?`}
+options={["Null", "21", "NaN", "212024"]}
+correctAnswer={1}
+/>
+
+<ShortAnswerQuestion   question={`
+\`\`\`js
+const array = [1, 2, 3, 4, 5, 6];
+const output = 6 in array;
+\`\`\`
+
+What is the value of \`output\`?`}/>
+
+<TestComponent />
+<br />

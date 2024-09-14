@@ -1222,59 +1222,59 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@biomejs/biome@^1.9.1":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-1.9.1-nightly.12688b6.tgz#422f55871d893f0a5c3e8352248573c943395eb3"
-  integrity sha512-elESSiCb8Vb5fqmpHh08BdVs9Oe4buud3MnATVzSbPHwdBC+b9sXA/XyrsFI5Ut2n8IGzE2ydBTF96hGZASK1w==
+"@biomejs/biome@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-1.9.0.tgz#760d8baa3c428d447177f947fcd7fcf94ea59dca"
+  integrity sha512-NlWh2F1wbxB3O/wE+aohGL0BziTS6e+6+dyFvpdeqLsbQZY7EsiklFb9W5Xs41U4vEmY7ANgdNp+oVDij6sQdA==
   optionalDependencies:
-    "@biomejs/cli-darwin-arm64" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-darwin-x64" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-linux-arm64" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-linux-arm64-musl" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-linux-x64" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-linux-x64-musl" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-win32-arm64" "1.9.1-nightly.12688b6"
-    "@biomejs/cli-win32-x64" "1.9.1-nightly.12688b6"
+    "@biomejs/cli-darwin-arm64" "1.9.0"
+    "@biomejs/cli-darwin-x64" "1.9.0"
+    "@biomejs/cli-linux-arm64" "1.9.0"
+    "@biomejs/cli-linux-arm64-musl" "1.9.0"
+    "@biomejs/cli-linux-x64" "1.9.0"
+    "@biomejs/cli-linux-x64-musl" "1.9.0"
+    "@biomejs/cli-win32-arm64" "1.9.0"
+    "@biomejs/cli-win32-x64" "1.9.0"
 
-"@biomejs/cli-darwin-arm64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-1.9.1-nightly.12688b6.tgz#c62e8bbd572b015307c6b1eb79ad6cc86a91551a"
-  integrity sha512-/yaRK7+yKWIfpPHPK5OX08XP4KD5S+IoHB8jDCSaDF0F+Kze3l8/ZJ3sGof0RQxRX3WCpgSvKStxwe5ou3HRfg==
+"@biomejs/cli-darwin-arm64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-1.9.0.tgz#7003a69888f8711ad4f1b0b49b926c45489cebcd"
+  integrity sha512-2w9v/NRtYSmodx5QWQ49OGcyGKSECdWKbzc7n532Iq5sBhkKk996fd19icT6BuL54f01KFKRCRibAW+A2rg1Kw==
 
-"@biomejs/cli-darwin-x64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-1.9.1-nightly.12688b6.tgz#3b6d3780979d84a8b99c5356322feaab3e44d5b2"
-  integrity sha512-M5Ef14a2w4N0HR0NBLESsmPTa4pM6bWCeJhbgSnz01HYjdSTmCq8Jwa0/CrnR4e2DQZGOwi3CDQwvvtsZSiJMA==
+"@biomejs/cli-darwin-x64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-1.9.0.tgz#b5f4b7b2ed472070d4e7e19e8ca3380fe2288751"
+  integrity sha512-fBVt8jJQi0zX0SJ1C+tdzUbRpuX/07sgtBXEhunWRkPjdi6W/2S1sYHQ1wKn4OKiRAKfHM2Cf2FNO7hQvY61dA==
 
-"@biomejs/cli-linux-arm64-musl@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64-musl/-/cli-linux-arm64-musl-1.9.1-nightly.12688b6.tgz#d95b312630b85eef3c09264988b98e39f79c1c72"
-  integrity sha512-HtGjygRrCJJnp6/0h7PNI+AIQToLws1GfO58nopJhx9muaEG+HofnwT7w8eWlUr7Bmne+oLLLarx9Co0r4hPyQ==
+"@biomejs/cli-linux-arm64-musl@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64-musl/-/cli-linux-arm64-musl-1.9.0.tgz#4459d9f682cf2a322aa432342dfe316922514576"
+  integrity sha512-Jy84mZ4vcppdmWMgQWOCfd8qIVC/vHmlaS5gy7GXkdWlBKSQ56YxEXTU58MHTbZ16LwJQpK2IulqRCC/rqWLBA==
 
-"@biomejs/cli-linux-arm64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-1.9.1-nightly.12688b6.tgz#fdb98708167e5719429893263acf51d5feb94205"
-  integrity sha512-q6H5v8CbYCTk/1Lw0/TcGum6hiw3OsiFichSRGSacCExe+z14KV+3odRDAEhqMYgOqRZ7CRr9elpeNdaXNnJQQ==
+"@biomejs/cli-linux-arm64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-1.9.0.tgz#aa9014b70d64473bc2c8125bd7786c431f78d536"
+  integrity sha512-l8U2lcqsl9yKPP5WUdIrKH//C1pWyM2cSUfcTBn6GSvXmsSjBNEdGSdM4Wfne777Oe/9ONaD1Ga53U2HksHHLw==
 
-"@biomejs/cli-linux-x64-musl@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-1.9.1-nightly.12688b6.tgz#8ac4b1f59cda1c5a9546746e57a231a5102ef761"
-  integrity sha512-XkGHCFuU7nRNefkGOAvOjSz/OumUx1KavVKfHW1kWCXUrelqIhdAGQ6V/gvdBNLVhfjCwWqTYQfs9ZI+oG2viA==
+"@biomejs/cli-linux-x64-musl@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-1.9.0.tgz#f684855b9b1927038c4ee85be2adfedceb84c808"
+  integrity sha512-N3enoFoIrkB6qJWyYfTiYmFdB1R/Mrij1dd1xBHqxxCKZY9GRkEswRX3F1Uqzo5T+9Iu8nAQobDqI/ygicYy/Q==
 
-"@biomejs/cli-linux-x64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-1.9.1-nightly.12688b6.tgz#bca0b1d86b396adedde350c5d5589b322b9992e6"
-  integrity sha512-D2JbMXEv/z5YiLBwmycBYKQd9ZWtpMMDooAlvxfUB8cd7jrmgkf1XHGCSrT4sq+Vpfzg1z7MDMlqS5EtsIGcSA==
+"@biomejs/cli-linux-x64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-1.9.0.tgz#f881b87a4308a687fc36585c6628ea84167734e9"
+  integrity sha512-8jAzjrrJTj510pwq4aVs7ZKkOvEy1D+nzl9DKvrPh4TOyUw5Ie+0EDwXGE2RAkCKHkGNOQBZ78WtIdsATgz5sA==
 
-"@biomejs/cli-win32-arm64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-1.9.1-nightly.12688b6.tgz#cda00268b6c83985ba0e4d3ec1597d33d3d03fbd"
-  integrity sha512-Bc8uxxGEffU6svvWWex6GakXAfL3RWgFhqsnas/OnfjACrl1eBMHiAMfiF3fAoBxJ6VzwOMHg0g+duBM9WTDRA==
+"@biomejs/cli-win32-arm64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-1.9.0.tgz#8904687052c6d14183c7ca6cd52714ed24a4e3e9"
+  integrity sha512-AIjwJTGfdWGMRluSQ9pDB29nzce077dfHh0/HMqzztKzgD3spyuo2R9VoaFpbR0hLHPWEH6g6OxxDO7hfkXNkQ==
 
-"@biomejs/cli-win32-x64@1.9.1-nightly.12688b6":
-  version "1.9.1-nightly.12688b6"
-  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-1.9.1-nightly.12688b6.tgz#ebc97d8dabde4915dd281817a6f31e8be53b52fa"
-  integrity sha512-DbpguaS+hWgcTPqgX9PN5JQCxGHyOhMWIDi3EgtcktGFWLbj70rxaVkLFUWGXyj1GwWI+4qH2/7LlqtQ/SMtkg==
+"@biomejs/cli-win32-x64@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-1.9.0.tgz#cad09608e9bf4183fb0cd98d75f4be7ee32263f3"
+  integrity sha512-4/4wTjNSoyNkm1SzcUaStDx46baX1VJRXtUoeEHjX9LfedR5N3qwZz5KfrRUnCd2fl5bmXK1CwMqKBkoF6zEiA==
 
 "@biomejs/monorepo@biomejs/biome":
   version "0.0.0"
@@ -2201,6 +2201,20 @@
   integrity sha512-9ZrPIU4MGf6et1m1ov3zKf+q9+deetI51zprKB1D/z3NOb+rUxxtEl3mCjW5wTGh6VhRdwPueh1oRzi6ezkA8A==
   dependencies:
     "@types/mdx" "^2.0.0"
+
+"@monaco-editor/loader@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.4.0.tgz#f08227057331ec890fa1e903912a5b711a2ad558"
+  integrity sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.6.0.tgz#bcc68671e358a21c3814566b865a54b191e24119"
+  integrity sha512-RFkU9/i7cN2bsq/iTkurMWOEErmYcY6JiQI3Jn+WeR/FGISH8JbHERjpS9oRuSOPvDMJI0Z8nJeKkbOs9sBYQw==
+  dependencies:
+    "@monaco-editor/loader" "^1.4.0"
 
 "@mui/core-downloads-tracker@^6.0.2":
   version "6.0.2"
@@ -7741,6 +7755,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
+monaco-editor@^0.51.0:
+  version "0.51.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.51.0.tgz#922a6103f6742b5a62fbb097276c5a6619d879db"
+  integrity sha512-xaGwVV1fq343cM7aOYB6lVE4Ugf0UyimdD/x5PWcWBMKENwectaEu77FAN7c5sFiyumqeJdX1RPTh1ocioyDjw==
+
 mrmime@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/mrmime/-/mrmime-2.0.0.tgz#151082a6e06e59a9a39b46b3e14d5cfe92b3abb4"
@@ -9767,6 +9786,11 @@ stack-utils@^2.0.3:
   integrity sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==
   dependencies:
     escape-string-regexp "^2.0.0"
+
+state-local@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 statuses@2.0.1:
   version "2.0.1"
