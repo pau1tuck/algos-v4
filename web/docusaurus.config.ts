@@ -67,16 +67,16 @@ const config: Config = {
             items: [
                 {
                     type: "docSidebar",
-                    sidebarId: "tutorialSidebar",
+                    sidebarId: "javascriptSidebar",
                     position: "left",
-                    label: "Default",
+                    label: "Course",
+                    docsPluginId: "javascript",
                 },
                 {
                     type: "docSidebar",
-                    sidebarId: "javascriptSidebar",
+                    sidebarId: "tutorialSidebar",
                     position: "left",
-                    label: "JavaScript",
-                    docsPluginId: "javascript",
+                    label: "Dojo",
                 },
                 { to: "/blog", label: "Blog", position: "left" },
                 {

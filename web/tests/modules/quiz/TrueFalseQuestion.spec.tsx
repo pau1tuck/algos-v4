@@ -2,7 +2,7 @@
 
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import TrueFalseQuestion from "@site/src/modules/quiz/TrueFalseQuestion";
+import TrueFalseQuestion from "@site/src/modules/quiz/components/TrueFalseQuestion";
 import QuizProvider from "@site/src/modules/quiz/utils/QuizProvider";
 import { useQuizContext } from "@site/src/modules/quiz/utils/useQuizContext";
 import { QuestionStatus } from "@site/src/modules/quiz/types";

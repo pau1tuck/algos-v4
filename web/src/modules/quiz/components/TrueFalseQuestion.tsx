@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/quiz.module.css";
+import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
