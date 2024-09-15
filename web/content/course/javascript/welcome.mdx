@@ -7,17 +7,12 @@ import TrueFalseQuestion from "@site/src/modules/quiz/components/TrueFalseQuesti
 import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
 import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
 import Accordion1 from "@site/src/components/Accordion";
-import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Button from "@mui/material/Button";
 import PageWrapper from "@site/src/modules/quiz/components/PageWrapper";
 import {
     UserRole,
     DifficultyLevel,
-} from "@site/src/modules/quiz/utils/PageContext"; // Import DifficultyLevel and UserRole
+} from "@site/src/modules/quiz/utils/PageContext";
+import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 
 # Welcome (Test Page)
 
@@ -30,9 +25,9 @@ import {
         topic: "Topic 1",
         order: 1,
         type: "quiz",
-        role: UserRole.Guest, // Use the UserRole enum here
+        role: UserRole.Guest,
         prerequisites: [],
-        difficulty: DifficultyLevel.Junior, // Use the DifficultyLevel enum here
+        difficulty: DifficultyLevel.Junior,
         pageScore: 0,
         points: 10,
         estimatedTime: "5 minutes",
@@ -60,6 +55,24 @@ import {
     the system hardware, like memory and CPU, and so... **Dog**
 </Accordion1>
 
+<CodeEditor
+    initialCode={`// Initial code here\nfunction add(a, b) {\n    // Your code here\n}`}
+    testCases={[
+        { input: [1, 2], expected: 3 },
+        { input: [5, 5], expected: 10 },
+    ]}
+    testCode={`function runTest(userCode, testCase) {
+        const { input, expected } = testCase;
+        try {
+            const userFunction = new Function('return ' + userCode)();
+            const result = userFunction(...input);
+            return result === expected ? 'Pass' : 'Fail';
+        } catch (error) {
+            return 'Error';
+        }
+    }`}
+/>
+
 ## Parsing Integers
 
 <MultipleChoiceQuestion
@@ -73,13 +86,15 @@ options={["Null", "21", "NaN", "212024"]}
 correctAnswer={1}
 />
 
-<ShortAnswerQuestion   question={`
+<ShortAnswerQuestion
+  question={`
 \`\`\`js
 const array = [1, 2, 3, 4, 5, 6];
 const output = 6 in array;
 \`\`\`
 
-What is the value of \`output\`?`}/>
+What is the value of \`output\`?`}
+/>
 
 <TestComponent />
 <br />
