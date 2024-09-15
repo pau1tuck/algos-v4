@@ -24,7 +24,7 @@
     "@fontsource/montserrat": "^5.0.19",
     "@fontsource/quicksand": "^5.0.19",
     "@fontsource/roboto": "^5.0.14",
-    "@fontsource/ubuntu-mono": "^5.0.21",
+    "@fontsource/ubuntu-mono": "^5.1.0",
     "@hookform/resolvers": "^3.9.0",
     "@mdx-js/react": "^3.0.0",
     "@monaco-editor/react": "^4.6.0",

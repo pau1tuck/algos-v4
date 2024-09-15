@@ -22,11 +22,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 	minimap = false,
 	initialCode,
 	testCases,
-	testCode: runCode,
+	testCode,
 }) => {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 	const [code, setCode] = useState<string>(initialCode); // State to hold the current code
-	const [enableSubmit, setEnableSubmit] = useState<boolean>(false);
+	const [allowSubmit, setAllowSubmit] = useState<boolean>(false);
 	// const { output, executeCode } = useCodeRunner(); // Commented out for future use
 
 	const options: monaco.editor.IStandaloneEditorConstructionOptions = {
@@ -86,7 +86,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 						type="button"
 						color="success"
 						endIcon={<SendIcon />}
-						disabled={!enableSubmit}
+						disabled={!allowSubmit}
 						onClick={handleTestCode}
 					>
 						Submit

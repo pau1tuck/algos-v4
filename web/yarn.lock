@@ -1959,10 +1959,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-5.0.14.tgz#a3f67e47116309233ff3bba2c3613d2cf0302529"
   integrity sha512-zHAxlTTm9RuRn9/StwclFJChf3z9+fBrOxC3fw71htjHP1BgXNISwRjdJtAKAmMe5S2BzgpnjkQR93P9EZYI/Q==
 
-"@fontsource/ubuntu-mono@^5.0.21":
-  version "5.0.21"
-  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-5.0.21.tgz#a6c8630f1d3c3d86d03edd6ddd6362a9b8db91bc"
-  integrity sha512-QJdyLathCVxb2EY2kW0+cuw13AO2QYLhF08JxjL5STdhm5oZA+mM74ur9VuyaUzQ+5OMTr4fDus0hVyb56t9MQ==
+"@fontsource/ubuntu-mono@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-5.1.0.tgz#748ee1997108fbb7b649014f4c1300a3da6be2c3"
+  integrity sha512-sz2MEGFaT9pab73zBGatJDenDr0PFDxzchhINwIsDAH4/9YMIGXXMfngfClPAT2BXF0ZK5FEBCP/t4EEX/j5Jw==
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
