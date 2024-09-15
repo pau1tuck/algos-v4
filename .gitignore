@@ -1,3 +1,6 @@
+# Files for LLMs
+*.zip
+
 # Logs
 logs
 *.log

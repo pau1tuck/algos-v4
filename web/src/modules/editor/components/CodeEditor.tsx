@@ -1,24 +1,25 @@
 // src/modules/editor/components/CodeEditor.tsx
 import { useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { IStandaloneCodeEditor } from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
-import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner";
+// import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner"; // Eventual hook
 import { Box, Button, ButtonGroup } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { RxReset } from "react-icons/rx";
 import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
 import ScienceIcon from "@mui/icons-material/Science";
 import SendIcon from "@mui/icons-material/Send";
+import { PiX } from "react-icons/pi";
 
 type CodeEditorProps = {
-	minimap: boolean;
+	minimap?: boolean;
 	initialCode: string;
 	testCases: any;
 	testCode: string;
 };
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
-	minimap,
+	minimap = false,
 	initialCode,
 	testCases,
 	testCode: runCode,
@@ -26,16 +27,24 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 	const [code, setCode] = useState<string>(initialCode); // State to hold the current code
 	const [enableSubmit, setEnableSubmit] = useState<boolean>(false);
-	const { output, executeCode } = useCodeRunner();
+	// const { output, executeCode } = useCodeRunner(); // Commented out for future use
+
+	const options: monaco.editor.IStandaloneEditorConstructionOptions = {
+		automaticLayout: true,
+		fontFamily: "'Ubuntu Mono', monospace",
+		fontSize: 16,
+		readOnly: false,
+		minimap: { enabled: minimap },
+	};
 
 	const handleEditorDidMount = (editor: any) => {
 		editorRef.current = editor;
 		console.log("Editor mounted:", editor);
 	};
 
-	const handleTestCode = async () => {
+	const handleTestCode = () => {
 		const userCode = editorRef.current.getValue();
-		await executeCode(userCode, testCases, runCode);
+		console.log("Test code after user entry:", userCode);
 	};
 
 	const handleResetCode = () => {
@@ -43,11 +52,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		if (editorRef.current) {
 			editorRef.current.setValue(initialCode); // Reset the editor's content
 		}
-	};
-
-	const options = {
-		readOnly: false,
-		minimap: { enabled: minimap },
+		console.log("Editor reset to initial code.");
 	};
 
 	return (
@@ -87,16 +92,17 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 						Submit
 					</Button>
 					{/*<LoadingButton loading variant="outlined">
-						Submit
-					</LoadingButton>*/}
+                        Submit
+                    </LoadingButton>*/}
 				</ButtonGroup>
 			</Box>
-			{output && (
-				<div>
-					<h3>Output:</h3>
-					<pre>{output}</pre>
-				</div>
-			)}
+			{/* Commenting out the output display for now */}
+			{/* {output && (
+                <div>
+                    <h3>Output:</h3>
+                    <pre>{output}</pre>
+                </div>
+            )} */}
 		</div>
 	);
 };
