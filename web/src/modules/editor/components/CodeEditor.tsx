@@ -50,10 +50,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		minimap: { enabled: minimap },
 	};
 
-	if (globalThis.eslint) {
-		console.log("ESLint rules:", globalThis.eslint.getRules());
-	}
-
 	return (
 		<div>
 			<Editor

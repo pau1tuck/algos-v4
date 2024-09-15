@@ -1,4 +1,1 @@
-{
-	"eslint.workingDirectories": ["./web"],
-	"biome.configPath": "/path/to/your/web/biome.json"
-}
+{}

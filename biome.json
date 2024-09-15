@@ -28,7 +28,10 @@
 				"noDefaultExport": "off",
 				"useNamingConvention": "warn"
 			},
-			"suspicious": {},
+			"suspicious": {
+				"noExplicitAny": "warn",
+				"noConsoleLog": "info"
+			},
 			"a11y": {
 				"all": false
 			},
