@@ -28,11 +28,7 @@
 				"noDefaultExport": "off",
 				"useNamingConvention": "warn"
 			},
-			"suspicious": {
-				"noConsoleLog": "warn",
-				"noExplicitAny": "off"
-
-			},
+			"suspicious": {},
 			"a11y": {
 				"all": false
 			},
