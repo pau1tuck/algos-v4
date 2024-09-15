@@ -29,7 +29,9 @@
 				"useNamingConvention": "warn"
 			},
 			"suspicious": {
-				"noConsoleLog": "warn"
+				"noConsoleLog": "warn",
+				"noExplicitAny": "off"
+
 			},
 			"a11y": {
 				"all": false

@@ -1,3 +1,4 @@
+// src/modules/auth/components/GoogleButton.tsx
 import React from "react";
 import { Button, SvgIcon } from "@mui/material";
 

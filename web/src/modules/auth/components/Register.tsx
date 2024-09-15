@@ -1,3 +1,4 @@
+// src/modules/auth/components/Register.tsx
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
