@@ -30,6 +30,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
 	const handleEditorDidMount = (editor: any) => {
 		editorRef.current = editor;
+		console.log("Editor mounted:", editor);
 	};
 
 	const handleTestCode = async () => {
