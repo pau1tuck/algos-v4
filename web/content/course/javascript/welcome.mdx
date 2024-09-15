@@ -55,8 +55,11 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
     the system hardware, like memory and CPU, and so... **Dog**
 </Accordion1>
 
+<br />
+
 <CodeEditor
-    initialCode={`// Initial code here\nfunction add(a, b) {\n    // Your code here\n}`}
+    minimap={false}
+    initialCode={`function sum(a, b) {\n    // Your code here\n}`}
     testCases={[
         { input: [1, 2], expected: 3 },
         { input: [5, 5], expected: 10 },

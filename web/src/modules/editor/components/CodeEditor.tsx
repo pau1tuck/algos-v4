@@ -1,29 +1,39 @@
-import Editor from "@monaco-editor/react";
-import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner";
 // src/modules/editor/components/CodeEditor.tsx
-import type React from "react";
+import type type yfrom "react";
+import pe yfrom "react";
+import pe yfrom "react";
+import pe efrom "react";
+import act from "react";
 import { useRef, useState } from "react";
+import Editor from "@monaco-editor/react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner";
 
 type CodeEditorProps = {
+    minimap: boolean;
     initialCode: string;
     testCases: any[]; // Adjust type as needed
     testCode: string;
 };
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
+    minimap,
     initialCode,
     testCases,
     testCode: runCode,
 }) => {
     const editorRef = useRef<any>(null);
-    const [code, setCode] = useState(initialCode); // State to hold the current code
+    const [code, setCode] = useState<string>(initialCode); // State to hold the current code
+    const [enableSubmit, setEnableSubmit] = useState<boolean>(false);
     const { output, executeCode } = useCodeRunner();
 
     const handleEditorDidMount = (editor: any) => {
         editorRef.current = editor;
     };
 
-    const handleRunTests = async () => {
+    const handleTestCode = async () => {
         const userCode = editorRef.current.getValue();
         await executeCode(userCode, testCases, runCode);
     };
@@ -35,24 +45,48 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         }
     };
 
+    const options = {
+        readOnly: false,
+        minimap: { enabled: minimap },
+    };
+
+    // Ensure the component returns JSX directly here
     return (
         <div>
             <Editor
-                height="80vh"
+                height="60vh"
                 defaultLanguage="javascript"
-                value={code} // Use the code state
+                theme="vs-light" // or "vs-dark"
+                options={options}
+                value={code}
                 onMount={handleEditorDidMount}
             />
-            <button type="button" onClick={handleRunTests}>
-                Run Tests
-            </button>
-            <button type="button" onClick={handleResetCode}>
-                Reset Code
-            </button>
-            <div>
-                <h3>Output:</h3>
-                <pre>{output}</pre>
-            </div>
+            <Box display="flex" justifyContent="flex-end" mt={5}>
+                <ButtonGroup
+                    variant="outlined"
+                    aria-label="Basic button group"
+                >
+                    <Button type="button" onClick={handleResetCode}>
+                        Reset
+                    </Button>
+                    <Button type="button" onClick={handleTestCode}>
+                        Test Code
+                    </Button>
+                    <Button
+                        type="button"
+                        disabled={!enableSubmit}
+                        onClick={handleTestCode} // This might need a different function if it's meant for submission
+                    >
+                        Submit
+                    </Button>
+                </ButtonGroup>
+            </Box>
+            {output && (
+                <div>
+                    <h3>Output:</h3>
+                    <pre>{output}</pre>
+                </div>
+            )}
         </div>
     );
 };
