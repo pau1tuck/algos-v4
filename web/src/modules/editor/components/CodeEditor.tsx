@@ -2,9 +2,13 @@
 import { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import type * as monaco from "monaco-editor";
+import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner";
 import { Box, Button, ButtonGroup } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import useCodeRunner from "@site/src/modules/editor/utils/useCodeRunner";
+import { RxReset } from "react-icons/rx";
+import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
+import ScienceIcon from "@mui/icons-material/Science";
+import SendIcon from "@mui/icons-material/Send";
 
 type CodeEditorProps = {
 	minimap: boolean;
@@ -55,24 +59,35 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 				value={code}
 				onMount={handleEditorDidMount}
 			/>
-			<Box display="flex" justifyContent="flex-end" mt={5}>
+			<Box display="flex" justifyContent="flex-end" mt={5} mr={4}>
 				<ButtonGroup variant="outlined" aria-label="Basic button group">
-					<Button type="button" onClick={handleResetCode}>
+					<Button
+						type="button"
+						color="error"
+						startIcon={<RestartAltRoundedIcon />}
+						onClick={handleResetCode}
+					>
 						Reset
-					</Button>
-					<Button type="button" onClick={handleTestCode}>
-						Test Code
 					</Button>
 					<Button
 						type="button"
+						startIcon={<ScienceIcon />}
+						onClick={handleTestCode}
+					>
+						Test
+					</Button>
+					<Button
+						type="button"
+						color="success"
+						endIcon={<SendIcon />}
 						disabled={!enableSubmit}
-						onClick={handleTestCode} // This might need a different function if it's meant for submission
+						onClick={handleTestCode}
 					>
 						Submit
 					</Button>
-					<LoadingButton loading variant="outlined">
+					{/*<LoadingButton loading variant="outlined">
 						Submit
-					</LoadingButton>
+					</LoadingButton>*/}
 				</ButtonGroup>
 			</Box>
 			{output && (
