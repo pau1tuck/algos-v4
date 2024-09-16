@@ -40,6 +40,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		autoClosingOvertype: "auto",
 		autoClosingQuotes: "beforeWhitespace",
 		autoIndent: "advanced",
+		bracketPairColorization: {
+			enabled: true,
+			independentColorPoolPerBracketType: true,
+		},
 		fontFamily: "'Ubuntu Mono', monospace",
 		fontSize: 16,
 		minimap: { enabled: minimap },
@@ -48,10 +52,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		wordBasedSuggestions: "allDocuments",
 		wordBasedSuggestionsOnlySameLanguage: true,
 		// autoSurround?: EditorAutoSurroundStrategy;
-		bracketPairColorization: {
-			enabled: true,
-			independentColorPoolPerBracketType: true,
-		},
 		// codeLens?: boolean;
 		// codeLensFontFamily?: string;
 		// codeLensFontSize?: number;
