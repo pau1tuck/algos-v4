@@ -7,14 +7,14 @@ const useCodeRunner = () => {
 
 	const executeCode = async (
 		userCode: string,
-		testCases: any[],
+		testCases: any[], // FIXME: string[] | number[] | boolean[] |object[]
 		testCode: string,
 	) => {
 		try {
 			const response = await axios.post(
 				"http://localhost:8000/api/coderunner",
 				{
-					user_code: userCode,
+					user_code: userCode, // FIXME: camelCase object keys?
 					test_cases: testCases,
 					run_code: testCode,
 				},
