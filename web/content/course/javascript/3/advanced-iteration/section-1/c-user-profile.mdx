@@ -1,10 +1,12 @@
 ---
-sidebar_label: C User Summary
+sidebar_label: C User Profile Summary
 ---
+
+import {Blue} from "@site/src/components/Highlights";
 
 # Alternative `for` Loops
 
-## Challenge: User Summary
+## Challenge: User Profile Summary
 
 (Introduction)
 
@@ -16,15 +18,34 @@ sidebar_label: C User Summary
 
 ### Instructions
 
--   Given an object representing user data (e.g., name, email, etc.), iterate over the properties and display a formatted user profile summary using `for...in`.
+Given a JavaScript object containing basic profile data (e.g., name, email, etc.), iterate over its properties and display a formatted summary.
 
 #### Input
 
+A `user` <Blue>**object**</Blue> containing user profile data.
+
+```JavaScript
+const user = {
+    name: "John Doe",
+    email: "jdoe@me.com",
+    phone: "555-555-5555",
+}
+```
+
+
 #### Output
 
-#### Example
+A <Blue>**string**</Blue> containing a formatted, multiline summary of the user's profile data.
+```JavaScript
+John Doe
+jdoe@me.com
+555-555-5555
+```
 
 #### Notes
+
+- You should use a `for...in` loop to iterate through the object's properties.
+- You will need to use template literals to format the output.
 
 #### Constraints
 
@@ -35,3 +56,5 @@ sidebar_label: C User Summary
 ### Editor
 
 ### Solution
+
+### Enhancements
