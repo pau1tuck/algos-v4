@@ -1,25 +1,71 @@
-/* You can override the default Infima variables here. */
+/* src/theme/styles/custom.css */
 
+/* Light mode variables */
 :root {
-    --ifm-color-primary: #2e8555;
-    --ifm-color-primary-dark: #29784c;
-    --ifm-color-primary-darker: #277148;
-    --ifm-color-primary-darkest: #205d3b;
-    --ifm-color-primary-light: #33925d;
-    --ifm-color-primary-lighter: #359962;
-    --ifm-color-primary-lightest: #3cad6e;
-    --ifm-code-font-size: 100%;
-    --docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+	--ifm-color-primary: #2e8555;
+	--ifm-color-primary-dark: #29784c;
+	--ifm-color-primary-darker: #277148;
+	--ifm-color-primary-darkest: #205d3b;
+	--ifm-color-primary-light: #33925d;
+	--ifm-color-primary-lighter: #359962;
+	--ifm-color-primary-lightest: #3cad6e;
+	--docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+
+	/* Custom colors for text */
+	--text-color: #2a2e36; /* Body text color */
+	--heading-color: #23272f; /* Heading color */
+	--code-bg-color: #ffffff;
+	--code-text-color: #2a2e36;
+	--inline-code-bg-color: #f2f2f2;
+	--inline-code-text-color: #2d3436;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark mode overrides */
 [data-theme="dark"] {
-    --ifm-color-primary: #25c2a0;
-    --ifm-color-primary-dark: #21af90;
-    --ifm-color-primary-darker: #1fa588;
-    --ifm-color-primary-darkest: #1a8870;
-    --ifm-color-primary-light: #29d5b0;
-    --ifm-color-primary-lighter: #32d8b4;
-    --ifm-color-primary-lightest: #4fddbf;
-    --docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+	--ifm-color-primary: #25c2a0;
+	--ifm-color-primary-dark: #21af90;
+	--ifm-color-primary-darker: #1fa588;
+	--ifm-color-primary-darkest: #1a8870;
+	--ifm-color-primary-light: #29d5b0;
+	--ifm-color-primary-lighter: #32d8b4;
+	--ifm-color-primary-lightest: #4fddbf;
+	--docusaurus-highlighted-code-line-bg: rgba(253, 117, 117, 0.1);
+
+	/* Dark mode custom colors */
+	--text-color: #f2f2f2; /* Light body text color */
+	--heading-color: #e8e8e8; /* Light heading color */
+	--code-bg-color: #2a2e36;
+	--code-text-color: #f2f2f2;
+	--inline-code-bg-color: #333333;
+	--inline-code-text-color: #e8e8e8;
+}
+
+/* Code Blocks */
+pre {
+	border-radius: 12px; /* Subtle rounded corners */
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05), /* Lighter shadow for a softer effect */
+		0 10px 20px rgba(0, 0, 0, 0.05); /* More blurred, lighter shadow for depth */
+	background-color: var(--code-bg-color) !important; /* Use variable for background color */
+	color: var(--code-text-color); /* Use variable for text color */
+	padding: 1rem; /* Padding for spacing */
+	margin: 1rem 0; /* Margin for separation */
+	overflow: auto; /* Ensure long code does not overflow */
+	border: 0 solid #e5e7eb; /* Very subtle or no border */
+}
+
+/* Inline Code */
+:not(pre) > code {
+	background-color: var(--inline-code-bg-color); /* Use variable for inline code background */
+	color: var(--inline-code-text-color); /* Use variable for inline code text */
+	margin: 0 2px;
+	padding: 2px 4px;
+	border-radius: 3px;
+	font-family: var(--ifm-font-family-monospace);
+	font-size: 1rem;
+	font-weight: 500;
+	transition: background-color 0.2s ease-in-out;
+}
+
+:not(pre) > code:hover {
+	background-color: #e8e8e8;
 }

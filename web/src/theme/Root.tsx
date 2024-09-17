@@ -11,7 +11,9 @@ import "@fontsource/quicksand/500.css";
 import "@fontsource/lora/400.css";
 import "@fontsource/lora/600.css";
 import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/600.css";
+import "@fontsource/montserrat/700.css";
 import "@fontsource/ubuntu-mono/400.css";
 import "@fontsource/ubuntu-mono/700.css";
 
