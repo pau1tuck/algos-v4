@@ -1,3 +1,4 @@
+// docusaurus.config.ts
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
@@ -44,6 +45,7 @@ const config: Config = {
 					// Please change this to your repo.
 					editUrl:
 						"https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+					onUntruncatedBlogPosts: "ignore",
 				},
 				theme: {
 					customCss: [
@@ -146,6 +148,12 @@ const config: Config = {
 				path: "content/course/javascript",
 				routeBasePath: "course/javascript",
 				sidebarPath: require.resolve("./sidebars.ts"),
+			},
+		],
+		[
+			"@docusaurus/plugin-content-blog",
+			{
+				onUntruncatedBlogPosts: "ignore",
 			},
 		],
 	],
