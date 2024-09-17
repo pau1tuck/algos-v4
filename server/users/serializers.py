@@ -1,30 +1,26 @@
-from dj_rest_auth.serializers import LoginSerializer as DefaultLoginSerializer
-from dj_rest_auth.registration.serializers import (
-    RegisterSerializer as DefaultRegisterSerializer,
-)
+# server/users/serializers.py
+
 from rest_framework import serializers
-from django.contrib.auth import authenticate
+from dj_rest_auth.serializers import LoginSerializer as DefaultLoginSerializer
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class CustomLoginSerializer(DefaultLoginSerializer):
-    username = None  # Remove the username field
-    email = serializers.EmailField(required=True)  # Ensure email is required
-
-    def get_auth_user(self, username, email, password):
-        print("CustomLoginSerializer is being used")  # Add this line for debugging
-        # Override to use email for authentication
-        user = authenticate(email=email, password=password)
-        return user
-
-
-class CustomRegisterSerializer(DefaultRegisterSerializer):
-    username = None  # Remove the username field
-    email = serializers.EmailField(required=True)  # Ensure email is required
-
-    def save(self, request):
-        user = super().save(request)
-        user.username = user.email.split("@")[
-            0
-        ]  # Set username to part before @ in email
-        user.save()
-        return user
+    def validate(self, attrs):
+        print("CustomLoginSerializer validate method called")  # Add this line
+        data = super().validate(attrs)
+        user = self.user
+        data.update(
+            {
+                "user": {
+                    "id": user.id,
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    # Add other fields as needed
+                }
+            }
+        )
+        return data

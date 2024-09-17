@@ -19,11 +19,11 @@ const LoginPage = () => {
 					password,
 				},
 			);
-			const { token, user } = response.data;
-			// Store the token and user data in local storage or state
-			localStorage.setItem("token", token);
+			const { key, user } = response.data; // Access the "key" and "user" fields from the response
+			// Store the key and user data in local storage or state
+			localStorage.setItem("token", key);
 			localStorage.setItem("user", JSON.stringify(user));
-			console.log("Login successful", user, "\nToken:", token);
+			console.log("Login successful, Key:", key, "User:", user);
 			return true;
 		} catch (error) {
 			console.error("Login failed", error);

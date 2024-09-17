@@ -37,7 +37,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 		resolver: yupResolver(schema),
 	});
 
-	// TYPE: data <any>
 	const onSubmit = async (data) => {
 		try {
 			const success = await onLogin(data.email, data.password);
@@ -47,8 +46,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 					message: "Invalid email address or password",
 				});
 			}
-			// If successful, navigation should be handled by the parent component
-			// TYPE: Error <any>
 		} catch (err) {
 			setError("root", {
 				type: "manual",
@@ -119,6 +116,11 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 									autoComplete="current-password"
 									error={!!errors.password}
 									helperText={errors.password?.message}
+									onKeyDown={(e) => {
+										if (e.key === "Enter") {
+											handleSubmit(onSubmit)();
+										}
+									}}
 								/>
 							)}
 						/>

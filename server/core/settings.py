@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    # PACKAGES
+    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
@@ -45,39 +47,21 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    # APPS
     "users",
     "coderunner",
 ]
 
-# Add these settings
-SITE_ID = 1
-AUTH_USER_MODEL = "users.CustomUser"
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # For development
-DEFAULT_FROM_EMAIL = "webmaster@localhost"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_ADAPTER = "users.adapters.CustomAccountAdapter"
-
-REST_AUTH_SERIALIZERS = {
-    "LOGIN_SERIALIZER": "users.serializers.CustomLoginSerializer",
-}
-REST_AUTH_REGISTER_SERIALIZERS = {
-    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
-}
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # CORS HEADERS MIDDLEWARE
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
+    "allauth.account.middleware.AccountMiddleware",  # ALLAUTH MIDDLEWARE
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -100,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -110,7 +93,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -129,6 +111,27 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+SITE_ID = 1
+AUTH_USER_MODEL = "users.CustomUser"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # For development
+DEFAULT_FROM_EMAIL = "webmaster@localhost"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_ADAPTER = "users.adapters.CustomAccountAdapter"
+
+REST_AUTH_SERIALIZERS = {
+    "LOGIN_SERIALIZER": "users.serializers.CustomLoginSerializer",
+}
 
 
 # Internationalization
