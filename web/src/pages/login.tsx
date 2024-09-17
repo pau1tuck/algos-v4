@@ -8,10 +8,10 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 
-const cookies = new Cookies();
-const history = useHistory();
-
 const LoginPage = () => {
+	const history = useHistory();
+	const cookies = new Cookies();
+
 	const dummyOnLogin = async (
 		email: string,
 		password: string,
