@@ -131,6 +131,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 						)}
 						<Button
 							type="submit"
+							size="large"
 							fullWidth
 							variant="contained"
 							sx={{ mt: 3, mb: 1 }}

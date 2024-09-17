@@ -77,8 +77,8 @@ export default function NavbarContent(): JSX.Element {
 			right={
 				<>
 					<NavbarItems items={rightItems} />
-					<NavbarAuth />
 					<NavbarColorModeToggle className={styles.colorModeToggle} />
+					<NavbarAuth />
 					{!searchBarItem && (
 						<NavbarSearch>
 							<SearchBar />

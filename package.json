@@ -1,5 +1,13 @@
 {
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.0"
-  }
+	"name": "algobeast",
+	"version": "1.4.0",
+	"author": {
+		"name": "Paul Tuck",
+		"email": "paul.tuck@oxon.org",
+		"url": "https://github.com/pau1tuck"
+	},
+	"license": "UNLICENSED",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.0"
+	}
 }

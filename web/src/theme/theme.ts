@@ -71,7 +71,7 @@ const theme = createTheme({
 					fontWeight: 600,
 				},
 				contained: {
-					height: "48px",
+					// height: "48px",
 					color: "#fff",
 					"&:hover": {
 						color: "#fff",

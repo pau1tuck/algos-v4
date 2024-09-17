@@ -1,11 +1,14 @@
 // src/modules/auth/components/buttons/LoginButton.tsx
 import React from "react";
 import Link from "@docusaurus/Link";
+import { Button } from "@mui/material";
 
 const LoginButton = () => {
 	return (
-		<Link to="/login">
-			<button>Login</button>
+		<Link to="/login" style={{ textDecoration: "none" }}>
+			<Button variant="text" size="medium" color="primary" sx={{ ml: 2 }}>
+				Log in
+			</Button>
 		</Link>
 	);
 };
