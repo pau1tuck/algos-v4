@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import Layout from "@theme/Layout";
 
 const cookies = new Cookies();
 
@@ -32,7 +33,11 @@ const ProfilePage = () => {
 			});
 	}, []);
 
-	return <div>Welcome, {userName}.</div>;
+	return (
+		<Layout>
+			<div>Welcome, {userName}.</div>{" "}
+		</Layout>
+	);
 };
 
 export default ProfilePage;
