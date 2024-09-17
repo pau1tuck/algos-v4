@@ -1,4 +1,9 @@
 /* src/theme/styles/fonts.css */
+:root {
+	--ifm-font-family-body: "Montserrat", sans-serif;
+	--ifm-font-family-monospace: "Ubuntu Mono", monospace;
+}
+
 h1,
 h2,
 h3,
@@ -11,13 +16,9 @@ h6 {
 }
 
 body {
-	font-family: "Montserrat", sans-serif;
+	font-family: var(--ifm-font-family-body);
 	font-weight: 500;
 	color: var(--text-color); /* Use variable for body text color */
-}
-
-:root {
-	--ifm-font-family-monospace: "Ubuntu Mono", monospace;
 }
 
 code {

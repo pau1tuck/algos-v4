@@ -1,15 +1,22 @@
 // src/redux/store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import quizReducer from "./slices/quizSlice"; // Existing quiz slice
-import userProgressReducer from "./slices/userProgressSlice"; // Import userProgress slice
+import quizReducer from "./slices/quizSlice";
+import userProgressReducer from "./slices/userProgressSlice";
+import authReducer from "./slices/authSlice"; // Import auth slice
+import { useDispatch } from "react-redux"; // Import useDispatch
 
 const store = configureStore({
-    reducer: {
-        quiz: quizReducer, // Existing quiz logic
-        userProgress: userProgressReducer, // User progress
-    },
+	reducer: {
+		quiz: quizReducer, // Existing quiz logic
+		userProgress: userProgressReducer, // User progress
+		auth: authReducer, // Add auth slice
+	},
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// Custom hook to use throughout the app
+export const useAppDispatch: () => AppDispatch = useDispatch;
+
 export default store;

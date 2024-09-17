@@ -1,43 +1,28 @@
-// src/pages/login.tsx
-
 import React from "react";
 import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
-import axios from "axios";
-import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch } from "@site/src/redux/store"; // Adjust path as needed
+import { loginUser } from "@site/src/redux/slices/authSlice";
 
 const LoginPage = () => {
 	const history = useHistory();
-	const cookies = new Cookies();
+	const dispatch = useAppDispatch(); // Use custom hook
 
-	const dummyOnLogin = async (
+	const handleLogin = async (
 		email: string,
 		password: string,
 	): Promise<boolean> => {
-		try {
-			const response = await axios.post(
-				"http://localhost:8000/api/users/login/",
-				{
-					email,
-					password,
-				},
-			);
-			const { key } = response.data; // Access the "key" field from the response
-			// Store the key in a secure cookie
-			cookies.set("token", key, {
-				path: "/",
-				secure: true,
-				sameSite: "strict",
-			});
-			console.log("Login successful, Key:", key);
-			history.push("/user/profile"); // Redirect to profile page
+		const resultAction = await dispatch(loginUser({ email, password }));
+
+		if (loginUser.fulfilled.match(resultAction)) {
+			history.push("/user/profile");
 			return true;
-		} catch (error) {
-			console.error("Login failed", error);
-			return false;
 		}
+
+		console.error("Login failed", resultAction.payload);
+		return false;
 	};
 
 	const dummyGoogleLogin = () => {
@@ -56,10 +41,7 @@ const LoginPage = () => {
 					justifyContent: "center",
 				}}
 			>
-				<Login
-					onLogin={dummyOnLogin}
-					onGoogleLogin={dummyGoogleLogin}
-				/>
+				<Login onLogin={handleLogin} onGoogleLogin={dummyGoogleLogin} />
 			</Box>
 		</Layout>
 	);
