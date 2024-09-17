@@ -4,6 +4,13 @@ from django.utils.translation import gettext_lazy as _
 from allauth.account.models import EmailAddress
 
 
+class Role(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -37,6 +44,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField("Last name", max_length=64, blank=True)
     email = models.EmailField(_("email address"), unique=True)
     country = models.CharField(max_length=64, blank=True)
+    roles = models.ManyToManyField(Role, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=True)

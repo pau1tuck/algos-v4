@@ -12,7 +12,7 @@ const ProfilePage = () => {
 		console.log("Retrieved token from cookies:", token); // Log the token to ensure it's being retrieved
 
 		axios
-			.get("http://localhost:8000/api/users/user/", {
+			.get("http://localhost:8000/api/users/me", {
 				headers: {
 					Authorization: `Token ${token}`, // Use 'Token' prefix for dj_rest_auth (No JWT prefix)
 				},

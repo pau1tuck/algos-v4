@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Role
 
 
 class CustomUserAdmin(UserAdmin):
@@ -27,6 +27,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
+                    "roles",  # Add roles here
                     "groups",
                     "user_permissions",
                 )
@@ -49,6 +50,7 @@ class CustomUserAdmin(UserAdmin):
                     "country",
                     "is_staff",
                     "is_active",
+                    "roles",  # Add roles here as well
                 ),
             },
         ),
@@ -59,3 +61,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Role)
