@@ -1,84 +1,28 @@
-The Algobeast project is a comprehensive software development initiative focused on creating an interactive learning platform. The project is structured to be scalable and maintainable, with a clear separation between frontend and backend components. Below is a detailed explanation of the technologies, frameworks, and tools used in the development stage of the Algobeast project:
-
-### Project Overview
-- **Purpose**: Enhance the learning experience through interactive coding challenges, quizzes, and gamification elements.
-- **Structure**: Modular development with clear separation between frontend and backend.
-
-### Technologies, Frameworks, and Tools
-
-#### Frontend
-1. **React**:
-   - **Usage**: Core framework for building the user interface.
-   - **State Management**: Utilizes hooks, Context API, and [Redux](https://redux.js.org/) for managing global and local states.
-   - **Components**: Includes various components like `CodeEditor`, `TrueFalseQuestion`, `MultipleChoiceQuestion`, and `ShortAnswerQuestion`.
-
-2. **Docusaurus**:
-   - **Usage**: [Static site generator](https://docusaurus.io/) optimized for documentation.
-   - **Configuration**: Managed in `docusaurus.config.ts`, enabling features like theming, plugin usage, and sidebar generation.
-   - **Documentation**: Used for maintaining and updating course materials, challenges, and quizzes.
-
-3. **Monaco Editor**:
-   - **Usage**: Provides a rich, [VS Code](https://code.visualstudio.com/)-like experience for coding challenges.
-   - **Integration**: Integrated into React via `[@monaco-editor/react](https://www.npmjs.com/package/@monaco-editor/react)`.
-   - **Features**: Syntax highlighting, IntelliSense, and customizable options.
-
-4. **Material-UI**:
-   - **Usage**: Provides UI components like buttons and icons.
-   - **Integration**: Used for consistent and responsive design.
-
-5. **MDX**:
-   - **Usage**: Allows embedding React components inside [Markdown](https://daringfireball.net/projects/markdown/) for interactive documentation.
-
-6. **Yarn**:
-   - **Usage**: [Package manager](https://yarnpkg.com/) for managing dependencies and scripts.
-
-#### Backend
-1. **Django**:
-   - **Usage**: Core framework for the backend.
-   - **Components**: Manages user authentication, data storage, and serves REST APIs.
-   - **Configuration**: Key files include `manage.py`, `core/settings.py`, and `core/urls.py`.
-
-2. **Django REST Framework**:
-   - **Usage**: For creating and managing [APIs](https://www.redhat.com/en/topics/api/what-are-application-programming-interfaces).
-   - **Security**: Ensures secure communication with the frontend using token-based authentication.
-
-3. **Node.js**:
-   - **Usage**: Environment for running user-submitted code.
-   - **Containerization**: Utilizes [Docker](https://www.docker.com/) to create isolated containers for secure code execution.
-
-4. **Docker**:
-   - **Usage**: [Containerization tool](https://www.docker.com/) to securely run user code, preventing potential security risks.
-   - **Integration**: Ensures security and isolation when running user-submitted code.
-
-#### Additional Tools and Practices
-1. **Jest**:
-   - **Usage**: For unit testing and ensuring component integrity.
-   - **Configuration**: Managed via `jest.config.js` and `jest.setup.js`.
-
-2. **Gamification Elements**:
-   - **Usage**: Points, badges, and levels are integrated to make the learning process engaging and motivating.
-
-3. **Analytics**:
-   - **Planned**: Implement analytics to track user progress and engagement for personalized feedback and recommendations.
-
-4. **AI Integration**:
-   - **Planned**: Integrate [OpenAI's ChatGPT API](https://platform.openai.com/docs/api-reference/chat) for providing generative feedback and suggestions on the user's code.
-
-### Summary of Choices and Implementations
-- **Monaco Editor**: Chosen for its powerful features and seamless integration with React.
-- **Django Backend**: Offers a reliable and secure framework for handling user data and serving API endpoints.
-- **Containerized Code Execution**: Ensures security and isolation when running user-submitted code.
-- **Gamification Elements**: Integrated to make the learning process engaging and motivating.
-- **State Management**: Implemented using Redux and Context API for effective state management.
-- **REST APIs**: Facilitates secure communication between the frontend and backend.
-- **Docusaurus for Documentation**: Provides an easy way to maintain and update course materials.
-
-### Next Steps and Improvements
-- **Enhancing Code Execution Feedback**: Improve the frontend to provide more detailed feedback from code execution results.
-- **User Analytics**: Implement analytics to track user progress and engagement.
-- **AI Integration**: Integrate OpenAI's ChatGPT API for enhanced learning experiences.
-- **Scalability and Performance**: Optimize the containerized environment for efficient handling of multiple concurrent executions.
-- **Content Expansion**: Continue adding more modules, sections, and challenges to cover a broader range of topics and difficulty levels.
-
-This comprehensive setup ensures a robust, scalable, and engaging learning platform for users.
-        
+Kanban Board Topics:
+[Branding]
+[Landing Page](https://www.notion.so/Landing-Page-bd65ae8922314cf08991db024dedb079?pvs=21)
+[User Dashboard](https://www.notion.so/User-Dashboard-84f3c8f3009043469bc421b6f56934e9?pvs=21)
+[Dark Mode](https://www.notion.so/Dark-Mode-7b601b3ec33a4ac9abdd5c3930e37dfb?pvs=21)
+[Settings](https://www.notion.so/Settings-d23f9d787c834190b3a120e353099bba?pvs=21)
+[Reordering Question](https://www.notion.so/Reordering-Question-87c02ee077db48b2af371dbd7ac0fc4a?pvs=21)
+[Notifications](https://www.notion.so/Notifications-39ff2f67025e4479886bf8ef332e5455?pvs=21)
+[Sound Effects](https://www.notion.so/Sound-Effects-d33418dabfe7490f840febaa19801c53?pvs=21)
+[Badges and Rewards](https://www.notion.so/Badges-and-Rewards-8e16b80a14734fe6b2464a59fa5e2a2b?pvs=21)
+[Translation and Localisation](https://www.notion.so/Translation-and-Localisation-98bb95fa58fe4ae7b89639afa45b9ec5?pvs=21)
+[H5P Interactive Presentation](https://www.notion.so/H5P-Interactive-Presentation-d4f501ad09404ee99033c2b7e959b179?pvs=21)
+[Character](https://www.notion.so/Character-badd97c170dc44d6ae4c876ef7dd2735?pvs=21)
+[Gapfill Question](https://www.notion.so/Gapfill-Question-53f7e35655e84b3f87093b209640630c?pvs=21)
+[Challenge Dojo](https://www.notion.so/Challenge-Dojo-2b12b33e50004280b5919ebbde514ff4?pvs=21)
+[Sidebar](https://www.notion.so/Sidebar-b1426ba8dd32406ba8fc49a768538523?pvs=21)
+[Page Access Logic](https://www.notion.so/Page-Access-Logic-b50783fddb9c456ea634e4e47497a960?pvs=21)
+[Basic Question Types](https://www.notion.so/Basic-Question-Types-d28af8ecc34948d8b466aadadbe6c838?pvs=21)
+[CSS Styling](https://www.notion.so/CSS-Styling-5a234b5fc93e4e5dba966f5811c3275d?pvs=21)
+[Page Context](https://www.notion.so/Page-Context-6478a88411994da8b7734ca5fbf2eec7?pvs=21)
+[Testing and Quality Assurance](https://www.notion.so/Testing-and-Quality-Assurance-26b2f51e42c34ca0a76ad71332e92cb7?pvs=21)
+[User Authentication](https://www.notion.so/User-Authentication-de3c11a3df9b45ff9562fc166a1a0688?pvs=21)
+[Navbar](https://www.notion.so/Navbar-281c525d18664c90ae3e54d3410aa8bd?pvs=21)
+[Interactive Coding Environment](https://www.notion.so/Interactive-Coding-Environment-7ebe9e0f3aa24b1185b2dca8e4218ba1?pvs=21)
+[Tasks](https://www.notion.so/Tasks-6430bc0dac10430a8619cd0bc81039e5?pvs=21)
+[Redux Global State](https://www.notion.so/Redux-Global-State-5defd3acd44648f3a446187b7811e244?pvs=21)
+[Quiz Context](https://www.notion.so/Quiz-Context-6d7a3cbfd8fb442095ec082abacdcb1b?pvs=21)
+[Solution Accordion](https://www.notion.so/Solution-Accordion-6eba9584e6da440f8082797b48cde2ce?pvs=21)

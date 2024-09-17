@@ -7,16 +7,16 @@ const useCodeRunner = () => {
 
 	const executeCode = async (
 		userCode: string,
-		testCases: any[], // FIXME: string[] | number[] | boolean[] |object[]
+		testCases: any[], // FIXME: any[] type
 		testCode: string,
 	) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/api/coderunner",
+				"http://localhost:8000/api/coderunner/execute/",
 				{
-					user_code: userCode, // FIXME: camelCase object keys?
+					user_code: userCode, // FIXME: camelCase or snake_case?
 					test_cases: testCases,
-					run_code: testCode,
+					test_code: testCode,
 				},
 			);
 			setOutput(response.data.output);
