@@ -5,6 +5,9 @@ import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const LoginPage = () => {
 	const dummyOnLogin = async (
@@ -19,11 +22,14 @@ const LoginPage = () => {
 					password,
 				},
 			);
-			const { key, user } = response.data; // Access the "key" and "user" fields from the response
-			// Store the key and user data in local storage or state
-			localStorage.setItem("token", key);
-			localStorage.setItem("user", JSON.stringify(user));
-			console.log("Login successful, Key:", key, "User:", user);
+			const { key } = response.data; // Access the "key" field from the response
+			// Store the key in a secure cookie
+			cookies.set("token", key, {
+				path: "/",
+				secure: true,
+				sameSite: "strict",
+			});
+			console.log("Login successful, Key:", key);
 			return true;
 		} catch (error) {
 			console.error("Login failed", error);

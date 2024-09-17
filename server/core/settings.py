@@ -129,11 +129,6 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_ADAPTER = "users.adapters.CustomAccountAdapter"
 
-REST_AUTH_SERIALIZERS = {
-    "LOGIN_SERIALIZER": "users.serializers.CustomLoginSerializer",
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
