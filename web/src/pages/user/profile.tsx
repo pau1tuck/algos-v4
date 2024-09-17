@@ -1,12 +1,14 @@
 // src/pages/user/profile.tsx
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
 const ProfilePage = () => {
+	const [userName, setUserName] = useState<string>("");
+
 	useEffect(() => {
 		const token = cookies.get("token");
 		console.log("Retrieved token from cookies:", token); // Log the token to ensure it's being retrieved
@@ -19,6 +21,9 @@ const ProfilePage = () => {
 			})
 			.then((response) => {
 				console.log("Response data:", response.data);
+				setUserName(
+					`${response.data.first_name} ${response.data.last_name}`,
+				);
 			})
 			.catch((error) => {
 				console.error("Error fetching user data:", error.response); // Log the response object
@@ -27,7 +32,7 @@ const ProfilePage = () => {
 			});
 	}, []);
 
-	return <div />;
+	return <div>Welcome, {userName}.</div>;
 };
 
 export default ProfilePage;

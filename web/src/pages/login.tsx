@@ -1,3 +1,5 @@
+// src/pages/login.tsx
+
 import React from "react";
 import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
@@ -14,9 +16,11 @@ const LoginPage = () => {
 		email: string,
 		password: string,
 	): Promise<boolean> => {
+		console.log("Dispatching loginUser thunk with:", { email, password }); // Log dispatch
 		const resultAction = await dispatch(loginUser({ email, password }));
 
 		if (loginUser.fulfilled.match(resultAction)) {
+			console.log("Login successful, redirecting to profile"); // Log redirection
 			history.push("/user/profile");
 			return true;
 		}
