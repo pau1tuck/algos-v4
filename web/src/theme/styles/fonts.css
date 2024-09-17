@@ -28,16 +28,5 @@ code {
 pre,
 pre code {
 	font-family: var(--ifm-font-family-monospace) !important;
-	font-size: 1.1rem !important;
-}
-
-:not(pre) > code {
-	background-color: var(--inline-code-bg-color); /* Use variable for inline code background */
-	color: var(--inline-code-text-color); /* Use variable for inline code text */
-	margin: 0 2px;
-	padding: 2px 4px;
-	border-radius: 3px;
-	font-family: "Ubuntu Mono", monospace;
-	font-size: 1rem;
-	font-weight: 500;
+	font-size: 1rem !important;
 }
