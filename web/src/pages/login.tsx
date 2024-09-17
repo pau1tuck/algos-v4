@@ -6,8 +6,10 @@ import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { useHistory } from "react-router-dom";
 
 const cookies = new Cookies();
+const history = useHistory();
 
 const LoginPage = () => {
 	const dummyOnLogin = async (
@@ -30,6 +32,7 @@ const LoginPage = () => {
 				sameSite: "strict",
 			});
 			console.log("Login successful, Key:", key);
+			history.push("/user/profile"); // Redirect to profile page
 			return true;
 		} catch (error) {
 			console.error("Login failed", error);
