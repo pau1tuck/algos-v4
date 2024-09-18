@@ -40,7 +40,7 @@ const ProfilePage = () => {
 			axios
 				.get("http://localhost:8000/api/users/me", {
 					headers: {
-						Authorization: `Token ${token}`,
+						Authorization: `Token ${token}`, // LINT: useNamingConvention
 					},
 				})
 				.then((response) => {

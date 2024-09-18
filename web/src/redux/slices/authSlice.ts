@@ -59,7 +59,7 @@ const authSlice = createSlice({
 	reducers: {
 		logout: (state) => {
 			const cookies = new Cookies();
-			cookies.remove("token");
+			cookies.remove("token", { path: "/" }); // Ensure correct options
 			state.isAuthenticated = false;
 			state.user = null;
 		},

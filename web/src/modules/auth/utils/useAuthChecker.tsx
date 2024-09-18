@@ -1,5 +1,5 @@
 // src/modules/auth/utils/useAuthChecker.tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setUser, logout } from "@site/src/redux/slices/authSlice";
@@ -7,9 +7,10 @@ import type { RootState } from "@site/src/redux/store";
 
 const useAuthChecker = () => {
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector(
+	const [isLoading, setIsLoading] = useState(true); // Add loading state
+	/* const isAuthenticated = useSelector(
 		(state: RootState) => state.auth.isAuthenticated,
-	);
+	); */
 
 	useEffect(() => {
 		const checkAuth = async () => {
@@ -22,6 +23,7 @@ const useAuthChecker = () => {
 
 				if (!token) {
 					console.log("No token found, user is not authenticated");
+					setIsLoading(false); // Mark loading as complete
 					return;
 				}
 
@@ -32,7 +34,6 @@ const useAuthChecker = () => {
 					"http://localhost:8000/api/users/me",
 					{
 						headers: {
-							// biome-ignore lint: style/useNamingConvention: dj_rest_auth requires this naming
 							Authorization: `Token ${token}`,
 						},
 					},
@@ -46,14 +47,17 @@ const useAuthChecker = () => {
 				}
 			} catch (error) {
 				console.error("Error validating token:", error);
-				// If there's an error, make sure we clear the auth state
 				dispatch(logout());
+			} finally {
+				setIsLoading(false); // Ensure loading state is updated
 			}
 		};
 
-		// Always run checkAuth to set the state correctly on initial load
+		// Run checkAuth to set the state correctly on initial load
 		checkAuth();
-	}, [dispatch, isAuthenticated]);
+	}, [dispatch]);
+
+	return isLoading;
 };
 
 export default useAuthChecker;
