@@ -1,13 +1,17 @@
 // src/modules/auth/components/buttons/UserAvatarButton.tsx
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch } from "react-redux";
 import { logout } from "@site/src/redux/slices/authSlice";
+import Link from "@docusaurus/Link"; // Import Docusaurus Link
+import { useHistory } from "react-router-dom"; // Import useHistory for navigation
 
 interface UserAvatarButtonProps {
 	user: {
+		// biome-ignore lint: style/useNamingConvention: Django and dj_rest_auth require this naming
 		first_name: string;
 		// Include other user properties if necessary
 	};
@@ -16,6 +20,7 @@ interface UserAvatarButtonProps {
 const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const dispatch = useDispatch();
+	const history = useHistory(); // Initialize useHistory
 
 	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -29,6 +34,7 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 	const handleLogout = () => {
 		dispatch(logout());
 		handleMenuClose();
+		history.push("/"); // Redirect to the home page after logging out
 	};
 
 	return (
@@ -41,7 +47,14 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 				open={Boolean(anchorEl)}
 				onClose={handleMenuClose}
 			>
-				<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+				<MenuItem onClick={handleMenuClose}>
+					<Link
+						to="/user/profile"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
+						Profile
+					</Link>
+				</MenuItem>
 				<MenuItem onClick={handleLogout}>Logout</MenuItem>
 			</Menu>
 		</>
