@@ -1,4 +1,5 @@
-// redux/slices/authSlice.ts
+// src/redux/slices/authSlice.ts
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -15,6 +16,7 @@ export const loginUser = createAsyncThunk(
 	"auth/loginUser",
 	async (
 		{ email, password }: { email: string; password: string },
+		// biome-ignore lint: style/useNamingConvention: Redux Toolkit requires this naming
 		thunkAPI,
 	) => {
 		try {
@@ -61,6 +63,12 @@ const authSlice = createSlice({
 			state.isAuthenticated = false;
 			state.user = null;
 		},
+		// New reducer to directly set user state
+		setUser: (state, action: PayloadAction<any>) => {
+			state.isAuthenticated = true;
+			state.user = action.payload;
+			state.error = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -77,5 +85,5 @@ const authSlice = createSlice({
 	},
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 export default authSlice.reducer;
