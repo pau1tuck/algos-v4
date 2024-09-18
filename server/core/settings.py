@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # PACKAGES
+    "debug_toolbar",
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
@@ -48,13 +49,14 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     # APPS
-    "users",
+    "users.apps.UsersConfig",
     "coderunner",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "corsheaders.middleware.CorsMiddleware",  # CORS HEADERS MIDDLEWARE
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -62,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # ALLAUTH MIDDLEWARE
+    "core.middleware.RequestResponseLoggingMiddleware",  # LOGGING
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -110,6 +113,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -183,17 +190,47 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": False,  # Keep existing loggers active
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
+            "formatter": "simple",  # Use 'simple' for cleaner output
         },
     },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",  # Suppress unnecessary logs
+    },
     "loggers": {
+        # Log HTTP requests
         "django.request": {
             "handlers": ["console"],
-            "level": "DEBUG",  # Change to 'INFO' for less verbose output
-            "propagate": True,
+            "level": "INFO",  # Logs requests and errors
+            "propagate": False,
+        },
+        # Log database queries
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "INFO",  # Set to 'DEBUG' to see SQL queries
+            "propagate": False,
+        },
+        # Log authentication and security events
+        "django.security": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        # Logger for your 'users' app to capture user activity
+        "users": {
+            "handlers": ["console"],
+            "level": "INFO",  # Use 'DEBUG' for more details
+            "propagate": False,
         },
     },
 }
