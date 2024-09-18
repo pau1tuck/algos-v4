@@ -51,10 +51,8 @@ const useAuthChecker = () => {
 			}
 		};
 
-		// Only check if not already authenticated
-		if (!isAuthenticated) {
-			checkAuth();
-		}
+		// Always run checkAuth to set the state correctly on initial load
+		checkAuth();
 	}, [dispatch, isAuthenticated]);
 };
 

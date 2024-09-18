@@ -1,7 +1,7 @@
 // src/modules/auth/components/buttons/UserAvatarButton.tsx
 import type React from "react";
 import { useState } from "react";
-import Avatar from "@mui/material/Avatar";
+import { Avatar, Box } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch } from "react-redux";
@@ -39,9 +39,11 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 
 	return (
 		<>
-			<Avatar onClick={handleMenuOpen}>
-				{user.first_name.charAt(0)}
-			</Avatar>
+			<Box sx={{ cursor: "pointer" }}>
+				<Avatar onClick={handleMenuOpen}>
+					{user.first_name.charAt(0)}
+				</Avatar>
+			</Box>
 			<Menu
 				anchorEl={anchorEl}
 				open={Boolean(anchorEl)}

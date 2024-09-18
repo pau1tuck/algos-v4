@@ -1,8 +1,11 @@
+// src/theme/Root.tsx
 import React from "react";
 import type { ReactNode } from "react";
 // Import React Redux provider and global store
 import { Provider } from "react-redux";
 import store from "@site/src/redux/store";
+// Import authentication checker hook
+import useAuthChecker from "@site/src/modules/auth/utils/useAuthChecker";
 // Import Material UI theme provider
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
@@ -21,10 +24,17 @@ interface RootProps {
 	children: ReactNode;
 }
 
+const AuthCheckerWrapper = ({ children }: { children: ReactNode }) => {
+	useAuthChecker(); // Check authentication on app load
+	return <>{children}</>;
+};
+
 const Root = ({ children }: RootProps) => {
 	return (
 		<Provider store={store}>
-			<ThemeProvider theme={theme}>{children}</ThemeProvider>
+			<ThemeProvider theme={theme}>
+				<AuthCheckerWrapper>{children}</AuthCheckerWrapper>
+			</ThemeProvider>
 		</Provider>
 	);
 };
