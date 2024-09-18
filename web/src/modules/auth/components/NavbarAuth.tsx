@@ -4,15 +4,13 @@ import useAuthState from "@site/src/modules/auth/utils/useAuthState";
 import LoginButton from "./buttons/LoginButton";
 import SignUpButton from "./buttons/SignUpButton";
 import UserAvatarButton from "@site/src/modules/user/components/buttons/UserAvatarButton";
+import Loading from "@site/src/components/Loading";
 
 const NavbarAuth = () => {
 	const { isLoading, isAuthenticated, user } = useAuthState();
 
-	console.log("isAuthenticated state:", isAuthenticated);
-	console.log("User state:", user);
-
 	if (isLoading) {
-		return <div>Loading...</div>; // Show loading state
+		return <Loading />;
 	}
 
 	return (
