@@ -48,7 +48,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		fontSize: 16,
 		minimap: { enabled: minimap },
 		readOnly: false,
-		"semanticHighlighting.enabled": true,
 		wordBasedSuggestions: "allDocuments",
 		wordBasedSuggestionsOnlySameLanguage: true,
 		// autoSurround?: EditorAutoSurroundStrategy;
@@ -174,14 +173,14 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 		// selectOnLineNumbers?: boolean;
 		// selectionClipboard?: boolean;
 		// selectionHighlight?: boolean;
-		// semanticHighlighting.enabled?: boolean | "configuredByTheme";
+		"semanticHighlighting.enabled": true,
 		// showDeprecated?: boolean;
 		// showFoldingControls?: "always" | "never" | "mouseover";
 		// showUnused?: boolean;
 		// smartSelect?: ISmartSelectOptions;
 		// smoothScrolling?: boolean;
 		// snippetSuggestions?: "none" | "top" | "bottom" | "inline";
-		// stablePeek?: boolean;
+		stablePeek: true,
 		// stickyScroll?: IEditorStickyScrollOptions;
 		// stickyTabStops?: boolean;
 		// stopRenderingLineAfter?: number;
