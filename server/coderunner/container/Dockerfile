@@ -1,7 +1,7 @@
-#  /server/coderunner/container/Dockerfile
+# /server/coderunner/container/Dockerfile
 
-# Use the official Node.js image
-FROM node:14
+# Use the most lightweight Node.js image based on Alpine Linux
+FROM node:lts-alpine
 
 # Create a working directory
 WORKDIR /usr/src/app

@@ -48,6 +48,7 @@ class CodeRunnerView(APIView):
                 container_output = container.logs().decode("utf-8")
                 logger.info(f"Container output: {container_output}")
 
+                # Return the captured output to the user
                 return Response({"output": container_output}, status=status.HTTP_200_OK)
             except Exception as e:
                 logger.error(f"Error during container execution: {e}")
