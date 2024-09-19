@@ -2,6 +2,7 @@
 
 # Files for LLMs
 *.zip
+.DS_Store
 
 # Logs
 logs
