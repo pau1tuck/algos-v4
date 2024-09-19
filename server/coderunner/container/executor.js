@@ -62,14 +62,14 @@ function runUserCodeAndTests(setupCode, userCode, testCases) {
 			}
 		});
 
-		const summary = results.every((result) => result.result === "Passed")
+		const result = results.every((result) => result.result === "Passed")
 			? "PASSED"
 			: "FAILED";
 
-		return { summary, details: results };
+		return { result, details: results };
 	} catch (error) {
 		return {
-			summary: "FAILED",
+			result: "FAILED",
 			details: [{ error: error.message }],
 		};
 	}
