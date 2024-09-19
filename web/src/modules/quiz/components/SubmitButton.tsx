@@ -1,4 +1,4 @@
-// src/modules/quiz/components/SubmitButton.jsx
+//web/src/modules/quiz/components/SubmitButton.jsx
 import React from "react";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 const SubmitButton = () => {
 	const { page_id, questions, calculatePageScore } = usePageContext();
-	const { isAuthenticated } = useAuthState();
+	const { isAuthenticated } = useAuthState(true);
 	const history = useHistory();
 	const dispatch = useAppDispatch(); // Use the custom hook here
 

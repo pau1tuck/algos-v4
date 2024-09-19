@@ -27,6 +27,7 @@ export const fetchUserProgress = createAsyncThunk(
 );
 
 // Save user progress to the backend
+// Save user progress to the backend
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgressState) => {
@@ -35,17 +36,39 @@ export const saveUserProgress = createAsyncThunk(
 
 		const response = await axios.post(
 			"http://localhost:8000/api/gameplay/user-progress",
-			userProgress,
+			{
+				xp: userProgress.xp, // Send XP to the backend
+				points: userProgress.points, // Send points
+				health: userProgress.health, // Send health
+				difficulty:
+					userProgress.pages.length > 0
+						? userProgress.pages[0].difficulty
+						: null, // Example: Assuming difficulty is part of page data
+				completed_pages: userProgress.pages.map((page) => page.page_id), // Sending the list of completed pages
+				completed_questions: userProgress.pages.flatMap((page) =>
+					page.questions.map((question) => ({
+						question_id: question.id,
+						correct: question.correct,
+					})),
+				), // Sending completed questions, flattened
+				current_page:
+					userProgress.pages.find((page) => !page.completed)
+						?.page_id || null, // Sending the last uncompleted page, if any
+				current_module:
+					userProgress.pages.find((page) => !page.completed)
+						?.module || null, // Sending the last uncompleted module
+			},
 			{
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Token ${token}`,
+					Authorization: `Token ${token}`, // Token for authentication
 				},
 			},
 		);
-		if (!response.ok) {
+
+		if (!response.status || response.status !== 200) {
 			throw new Error("Failed to save user progress");
 		}
-		return await response.data;
+		return response.data;
 	},
 );

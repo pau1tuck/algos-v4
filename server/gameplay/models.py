@@ -1,5 +1,44 @@
 # /server/gameplay/models.py
 from django.db import models
+from django.contrib.auth.models import User
+from content.models import QuestionData  # Assuming QuestionData is in content.models
+from .models import SkillLevel, Rank
+
+
+class UserProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to the user
+    xp = models.PositiveIntegerField(default=0)  # Total XP earned by the user
+    points = models.PositiveIntegerField(default=0)  # Total points earned
+    health = models.PositiveIntegerField(default=100)  # Current health of the user
+    coins = models.PositiveBigIntegerField(default=0)  # Coins earned by the user
+
+    # Foreign keys to SkillLevel and Rank
+    skill_level = models.ForeignKey(SkillLevel, on_delete=models.SET_NULL, null=True)
+    rank = models.ForeignKey(Rank, on_delete=models.SET_NULL, null=True)
+
+    # Track completed pages, questions, and challenges as JSON or List
+    completed_pages = models.JSONField(default=list)  # List of completed page IDs
+    completed_questions = models.ManyToManyField(
+        QuestionData, related_name="completed_questions"
+    )  # Many-to-many with QuestionData
+    completed_challenges = models.JSONField(
+        default=list
+    )  # List of completed challenge IDs
+
+    # Track current progress
+    current_page = models.PositiveIntegerField(
+        null=True, blank=True
+    )  # Last uncompleted page
+    current_module = models.CharField(
+        max_length=100, null=True, blank=True
+    )  # Last opened module
+
+    last_completed = models.DateTimeField(
+        auto_now=True
+    )  # Timestamp of the last completion
+
+    def __str__(self):
+        return f"{self.user.username}'s Progress"
 
 
 class SkillLevel(models.Model):

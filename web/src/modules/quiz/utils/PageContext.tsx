@@ -41,7 +41,7 @@ export interface QuestionStatusProps {
     completionTime: Date | null; // When the question was completed */;
 }
 
-// Define the shape of the PageContext, making some fields optional
+// Define the shape of the PageContext
 export interface PageContextProps {
 	page_id: number;
 	title: string;
