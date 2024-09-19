@@ -27,7 +27,8 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
         topic: "Topic 1",
         order: 1,
         type: "quiz",
-        role: UserRole.Guest,
+        role: UserRole.Admin,
+        requiresAuth: false, // New field to indicate if authentication is required
         prerequisites: [],
         difficulty: DifficultyLevel.Junior,
         pageScore: 0,

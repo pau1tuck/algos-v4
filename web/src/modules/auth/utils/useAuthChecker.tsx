@@ -1,21 +1,19 @@
 // src/modules/auth/utils/useAuthChecker.tsx
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser, logout } from "@site/src/redux/slices/authSlice";
-import type { RootState } from "@site/src/redux/store";
 
 const useAuthChecker = () => {
 	const dispatch = useDispatch();
-	const [isLoading, setIsLoading] = useState(true); // Add loading state
-	/* const isAuthenticated = useSelector(
-		(state: RootState) => state.auth.isAuthenticated,
-	); */
+	const [isLoading, setIsLoading] = useState(true);
+	const [checkedAuth, setCheckedAuth] = useState(false); // New state to track if auth has been checked
 
 	useEffect(() => {
 		const checkAuth = async () => {
+			if (checkedAuth) return; // Avoid repeated checks
+
 			try {
-				// Retrieve token from cookies
 				const token = document.cookie
 					.split("; ")
 					.find((row) => row.startsWith("token="))
@@ -23,13 +21,13 @@ const useAuthChecker = () => {
 
 				if (!token) {
 					console.log("No token found, user is not authenticated");
-					setIsLoading(false); // Mark loading as complete
+					setIsLoading(false);
+					setCheckedAuth(true); // Mark auth as checked
 					return;
 				}
 
 				console.log("Retrieved token from cookies:", token);
 
-				// Call the user info endpoint to validate the token
 				const response = await axios.get(
 					"http://localhost:8000/api/users/me",
 					{
@@ -41,7 +39,6 @@ const useAuthChecker = () => {
 
 				console.log("User info response:", response.data);
 
-				// If successful, update the Redux state directly
 				if (response.status === 200) {
 					dispatch(setUser(response.data));
 				}
@@ -49,13 +46,13 @@ const useAuthChecker = () => {
 				console.error("Error validating token:", error);
 				dispatch(logout());
 			} finally {
-				setIsLoading(false); // Ensure loading state is updated
+				setIsLoading(false);
+				setCheckedAuth(true); // Ensure loading state is updated
 			}
 		};
 
-		// Run checkAuth to set the state correctly on initial load
 		checkAuth();
-	}, [dispatch]);
+	}, [dispatch, checkedAuth]);
 
 	return isLoading;
 };

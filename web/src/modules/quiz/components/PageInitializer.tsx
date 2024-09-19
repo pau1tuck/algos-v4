@@ -1,4 +1,4 @@
-// src/modules/quiz/components/PageWrapper.tsx
+// src/modules/quiz/components/PageInitializer.tsx
 import type React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -12,10 +12,10 @@ import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
 import SubmitButton from "@site/src/modules/quiz/components/SubmitButton";
-import usePageAuthorization from "@site/src/modules/auth/utils/usePageAuthorization"; // Import the hook
+import usePageAuthorization from "@site/src/modules/auth/utils/usePageAuthorization";
 import { useHistory } from "react-router-dom";
 
-interface PageWrapperProps {
+interface PageInitializerProps {
 	pageData: {
 		page_id: number;
 		title: string;
@@ -25,6 +25,7 @@ interface PageWrapperProps {
 		order: number;
 		type: string;
 		role: string;
+		requiresAuth: boolean; // New field to indicate if authentication is required
 		prerequisites: number[];
 		difficulty: string;
 		pageScore: number;
@@ -38,7 +39,7 @@ interface PageWrapperProps {
 	children: React.ReactNode;
 }
 
-const PageInitializer: React.FC<PageWrapperProps> = ({
+const PageInitializer: React.FC<PageInitializerProps> = ({
 	pageData,
 	children,
 }) => {
@@ -47,11 +48,11 @@ const PageInitializer: React.FC<PageWrapperProps> = ({
 	const history = useHistory();
 
 	// Check if the user is authorized to access this page
-	const isAuthorized = usePageAuthorization(pageData.role as UserRole);
+	const isAuthorized = usePageAuthorization(pageData.role as UserRole, pageData.requiresAuth);
 
 	useEffect(() => {
 		if (!isAuthorized) {
-			history.push("/unauthorized"); // Redirect to an unauthorized page or login
+			history.push(pageData.requiresAuth ? "/login" : "/unauthorized");
 			return;
 		}
 
@@ -73,7 +74,7 @@ const PageInitializer: React.FC<PageWrapperProps> = ({
 
 		console.log("Dispatching page progress to Redux:", pageProgress);
 		dispatch(updatePageProgress(pageProgress));
-	}, [isAuthorized, questions, calculatePageScore, dispatch, pageData]);
+	}, [isAuthorized, questions, calculatePageScore, dispatch, pageData, history]);
 
 	if (!isAuthorized) {
 		return <div>Loading...</div>; // Show a loading or unauthorized message

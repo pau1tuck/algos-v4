@@ -6,7 +6,7 @@ import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch } from "@site/src/redux/store"; // Adjust path as needed
-import { loginUser } from "@site/src/redux/slices/authSlice";
+import { loginUser } from "@site/src/redux/thunks/authThunk";
 
 const LoginPage = () => {
 	const history = useHistory();
