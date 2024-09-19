@@ -1,19 +1,11 @@
 // src/modules/quiz/utils/PageProvider.tsx
-import React, { useReducer, useCallback } from "react";
-import {
-	DifficultyLevel,
-	PageContext,
+import type React from "react";
+import { useReducer, useCallback } from "react";
+import { DifficultyLevel, PageContext, PageType, QuestionStatus, UserRole } from "@site/src/modules/quiz/utils/PageContext";
+import type {
 	PageContextProps,
 	QuestionStatusProps,
-	QuestionStatus,
-	PageType, // Import PageType
-	UserRole, // Import UserRole
-} from "./PageContext";
-
-/* LearningObjectives: Store the learning objectives for the page.
-Tags: Reflect tags associated with the page for filtering or categorization.
-Difficulty: Capture and use this in user progress to tailor difficulty-related achievements.
-PageScore and Points: Reflect the points and score directly tied to this page in UserProgress. */
+} from "@site/src/modules/quiz/utils/PageContext";
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -27,20 +19,21 @@ type PageState = {
 type PageAction =
 	| { type: "REGISTER_QUESTION"; payload: QuestionStatusProps }
 	| {
-			type: "UPDATE_QUESTION_STATUS";
-			payload: { id: number; updates: Partial<QuestionStatusProps> };
-	  }
+		type: "UPDATE_QUESTION_STATUS";
+		payload: { id: number; updates: Partial<QuestionStatusProps> };
+	}
 	| { type: "RESET_PAGE" };
 
-// Reducer function to handle page state changes
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION:
+			console.log("Registering question:", action.payload);
 			return {
 				...state,
 				questions: [...state.questions, action.payload],
 			};
 		case UPDATE_QUESTION_STATUS:
+			console.log("Updating question status:", action.payload);
 			return {
 				...state,
 				questions: state.questions.map((question) =>
@@ -50,6 +43,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				),
 			};
 		case RESET_PAGE:
+			console.log("Resetting page state");
 			return {
 				...state,
 				questions: state.questions.map((question) => ({
@@ -64,21 +58,17 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 };
 
 export const PageProvider: React.FC<{
-	pageData?: Partial<PageContextProps>; // pageData can be partial and optional
+	pageData?: Partial<PageContextProps>;
 	children: React.ReactNode;
 }> = ({ children, pageData = {} }) => {
-	// Provide a default empty object for pageData
-	// Define default values for missing properties
 	const {
-		page_id = 0, // Default page_id to 0
+		page_id = 0,
 		title = "",
 		module = "",
 		section = "",
 		topic = "",
 		order = 0,
 		type = PageType.Quiz,
-		// authCheck = true,
-		// role = [],
 		role = UserRole.Guest,
 		prerequisites = [],
 		difficulty = DifficultyLevel.Junior,
@@ -96,15 +86,13 @@ export const PageProvider: React.FC<{
 	} = pageData;
 
 	const [state, dispatch] = useReducer(pageReducer, {
-		questions, // Initialize questions array
+		questions,
 	});
 
-	// Register a question with the page context
 	const registerQuestion = useCallback((question: QuestionStatusProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
 	}, []);
 
-	// Update a specific question's status
 	const updateQuestionStatus = useCallback(
 		(id: number, updates: Partial<QuestionStatusProps>) => {
 			dispatch({
@@ -115,14 +103,14 @@ export const PageProvider: React.FC<{
 		[],
 	);
 
-	// Calculate the total score based on correct answers
 	const calculatePageScore = useCallback(() => {
-		return state.questions.reduce((totalScore, question) => {
+		const totalScore = state.questions.reduce((totalScore, question) => {
 			return question.correct ? totalScore + question.value : totalScore;
 		}, 0);
+		console.log("Calculated page score:", totalScore);
+		return totalScore;
 	}, [state.questions]);
 
-	// Reset the page state
 	const resetPage = useCallback(() => {
 		dispatch({ type: RESET_PAGE });
 	}, []);

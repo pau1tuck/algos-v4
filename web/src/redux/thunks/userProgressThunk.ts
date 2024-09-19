@@ -1,51 +1,56 @@
 // src/redux/thunks/userProgressThunk.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import Cookies from "universal-cookie";
 import type { UserProgressState } from "@site/src/redux/types";
 
-// Fetch user progress from the backend
+// Fetch user progress (dummy implementation)
 export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
 	async () => {
-		const cookies = new Cookies();
-		const token = cookies.get("token");
-
-		const response = await axios.get(
-			"http://localhost:8000/api/gameplay/user-progress",
-			{
-				headers: {
-					Authorization: `Token ${token}`,
+		const dummyProgress: UserProgressState = {
+			pages: [
+				{
+					page_id: 1,
+					completed: true,
+					score: 20,
+					lastAccessed: new Date().toISOString(),
+					questions: [
+						{ id: 1, status: "Complete", correct: true },
+						{ id: 2, status: "Complete", correct: false },
+					],
 				},
-			},
+			],
+			totalScore: 20,
+			xp: 50,
+			points: 50,
+			health: 100,
+			skill: "novice",
+			profession: "developer",
+			rank: "beginner",
+		};
+
+		console.log(
+			"Dummy fetchUserProgress called, returning dummy data:",
+			dummyProgress,
 		);
-		if (!response.ok) {
-			throw new Error("Failed to fetch user progress");
-		}
-		return await response.data;
+
+		return new Promise<UserProgressState>((resolve) => {
+			setTimeout(() => {
+				resolve(dummyProgress);
+			}, 1000); // Simulate network delay
+		});
 	},
 );
 
-// Save user progress to the backend
+// Save user progress (dummy implementation)
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgressState) => {
-		const cookies = new Cookies();
-		const token = cookies.get("token");
+		console.log("Dummy saveUserProgress called with data:", userProgress);
 
-		const response = await axios.post(
-			"http://localhost:8000/api/gameplay/user-progress",
-			userProgress,
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Token ${token}`,
-				},
-			},
-		);
-		if (!response.ok) {
-			throw new Error("Failed to save user progress");
-		}
-		return await response.data;
+		return new Promise<UserProgressState>((resolve) => {
+			setTimeout(() => {
+				resolve(userProgress);
+			}, 1000); // Simulate network delay
+		});
 	},
 );

@@ -7,7 +7,6 @@ import {
 	saveUserProgress,
 } from "@site/src/redux/thunks/userProgressThunk";
 
-// Initial state with additional properties for XP, points, health, etc.
 const initialState: UserProgressState = {
 	pages: [],
 	totalScore: 0,
@@ -19,12 +18,10 @@ const initialState: UserProgressState = {
 	rank: "beginner",
 };
 
-// userProgressSlice with new actions and extra reducers for thunks
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
-		// Action to update progress for a specific page
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const existingPage = state.pages.find(
 				(page) => page.page_id === action.payload.page_id,
@@ -33,9 +30,11 @@ const userProgressSlice = createSlice({
 			if (existingPage) {
 				// Update the existing page's progress
 				Object.assign(existingPage, action.payload);
+				console.log("Updated existing page progress:", existingPage);
 			} else {
 				// Add new page progress
 				state.pages.push(action.payload);
+				console.log("Added new page progress:", action.payload);
 			}
 
 			// Recalculate total score
@@ -43,6 +42,7 @@ const userProgressSlice = createSlice({
 				(total, page) => total + page.score,
 				0,
 			);
+			console.log("Recalculated total score:", state.totalScore);
 
 			// Example XP and points calculation
 			state.xp += action.payload.score; // Adding page score to XP
@@ -51,10 +51,12 @@ const userProgressSlice = createSlice({
 
 		updateUserHealth: (state, action: PayloadAction<number>) => {
 			state.health += action.payload;
+			console.log("Updated user health:", state.health);
 		},
 
 		updateSkillLevel: (state, action: PayloadAction<string>) => {
 			state.skill = action.payload;
+			console.log("Updated skill level:", state.skill);
 		},
 
 		resetUserProgress: (state) => {
@@ -65,12 +67,13 @@ const userProgressSlice = createSlice({
 			state.health = 100;
 			state.skill = "novice";
 			state.rank = "beginner";
+			console.log("User progress reset");
 		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchUserProgress.fulfilled, (state, action) => {
-				// Populate the state with data fetched from the backend
+				console.log("Fetched user progress:", action.payload);
 				return { ...state, ...action.payload };
 			})
 			.addCase(saveUserProgress.fulfilled, (state) => {
