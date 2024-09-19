@@ -5,68 +5,76 @@ const vm = require("vm");
 
 // Uncomment the following lines when using with Django API
 // const userCode = process.env.USER_CODE;
+// const setupCode = process.env.SETUP_CODE;
 // const testCases = JSON.parse(process.env.TEST_CASES);
-// const testCode = process.env.TEST_CODE;
 
 // For testing locally without Django API
-const userCode = `function add(a, b) { return a + b; }`;
+// Local test data
+const userCode = `function add(arr) { return arr.reduce((a, b) => a + b, 0); }`;
+const setupCode = `
+function main(input) {
+    return add(...input);
+}
+`;
 const testCases = [
-	{ input: [2, 3], expected: 5 },
-	{ input: [0, 0], expected: 0 },
-	{ input: [-1, 1], expected: 0 },
+	{ input: [[2, 3]], expected: 5 },
+	{ input: [[0, 0]], expected: 0 },
+	{ input: [[-1, 1]], expected: 0 },
 ];
-const testCode = `
-function runTests(userFunction, testCases) {
-    const results = [];
-    for (const testCase of testCases) {
-        const { input, expected } = testCase;
-        try {
-            const result = userFunction(...input);
-            if (result === expected) {
-                results.push('Pass');
-            } else {
-                results.push(\`Fail: Expected \${expected}, but got \${result}\`);
-            }
-        } catch (error) {
-            results.push(\`Error: \${error.message}\`);
-        }
-    }
-    return results;
-}`;
 
-// Function to run user code and test code safely
-function runUserCodeAndTests(userCode, testCode, testCases) {
+// Function to run user code and test cases
+function runUserCodeAndTests(setupCode, userCode, testCases) {
 	try {
-		// Combine user code and test code into a single script
+		// Combine setup code and user code into a single script
 		const fullCode = `
+        ${setupCode}
         ${userCode}
-        ${testCode}
-        runTests; // Ensure that runTests function is exposed
+        main; // Ensure that main function is exposed
         `;
-
-		// Create a new script and context for execution
 		const script = new vm.Script(fullCode);
-		const context = vm.createContext({ testCases });
+		const context = vm.createContext({});
 		script.runInContext(context);
 
-		// Retrieve the runTests function from the context
-		const runTests = context.runTests;
+		// Retrieve the main function from the context
+		const mainFunction = context.main;
 
-		// Execute the test function with the user's function and test cases
-		let allPassed = true;
-		if (typeof runTests === "function") {
-			const results = runTests(context.add, testCases); // Pass user function and test cases
-			allPassed = results.every((result) => result === "Pass");
-		} else {
-			return "FAILED: runTests function is not defined correctly.";
-		}
+		// Execute the main function with the test cases
+		const results = testCases.map(({ input, expected }) => {
+			try {
+				const actualOutput = mainFunction(input); // Execute main function with test input
+				return {
+					input,
+					expectedOutput: expected,
+					actualOutput,
+					result:
+						JSON.stringify(actualOutput) ===
+						JSON.stringify(expected)
+							? "Passed"
+							: "Failed",
+				};
+			} catch (error) {
+				return {
+					input,
+					expectedOutput: expected,
+					actualOutput: `Error: ${error.message}`,
+					result: "Failed",
+				};
+			}
+		});
 
-		return allPassed ? "PASSED" : "FAILED";
+		const summary = results.every((result) => result.result === "Passed")
+			? "PASSED"
+			: "FAILED";
+
+		return { summary, details: results };
 	} catch (error) {
-		return `FAILED: ${error.message}`;
+		return {
+			summary: "FAILED",
+			details: [{ error: error.message }],
+		};
 	}
 }
 
-// Run the user code with test cases and test code
-const output = runUserCodeAndTests(userCode, testCode, testCases);
-console.log(output);
+// Run the user code with test cases
+const output = runUserCodeAndTests(setupCode, userCode, testCases);
+console.log(JSON.stringify(output, null, 2));
