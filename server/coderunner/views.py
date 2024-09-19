@@ -1,45 +1,59 @@
 # server/coderunner/views.py
 
-# Import necessary modules from Django Rest Framework
+import docker
+import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
-# Import coderunner execution serializer for code execution
 from .serializers import CodeExecutionSerializer
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Define a view class for code execution
+
 class CodeRunnerView(APIView):
-    """
-    A view that handles code execution requests.
-
-    It accepts POST requests with code to be executed and returns the execution result.
-    """
-
     def post(self, request):
-        """
-        Handle a POST request for code execution.
+        logger.info("Received a code execution request")
 
-        :param request: The incoming request object
-        :return: A response object with the execution result
-        """
+        # Initialize Docker client
+        docker_client = docker.from_env()
+        logger.info("Docker client initialized")
 
         # Validate incoming data using the serializer
         serializer = CodeExecutionSerializer(data=request.data)
-
-        # Check if the serializer is valid
         if serializer.is_valid():
-            # Get the validated data from the serializer
             user_code = serializer.validated_data["user_code"]
-            test_cases = serializer.validated_data["test_cases"]
             test_code = serializer.validated_data["test_code"]
+            test_cases = serializer.validated_data["test_cases"]
 
-            # TO DO: Implement code execution logic here
-            # For now, just return a mock response
-            output = "Code executed successfully"
-            return Response({"output": output}, status=status.HTTP_200_OK)
+            # Log user code and test cases
+            logger.info(f"User code received: {user_code}")
+            logger.info(f"Test cases received: {test_cases}")
+            logger.info(f"Test code received: {test_code}")
 
-        # If the serializer is not valid, return an error response
+            # Start Docker container to execute code
+            try:
+                container = docker_client.containers.run(
+                    "node-code-executor",
+                    detach=True,
+                    environment={
+                        "USER_CODE": user_code,
+                        "TEST_CODE": test_code,
+                        "TEST_CASES": json.dumps(test_cases),
+                    },
+                    remove=True,
+                )
+
+                # Capture output from the container
+                container_output = container.logs().decode("utf-8")
+                logger.info(f"Container output: {container_output}")
+
+                return Response({"output": container_output}, status=status.HTTP_200_OK)
+            except Exception as e:
+                logger.error(f"Error during container execution: {e}")
+                return Response(
+                    {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         else:
+            logger.error(f"Validation errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
