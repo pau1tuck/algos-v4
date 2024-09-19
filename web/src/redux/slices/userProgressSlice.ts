@@ -1,31 +1,25 @@
 // src/redux/slices/userProgressSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { UserProgressState, PageProgress } from "@site/src/redux/types";
+import {
+	fetchUserProgress,
+	saveUserProgress,
+} from "@site/src/redux/thunks/userProgressThunk";
 
-interface QuestionProgress {
-	id: number;
-	status: string;
-	correct: boolean;
-}
-
-interface PageProgress {
-	page_id: number;
-	completed: boolean;
-	score: number;
-	lastAccessed: string; // ISO string
-	questions: QuestionProgress[];
-}
-
-interface UserProgressState {
-	pages: PageProgress[];
-	totalScore: number;
-}
-
+// Initial state with additional properties for XP, points, health, etc.
 const initialState: UserProgressState = {
 	pages: [],
 	totalScore: 0,
+	xp: 0,
+	points: 0,
+	health: 100,
+	skill: "novice",
+	profession: "default",
+	rank: "beginner",
 };
 
+// userProgressSlice with new actions and extra reducers for thunks
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
@@ -39,11 +33,9 @@ const userProgressSlice = createSlice({
 			if (existingPage) {
 				// Update the existing page's progress
 				Object.assign(existingPage, action.payload);
-				console.log("Updated existing page progress:", existingPage);
 			} else {
 				// Add new page progress
 				state.pages.push(action.payload);
-				console.log("Added new page progress:", action.payload);
 			}
 
 			// Recalculate total score
@@ -51,18 +43,46 @@ const userProgressSlice = createSlice({
 				(total, page) => total + page.score,
 				0,
 			);
-			console.log("Recalculated total score:", state.totalScore);
+
+			// Example XP and points calculation
+			state.xp += action.payload.score; // Adding page score to XP
+			state.points += action.payload.score; // Adding page score to points
 		},
 
-		// Action to reset the progress for the whole course/module
+		updateUserHealth: (state, action: PayloadAction<number>) => {
+			state.health += action.payload;
+		},
+
+		updateSkillLevel: (state, action: PayloadAction<string>) => {
+			state.skill = action.payload;
+		},
+
 		resetUserProgress: (state) => {
 			state.pages = [];
 			state.totalScore = 0;
-			console.log("Reset user progress");
+			state.xp = 0;
+			state.points = 0;
+			state.health = 100;
+			state.skill = "novice";
+			state.rank = "beginner";
 		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchUserProgress.fulfilled, (state, action) => {
+				// Populate the state with data fetched from the backend
+				return { ...state, ...action.payload };
+			})
+			.addCase(saveUserProgress.fulfilled, (state) => {
+				console.log("User progress saved successfully:", state);
+			});
 	},
 });
 
-export const { updatePageProgress, resetUserProgress } =
-	userProgressSlice.actions;
+export const {
+	updatePageProgress,
+	resetUserProgress,
+	updateUserHealth,
+	updateSkillLevel,
+} = userProgressSlice.actions;
 export default userProgressSlice.reducer;
