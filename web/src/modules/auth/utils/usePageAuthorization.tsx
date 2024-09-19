@@ -1,7 +1,7 @@
 //web/src/modules/auth/utils/usePageAuthorization.tsx
 import useAuthState from "@site/src/modules/auth/utils/useAuthState";
 import { useEffect, useState } from "react";
-import { UserRole } from "@site/src/modules/quiz/utils/PageContext";
+import { UserRole } from "@site/src/modules/user/types/user.type";
 
 const usePageAuthorization = (requiredRole: UserRole, requiresAuth: boolean) => {
 	const { isLoading, isAuthenticated, user } = useAuthState(requiresAuth);

@@ -23,11 +23,11 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
         page_id: 1,
         title: "Test Page",
         section: "Introduction",
-        module: "Module 1",
+        module: "Introduction",
         topic: "Topic 1",
-        order: 1,
+        page_order: 1,
         type: "quiz",
-        role: UserRole.Admin,
+        role: UserRole.Guest,
         requiresAuth: false, // New field to indicate if authentication is required
         prerequisites: [],
         difficulty: DifficultyLevel.Junior,
@@ -44,10 +44,10 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 />
 
 <TrueFalseQuestion
+    questionId="1"
+    page_order={1}
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
-    questionId="1"
-    order={1}
     pointValue={10}
 />
 <br />

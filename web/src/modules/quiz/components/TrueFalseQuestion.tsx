@@ -5,15 +5,9 @@ import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
-import { QuestionStatus } from "@site/src/modules/quiz/utils/PageContext";
+import { QuestionStatus, QuestionType } from "@site/src/modules/quiz/types/question.types";
 
 
-enum QuestionType {
-	TrueFalse = "trueFalse",
-	SingleAnswer = "singleAnswer",
-	CodingChallenge = "codingChallenge",
-	MultipleChoice = "multipleChoice",
-}
 
 enum DifficultyLevel {
 	Junior = "junior",
@@ -24,10 +18,9 @@ enum DifficultyLevel {
 
 type TrueFalseQuestionProps = {
 	questionId: number; // Dynamic question ID passed as a prop
-	name?: string;
 	question: string;
-	type?: QuestionType;
-	difficulty?: DifficultyLevel;
+	type: QuestionType;
+	difficulty: DifficultyLevel;
 	correctAnswer: boolean;
 	order: number; // Dynamic order of the question
 	pointValue: number; // Points associated with the question
@@ -35,9 +28,9 @@ type TrueFalseQuestionProps = {
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	questionId,
-	name,
 	question,
-	type,
+	type = QuestionType.TrueFalse,
+	difficulty,
 	correctAnswer,
 	order,
 	pointValue,
@@ -52,11 +45,14 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		console.log("Registering question with ID:", questionId);
 		registerQuestion({
 			id: Number(questionId), // Unique ID for the question
+			type,
+			order,
 			value: Number(pointValue), // Points for the question
+			difficulty,
 			status: QuestionStatus.NotStarted, // Initially not started
 			correct: false, // Initially marked as incorrect
 		});
-	}, [questionId, pointValue, registerQuestion]);
+	}, [questionId, type, order, pointValue, difficulty, registerQuestion]);
 
 	const handleAnswer = (answer: boolean) => {
 		setUserAnswer(answer);

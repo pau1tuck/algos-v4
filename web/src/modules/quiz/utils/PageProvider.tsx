@@ -1,11 +1,15 @@
 // src/modules/quiz/utils/PageProvider.tsx
 import type React from "react";
 import { useReducer, useCallback } from "react";
-import { DifficultyLevel, PageContext, PageType, QuestionStatus, UserRole } from "@site/src/modules/quiz/utils/PageContext";
+import { UserRole } from "@site/src/modules/user/types/user.type";
+import { PageType } from "@site/src/modules/quiz/types/page.types";
+import { PageContext } from "@site/src/modules/quiz/utils/PageContext";
 import type {
 	PageContextProps,
-	QuestionStatusProps,
+
 } from "@site/src/modules/quiz/utils/PageContext";
+// biome lint-disable: lint/style/useImportType // LINT: Don't use import type
+import { DifficultyLevel, QuestionProps, QuestionStatus } from "@site/src/modules/quiz/types/question.types";
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -13,14 +17,14 @@ const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 
 type PageState = {
-	questions: QuestionStatusProps[];
+	questions: QuestionProps[];
 };
 
 type PageAction =
-	| { type: "REGISTER_QUESTION"; payload: QuestionStatusProps }
+	| { type: "REGISTER_QUESTION"; payload: QuestionProps }
 	| {
 		type: "UPDATE_QUESTION_STATUS";
-		payload: { id: number; updates: Partial<QuestionStatusProps> };
+		payload: { id: number; updates: Partial<QuestionProps> };
 	}
 	| { type: "RESET_PAGE" };
 
@@ -48,7 +52,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				...state,
 				questions: state.questions.map((question) => ({
 					...question,
-					status: QuestionStatus.NotStarted,
+					status: QuestionStatus.NotStarted as QuestionStatus,
 					correct: false,
 				})),
 			};
@@ -74,13 +78,9 @@ export const PageProvider: React.FC<{
 		difficulty = DifficultyLevel.Junior,
 		pageScore = 0,
 		points = 0,
-		estimatedTime = "Unknown",
 		completed = QuestionStatus.NotStarted,
 		tags = [],
-		relatedPages = [],
-		resources = [],
 		lastAccessed = null,
-		learningObjectives = [],
 		coursePathProgress = 0,
 		questions = [],
 	} = pageData;
@@ -89,12 +89,12 @@ export const PageProvider: React.FC<{
 		questions,
 	});
 
-	const registerQuestion = useCallback((question: QuestionStatusProps) => {
+	const registerQuestion = useCallback((question: QuestionProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
 	}, []);
 
 	const updateQuestionStatus = useCallback(
-		(id: number, updates: Partial<QuestionStatusProps>) => {
+		(id: number, updates: Partial<QuestionProps>) => {
 			dispatch({
 				type: UPDATE_QUESTION_STATUS,
 				payload: { id, updates },
@@ -130,13 +130,9 @@ export const PageProvider: React.FC<{
 				difficulty,
 				pageScore,
 				points,
-				estimatedTime,
 				completed,
 				tags,
-				relatedPages,
-				resources,
 				lastAccessed,
-				learningObjectives,
 				coursePathProgress,
 				questions: state.questions,
 				registerQuestion,

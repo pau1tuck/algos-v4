@@ -26,6 +26,7 @@
 			},
 			"style": {
 				"noDefaultExport": "off",
+				"useImportType": "info",
 				"useNamingConvention": "off"
 			},
 			"suspicious": {

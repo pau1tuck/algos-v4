@@ -3,3 +3,10 @@ export interface UserData {
 	last_name: string;
 	email: string;
 }
+
+export enum UserRole {
+	Admin = "admin",
+	Guest = "guest",
+	Member = "member",
+	Subscriber = "subscriber",
+}

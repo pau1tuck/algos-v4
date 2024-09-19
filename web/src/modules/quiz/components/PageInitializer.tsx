@@ -2,12 +2,9 @@
 import type React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { QuestionStatus } from "@site/src/modules/quiz/utils/PageContext";
-import type {
-	PageType,
-	UserRole,
-	DifficultyLevel,
-} from "@site/src/modules/quiz/utils/PageContext";
+import { DifficultyLevel, QuestionStatus } from "@site/src/modules/quiz/types/question.types";
+import type { PageType } from "@site/src/modules/quiz/types/page.types";
+import type { UserRole } from "@site/src/modules/user/types/user.type";
 import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
@@ -24,17 +21,13 @@ interface PageInitializerProps {
 		topic: string;
 		order: number;
 		type: string;
-		role: string;
 		requiresAuth: boolean;
+		role: string;
 		prerequisites: number[];
-		difficulty: string;
+		difficulty: DifficultyLevel;
 		pageScore: number;
 		points: number;
-		estimatedTime: string;
-		tags: string[];
-		relatedPages: number[];
-		resources: string[];
-		learningObjectives: string[];
+		tags?: string[];
 	};
 	children: React.ReactNode;
 }
@@ -60,6 +53,8 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 
 		const pageProgress = {
 			page_id: Number(pageData.page_id),
+			module: pageData.module,
+			difficulty: pageData.difficulty,
 			completed: questions.every(
 				(q) => q.status === QuestionStatus.Complete,
 			),
@@ -67,6 +62,10 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 			lastAccessed: new Date().toISOString(),
 			questions: questions.map((q) => ({
 				id: q.id,
+				type: q.type,
+				order: q.order,
+				difficulty: q.difficulty,
+				value: q.value,
 				status: q.status,
 				correct: q.correct,
 			})),
@@ -74,7 +73,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 
 		console.log("Dispatching page progress to Redux:", pageProgress);
 		dispatch(updatePageProgress(pageProgress));
-	}, [isAuthorized, questions, calculatePageScore, dispatch, pageData, history]);
+	}, [history, isAuthorized, pageData, questions, calculatePageScore, dispatch,]);
 
 	if (pageData.requiresAuth && !isAuthorized) {
 		return <div>Loading...</div>; // Show a loading or unauthorized message

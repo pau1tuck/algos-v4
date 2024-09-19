@@ -31,6 +31,8 @@ const SubmitButton = () => {
 		dispatch(
 			updatePageProgress({
 				page_id,
+				module,
+				difficulty,
 				completed: pageCompleted,
 				score: pageScore,
 				lastAccessed: new Date().toISOString(),
