@@ -23,20 +23,22 @@ enum DifficultyLevel {
 }
 
 type TrueFalseQuestionProps = {
+	questionId: number; // Dynamic question ID passed as a prop
+	name?: string;
 	question: string;
 	type?: QuestionType;
 	difficulty?: DifficultyLevel;
 	correctAnswer: boolean;
-	questionId: string; // Dynamic question ID passed as a prop
 	order: number; // Dynamic order of the question
 	pointValue: number; // Points associated with the question
 };
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
+	questionId,
+	name,
 	question,
 	type,
 	correctAnswer,
-	questionId,
 	order,
 	pointValue,
 }) => {
