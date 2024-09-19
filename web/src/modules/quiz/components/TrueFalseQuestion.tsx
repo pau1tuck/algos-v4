@@ -7,8 +7,25 @@ import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { QuestionStatus } from "@site/src/modules/quiz/utils/PageContext";
 
+
+enum QuestionType {
+	TrueFalse = "trueFalse",
+	SingleAnswer = "singleAnswer",
+	CodingChallenge = "codingChallenge",
+	MultipleChoice = "multipleChoice",
+}
+
+enum DifficultyLevel {
+	Junior = "junior",
+	Middle = "middle",
+	Senior = "senior",
+	Lead = "lead",
+}
+
 type TrueFalseQuestionProps = {
 	question: string;
+	type?: QuestionType;
+	difficulty?: DifficultyLevel;
 	correctAnswer: boolean;
 	questionId: string; // Dynamic question ID passed as a prop
 	order: number; // Dynamic order of the question
@@ -17,6 +34,7 @@ type TrueFalseQuestionProps = {
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	question,
+	type,
 	correctAnswer,
 	questionId,
 	order,
@@ -83,13 +101,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(true)}
 					disabled={userAnswer !== null}
-					className={`${styles["true-false-option"]} ${
-						userAnswer === true
-							? isCorrect
-								? styles.correct
-								: styles.incorrect
-							: ""
-					}`}
+					className={`${styles["true-false-option"]} ${userAnswer === true
+						? isCorrect
+							? styles.correct
+							: styles.incorrect
+						: ""
+						}`}
 				>
 					True
 				</button>
@@ -97,13 +114,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(false)}
 					disabled={userAnswer !== null}
-					className={`${styles["true-false-option"]} ${
-						userAnswer === false
-							? isCorrect
-								? styles.correct
-								: styles.incorrect
-							: ""
-					}`}
+					className={`${styles["true-false-option"]} ${userAnswer === false
+						? isCorrect
+							? styles.correct
+							: styles.incorrect
+						: ""
+						}`}
 				>
 					False
 				</button>

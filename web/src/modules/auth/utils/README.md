@@ -7,10 +7,10 @@
 
 ### Flow
 
-- Checks for a token in cookies.
-- If found, makes an API call to validate the token and fetch user data.
-- Updates the Redux state with user data if authentication is successful.
-- Returns a loading state.
+1. Checks for a token in cookies.
+2. If found, makes an API call to validate the token and fetch user data.
+3. Updates the Redux state with user data if authentication is successful.
+4. Returns a loading state.
 
 ## 2. useAuthState**
 
