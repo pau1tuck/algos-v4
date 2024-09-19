@@ -1,4 +1,4 @@
-// src/redux/thunks/loginUserThunk.ts
+// src/redux/thunks/authThunk.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";

@@ -10,7 +10,7 @@ const withAuth = <P extends object>(
 ) => {
 	return (props: P) => {
 		const history = useHistory();
-		const { isLoading, isAuthenticated } = useAuthState();
+		const { isLoading, isAuthenticated } = useAuthState(true); // Pass true for pages that require authentication
 
 		useEffect(() => {
 			// Redirect to login page if not authenticated

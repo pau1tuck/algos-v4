@@ -1,17 +1,21 @@
-// src/modules/auth/utils/useAuthChecker.tsx
+//web/src/modules/auth/utils/useAuthChecker.tsx
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser, logout } from "@site/src/redux/slices/authSlice";
 
-const useAuthChecker = () => {
+const useAuthChecker = (requiresAuth: boolean) => {
 	const dispatch = useDispatch();
 	const [isLoading, setIsLoading] = useState(true);
-	const [checkedAuth, setCheckedAuth] = useState(false); // New state to track if auth has been checked
+	const [checkedAuth, setCheckedAuth] = useState(false);
 
 	useEffect(() => {
 		const checkAuth = async () => {
-			if (checkedAuth) return; // Avoid repeated checks
+			if (!requiresAuth || checkedAuth) {
+				setIsLoading(false);
+				setCheckedAuth(true);
+				return;
+			}
 
 			try {
 				const token = document.cookie
@@ -22,7 +26,7 @@ const useAuthChecker = () => {
 				if (!token) {
 					console.log("No token found, user is not authenticated");
 					setIsLoading(false);
-					setCheckedAuth(true); // Mark auth as checked
+					setCheckedAuth(true);
 					return;
 				}
 
@@ -47,12 +51,12 @@ const useAuthChecker = () => {
 				dispatch(logout());
 			} finally {
 				setIsLoading(false);
-				setCheckedAuth(true); // Ensure loading state is updated
+				setCheckedAuth(true);
 			}
 		};
 
 		checkAuth();
-	}, [dispatch, checkedAuth]);
+	}, [dispatch, checkedAuth, requiresAuth]);
 
 	return isLoading;
 };

@@ -1,4 +1,4 @@
-// src/pages/login.tsx
+//web/src/pages/login.tsx
 
 import React from "react";
 import Layout from "@theme/Layout";

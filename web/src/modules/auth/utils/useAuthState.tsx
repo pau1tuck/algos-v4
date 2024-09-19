@@ -1,10 +1,9 @@
-// src/modules/auth/utils/useAuthState.tsx
 import { useSelector } from "react-redux";
 import type { RootState } from "@site/src/redux/store";
 import useAuthChecker from "./useAuthChecker";
 
-const useAuthState = () => {
-	const isLoading = useAuthChecker();
+const useAuthState = (requiresAuth: boolean) => {
+	const isLoading = useAuthChecker(requiresAuth);
 	const isAuthenticated = useSelector(
 		(state: RootState) => state.auth.isAuthenticated,
 	);

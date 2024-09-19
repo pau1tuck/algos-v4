@@ -25,7 +25,7 @@ interface PageInitializerProps {
 		order: number;
 		type: string;
 		role: string;
-		requiresAuth: boolean; // New field to indicate if authentication is required
+		requiresAuth: boolean;
 		prerequisites: number[];
 		difficulty: string;
 		pageScore: number;
@@ -51,8 +51,8 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	const isAuthorized = usePageAuthorization(pageData.role as UserRole, pageData.requiresAuth);
 
 	useEffect(() => {
-		if (!isAuthorized) {
-			history.push(pageData.requiresAuth ? "/login" : "/unauthorized");
+		if (!isAuthorized && pageData.requiresAuth) {
+			history.push("/login"); // Redirect to login if auth is required and user is not authorized
 			return;
 		}
 
@@ -76,7 +76,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 		dispatch(updatePageProgress(pageProgress));
 	}, [isAuthorized, questions, calculatePageScore, dispatch, pageData, history]);
 
-	if (!isAuthorized) {
+	if (pageData.requiresAuth && !isAuthorized) {
 		return <div>Loading...</div>; // Show a loading or unauthorized message
 	}
 
