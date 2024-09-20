@@ -1,11 +1,10 @@
-// src/modules/quiz/utils/PageContext.tsx
+//web/src/modules/quiz/utils/PageContext.tsx
 import { createContext } from "react";
 import type { QuestionProps, QuestionStatus } from "@site/src/modules/quiz/types/question.types";
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { UserRole } from "@site/src/modules/user/types/user.type";
 import type { PageType } from "@site/src/modules/quiz/types/page.types";
 
-// Define the shape of the PageContext, making some fields optional
 export interface PageContextProps {
 	page_id: number;
 	title: string;
@@ -15,7 +14,7 @@ export interface PageContextProps {
 	order: number;
 	type: PageType;
 	role: UserRole;
-	prerequisites?: number[]; // Optional
+	prerequisites?: number[]; // Certain pages require completion of other pages
 	difficulty: DifficultyLevel;
 	pageScore?: number; // Optional with a default value
 	points?: number; // Optional with a default value
@@ -24,6 +23,7 @@ export interface PageContextProps {
 	lastAccessed?: Date | null; // Optional
 	coursePathProgress?: number; // Optional
 	questions?: QuestionProps[]; // Optional with a default value
+	resetFlag: boolean; // Add resetFlag to the context
 
 	// Functions that modify the context
 	registerQuestion: (question: QuestionProps) => void;

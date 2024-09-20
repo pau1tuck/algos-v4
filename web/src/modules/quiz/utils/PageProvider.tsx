@@ -1,5 +1,6 @@
 //web/src/modules/quiz/utils/PageProvider.tsx
-import React, { useReducer, useCallback } from "react";
+import type React from "react";
+import { useReducer, useCallback } from "react";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { PageType } from "@site/src/modules/quiz/types/page.types";
 import { PageContext, PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
