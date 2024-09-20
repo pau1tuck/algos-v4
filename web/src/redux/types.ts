@@ -1,7 +1,6 @@
+//web/src/redux/types.ts
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { QuestionProps } from "@site/src/modules/quiz/types/question.types";
-
-//web/src/redux/types.ts
 
 export interface PageProgress {
 	page_id: number; // Unique ID for the page

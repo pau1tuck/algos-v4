@@ -27,7 +27,6 @@ export const fetchUserProgress = createAsyncThunk(
 );
 
 // Save user progress to the backend
-// Save user progress to the backend
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgressState) => {

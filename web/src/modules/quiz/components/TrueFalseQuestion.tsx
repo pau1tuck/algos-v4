@@ -1,3 +1,4 @@
+//web/src/modules/quiz/components/TrueFalseQuestion.tsx
 import type React from "react";
 import { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
@@ -6,23 +7,15 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { QuestionStatus, QuestionType } from "@site/src/modules/quiz/types/question.types";
-
-
-
-enum DifficultyLevel {
-	Junior = "junior",
-	Middle = "middle",
-	Senior = "senior",
-	Lead = "lead",
-}
+import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 
 type TrueFalseQuestionProps = {
 	questionId: number; // Dynamic question ID passed as a prop
-	question: string;
 	type: QuestionType;
 	difficulty: DifficultyLevel;
-	correctAnswer: boolean;
 	order: number; // Dynamic order of the question
+	question: string;
+	correctAnswer: boolean;
 	pointValue: number; // Points associated with the question
 };
 
@@ -35,10 +28,10 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	order,
 	pointValue,
 }) => {
-	const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
-	const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+	const [userAnswer, setUserAnswer] = useState<boolean | null>(null); // Tracks user's answer
+	const [isCorrect, setIsCorrect] = useState<boolean | null>(null); // Tracks correctness of the answer
 
-	const { registerQuestion, updateQuestionStatus } = usePageContext();
+	const { registerQuestion, updateQuestionStatus, resetFlag } = usePageContext(); // Added resetFlag from context
 
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
@@ -54,6 +47,14 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		});
 	}, [questionId, type, order, pointValue, difficulty, registerQuestion]);
 
+	// Reset userAnswer and isCorrect when resetFlag toggles
+	useEffect(() => {
+		console.log("Resetting TrueFalseQuestion state due to resetFlag");
+		setUserAnswer(null);
+		setIsCorrect(null);
+	}, [resetFlag]);
+
+	// Handle answer submission
 	const handleAnswer = (answer: boolean) => {
 		setUserAnswer(answer);
 		const isAnswerCorrect = answer === correctAnswer;
@@ -69,8 +70,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		});
 	};
 
+	// Determine if buttons should be locked (disabled) after an answer is selected
+	const isLocked = userAnswer !== null;
+
 	return (
 		<div className={styles["question-container"]}>
+			{/* Render the question text with Markdown */}
 			<ReactMarkdown
 				components={{
 					code({ node, inline, className, children, ...props }) {
@@ -94,11 +99,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			>
 				{question}
 			</ReactMarkdown>
+
 			<div className={styles["true-false-options"]}>
+				{/* True button */}
 				<button
 					type="button"
 					onClick={() => handleAnswer(true)}
-					disabled={userAnswer !== null}
+					disabled={isLocked} // Disable after selecting an answer
 					className={`${styles["true-false-option"]} ${userAnswer === true
 						? isCorrect
 							? styles.correct
@@ -108,10 +115,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 				>
 					True
 				</button>
+
+				{/* False button */}
 				<button
 					type="button"
 					onClick={() => handleAnswer(false)}
-					disabled={userAnswer !== null}
+					disabled={isLocked} // Disable after selecting an answer
 					className={`${styles["true-false-option"]} ${userAnswer === false
 						? isCorrect
 							? styles.correct
@@ -121,7 +130,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 				>
 					False
 				</button>
-				{userAnswer !== null && <div />}
 			</div>
 		</div>
 	);

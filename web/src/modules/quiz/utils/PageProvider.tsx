@@ -1,32 +1,25 @@
-// src/modules/quiz/utils/PageProvider.tsx
-import type React from "react";
-import { useReducer, useCallback } from "react";
+//web/src/modules/quiz/utils/PageProvider.tsx
+import React, { useReducer, useCallback } from "react";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { PageType } from "@site/src/modules/quiz/types/page.types";
-import { PageContext } from "@site/src/modules/quiz/utils/PageContext";
-import type {
-	PageContextProps,
-
-} from "@site/src/modules/quiz/utils/PageContext";
-// biome lint-disable: lint/style/useImportType // LINT: Don't use import type
+import { PageContext, PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
 import { DifficultyLevel, QuestionProps, QuestionStatus } from "@site/src/modules/quiz/types/question.types";
 
-// Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
 const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
+const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG"; // New action to toggle the reset flag
 
 type PageState = {
 	questions: QuestionProps[];
+	resetFlag: boolean; // New state to track the reset signal
 };
 
 type PageAction =
 	| { type: "REGISTER_QUESTION"; payload: QuestionProps }
-	| {
-		type: "UPDATE_QUESTION_STATUS";
-		payload: { id: number; updates: Partial<QuestionProps> };
-	}
-	| { type: "RESET_PAGE" };
+	| { type: "UPDATE_QUESTION_STATUS"; payload: { id: number; updates: Partial<QuestionProps> } }
+	| { type: "RESET_PAGE" }
+	| { type: "TOGGLE_RESET_FLAG" }; // New action type to toggle reset flag
 
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
@@ -43,7 +36,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				questions: state.questions.map((question) =>
 					question.id === action.payload.id
 						? { ...question, ...action.payload.updates }
-						: question,
+						: question
 				),
 			};
 		case RESET_PAGE:
@@ -52,19 +45,25 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				...state,
 				questions: state.questions.map((question) => ({
 					...question,
-					status: QuestionStatus.NotStarted as QuestionStatus,
+					status: QuestionStatus.NotStarted,
 					correct: false,
 				})),
+			};
+		case TOGGLE_RESET_FLAG:
+			console.log("Toggling reset flag"); // Log for reset flag toggling
+			return {
+				...state,
+				resetFlag: !state.resetFlag, // Toggle reset flag to signal components
 			};
 		default:
 			return state;
 	}
 };
 
-export const PageProvider: React.FC<{
-	pageData?: Partial<PageContextProps>;
-	children: React.ReactNode;
-}> = ({ children, pageData = {} }) => {
+export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; children: React.ReactNode }> = ({
+	children,
+	pageData = {},
+}) => {
 	const {
 		page_id = 0,
 		title = "",
@@ -85,23 +84,18 @@ export const PageProvider: React.FC<{
 		questions = [],
 	} = pageData;
 
-	const [state, dispatch] = useReducer(pageReducer, {
-		questions,
-	});
+	const [state, dispatch] = useReducer(pageReducer, { questions, resetFlag: false });
 
 	const registerQuestion = useCallback((question: QuestionProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
 	}, []);
 
-	const updateQuestionStatus = useCallback(
-		(id: number, updates: Partial<QuestionProps>) => {
-			dispatch({
-				type: UPDATE_QUESTION_STATUS,
-				payload: { id, updates },
-			});
-		},
-		[],
-	);
+	const updateQuestionStatus = useCallback((id: number, updates: Partial<QuestionProps>) => {
+		dispatch({
+			type: UPDATE_QUESTION_STATUS,
+			payload: { id, updates },
+		});
+	}, []);
 
 	const calculatePageScore = useCallback(() => {
 		const totalScore = state.questions.reduce((totalScore, question) => {
@@ -112,7 +106,9 @@ export const PageProvider: React.FC<{
 	}, [state.questions]);
 
 	const resetPage = useCallback(() => {
+		// Reset all questions' statuses and correctness
 		dispatch({ type: RESET_PAGE });
+		dispatch({ type: TOGGLE_RESET_FLAG }); // Toggle reset flag to signal components
 	}, []);
 
 	return (
@@ -135,6 +131,7 @@ export const PageProvider: React.FC<{
 				lastAccessed,
 				coursePathProgress,
 				questions: state.questions,
+				resetFlag: state.resetFlag, // Provide resetFlag to components
 				registerQuestion,
 				updateQuestionStatus,
 				calculatePageScore,

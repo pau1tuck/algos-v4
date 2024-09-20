@@ -2,20 +2,20 @@
 from django.db import models
 
 
-class QuestionType(models.Model):
+class DifficultyLevel(models.Model):
     name = models.CharField(
         max_length=50, unique=True
-    )  # E.g., True/False, Coding Challenge, etc.
+    )  # E.g., Junior, Middle, Senior, Lead
     description = models.TextField(null=True, blank=True)  # Optional description
 
     def __str__(self):
         return self.name
 
 
-class DifficultyLevel(models.Model):
+class QuestionType(models.Model):
     name = models.CharField(
         max_length=50, unique=True
-    )  # E.g., Junior, Middle, Senior, Lead
+    )  # E.g., True/False, Coding Challenge, etc.
     description = models.TextField(null=True, blank=True)  # Optional description
 
     def __str__(self):

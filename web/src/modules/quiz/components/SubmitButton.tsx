@@ -1,4 +1,3 @@
-//web/src/modules/quiz/components/SubmitButton.jsx
 import React from "react";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
 import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
@@ -10,7 +9,7 @@ import useAuthState from "@site/src/modules/auth/utils/useAuthState";
 import { useSelector } from "react-redux";
 
 const SubmitButton = () => {
-	const { page_id, questions, calculatePageScore } = usePageContext();
+	const { page_id, questions, calculatePageScore, module, difficulty } = usePageContext();
 	const { isAuthenticated } = useAuthState(true);
 	const history = useHistory();
 	const dispatch = useAppDispatch(); // Use the custom hook here
@@ -31,13 +30,13 @@ const SubmitButton = () => {
 		dispatch(
 			updatePageProgress({
 				page_id,
-				module,
-				difficulty,
+				module,        // Ensure module is passed here
+				difficulty,    // Ensure difficulty is passed here
 				completed: pageCompleted,
 				score: pageScore,
 				lastAccessed: new Date().toISOString(),
 				questions,
-			}),
+			})
 		);
 
 		// Save the updated progress to the backend

@@ -1,4 +1,4 @@
-// web/src/modules/quiz/types/question.types.ts
+//web/src/modules/quiz/types/question.types.ts
 export enum QuestionType {
 	TrueFalse = "trueFalse",
 	MultipleChoice = "multipleChoice",

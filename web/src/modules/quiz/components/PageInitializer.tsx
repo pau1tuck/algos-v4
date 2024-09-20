@@ -1,4 +1,4 @@
-// src/modules/quiz/components/PageInitializer.tsx
+//web/src/modules/quiz/components/PageInitializer.tsx
 import type React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -36,7 +36,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	pageData,
 	children,
 }) => {
-	const { calculatePageScore, questions } = usePageContext();
+	const { calculatePageScore, questions, resetPage } = usePageContext(); // Added resetPage from context
 	const dispatch = useDispatch();
 	const history = useHistory();
 
@@ -55,9 +55,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 			page_id: Number(pageData.page_id),
 			module: pageData.module,
 			difficulty: pageData.difficulty,
-			completed: questions.every(
-				(q) => q.status === QuestionStatus.Complete,
-			),
+			completed: questions.every((q) => q.status === QuestionStatus.Complete),
 			score: calculatePageScore(),
 			lastAccessed: new Date().toISOString(),
 			questions: questions.map((q) => ({
@@ -73,7 +71,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 
 		console.log("Dispatching page progress to Redux:", pageProgress);
 		dispatch(updatePageProgress(pageProgress));
-	}, [history, isAuthorized, pageData, questions, calculatePageScore, dispatch,]);
+	}, [history, isAuthorized, pageData, questions, calculatePageScore, dispatch]);
 
 	if (pageData.requiresAuth && !isAuthorized) {
 		return <div>Loading...</div>; // Show a loading or unauthorized message
@@ -89,7 +87,12 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 			}}
 		>
 			{children}
-			<SubmitButton />
+			<div className="page-actions">
+				<SubmitButton />
+				<button className="reset-button" onClick={resetPage}>
+					Reset Page
+				</button>
+			</div>
 		</PageProvider>
 	);
 };

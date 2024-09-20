@@ -10,7 +10,7 @@ class UserProgress(models.Model):
     xp = models.PositiveIntegerField(default=0)  # Total XP earned by the user
     points = models.PositiveIntegerField(default=0)  # Total points earned
     health = models.PositiveIntegerField(default=100)  # Current health of the user
-    coins = models.PositiveBigIntegerField(default=0)  # Coins earned by the user
+    # coins = models.PositiveBigIntegerField(default=0)  # Coins earned by the user
 
     # Foreign keys to SkillLevel and Rank
     skill_level = models.ForeignKey(SkillLevel, on_delete=models.SET_NULL, null=True)

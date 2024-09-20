@@ -1,3 +1,4 @@
+//web/src/modules/user/types/user.type.ts
 export interface UserData {
 	first_name: string;
 	last_name: string;

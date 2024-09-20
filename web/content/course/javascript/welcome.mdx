@@ -10,10 +10,8 @@ import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestio
 import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
 import Accordion1 from "@site/src/components/Accordion";
 import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
-import {
-    UserRole,
-    DifficultyLevel,
-} from "@site/src/modules/quiz/utils/PageContext";
+import { UserRole } from "@site/src/modules/user/types/user.type";
+import { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 
 # Welcome (Test Page)
@@ -27,7 +25,7 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
         topic: "Topic 1",
         page_order: 1,
         type: "quiz",
-        role: UserRole.Guest,
+        role: UserRole.Admin,
         requiresAuth: false, // New field to indicate if authentication is required
         prerequisites: [],
         difficulty: DifficultyLevel.Junior,
@@ -45,7 +43,8 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 
 <TrueFalseQuestion
     questionId="1"
-    page_order={1}
+    order={1}
+    difficulty={DifficultyLevel.Junior}
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
     pointValue={10}
