@@ -1,6 +1,5 @@
 //web/src/modules/quiz/components/TrueFalseQuestion.tsx
-import type React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -10,13 +9,13 @@ import { QuestionStatus, QuestionType } from "@site/src/modules/quiz/types/quest
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 
 type TrueFalseQuestionProps = {
-	questionId: number; // Dynamic question ID passed as a prop
+	questionId: number;
 	type: QuestionType;
 	difficulty: DifficultyLevel;
-	order: number; // Dynamic order of the question
+	order: number;
 	question: string;
 	correctAnswer: boolean;
-	pointValue: number; // Points associated with the question
+	pointValue: number;
 };
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
@@ -31,43 +30,32 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	const [userAnswer, setUserAnswer] = useState<boolean | null>(null); // Tracks user's answer
 	const [isCorrect, setIsCorrect] = useState<boolean | null>(null); // Tracks correctness of the answer
 
-	const { registerQuestion, updateQuestionStatus, resetFlag } = usePageContext(); // Added resetFlag from context
+	const { registerQuestion, updateQuestionStatus, resetFlag } = usePageContext(); // Page context
 
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
-		console.log("Registering question with ID:", questionId);
 		registerQuestion({
-			id: Number(questionId), // Unique ID for the question
+			id: Number(questionId),
 			type,
 			order,
-			value: Number(pointValue), // Points for the question
+			value: Number(pointValue),
 			difficulty,
-			status: QuestionStatus.NotStarted, // Initially not started
-			correct: false, // Initially marked as incorrect
+			status: QuestionStatus.NotStarted,
+			correct: false,
 		});
 	}, [questionId, type, order, pointValue, difficulty, registerQuestion]);
 
 	// Reset userAnswer and isCorrect when resetFlag toggles
 	useEffect(() => {
-		console.log("Resetting TrueFalseQuestion state due to resetFlag");
 		setUserAnswer(null);
 		setIsCorrect(null);
 	}, [resetFlag]);
 
-	// Handle answer submission
+	// Handle user's answer submission (locally only)
 	const handleAnswer = (answer: boolean) => {
 		setUserAnswer(answer);
 		const isAnswerCorrect = answer === correctAnswer;
 		setIsCorrect(isAnswerCorrect);
-
-		console.log("Answer submitted:", answer);
-		console.log("Is answer correct?", isAnswerCorrect);
-
-		// Update the question status in the PageContext
-		updateQuestionStatus(Number(questionId), {
-			status: QuestionStatus.Complete, // Mark the question as completed
-			correct: isAnswerCorrect, // Whether the answer is correct
-		});
 	};
 
 	// Determine if buttons should be locked (disabled) after an answer is selected
@@ -75,7 +63,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 
 	return (
 		<div className={styles["question-container"]}>
-			{/* Render the question text with Markdown */}
 			<ReactMarkdown
 				components={{
 					code({ node, inline, className, children, ...props }) {
@@ -106,11 +93,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(true)}
 					disabled={isLocked} // Disable after selecting an answer
-					className={`${styles["true-false-option"]} ${userAnswer === true
-						? isCorrect
-							? styles.correct
-							: styles.incorrect
-						: ""
+					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""
 						}`}
 				>
 					True
@@ -121,11 +104,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(false)}
 					disabled={isLocked} // Disable after selecting an answer
-					className={`${styles["true-false-option"]} ${userAnswer === false
-						? isCorrect
-							? styles.correct
-							: styles.incorrect
-						: ""
+					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""
 						}`}
 				>
 					False

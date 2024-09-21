@@ -5,7 +5,7 @@ import {
 	QuestionStatus,
 	QuestionType,
 } from "@site/src/modules/quiz/types/question.types";
-import type { UserProgressState } from "@site/src/redux/types";
+import type { UserProgressState } from "@site/src/modules/user/types/user.type";
 
 // Simulating in-memory storage for user progress (this will reset if the page is refreshed)
 let inMemoryUserProgress: UserProgressState = {
