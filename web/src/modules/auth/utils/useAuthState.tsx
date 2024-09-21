@@ -1,3 +1,4 @@
+//web/src/modules/auth/utils/useAuthState.tsx
 import { useSelector } from "react-redux";
 import type { RootState } from "@site/src/redux/store";
 import useAuthChecker from "./useAuthChecker";

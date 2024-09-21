@@ -7,7 +7,7 @@ import UserAvatarButton from "@site/src/modules/user/components/buttons/UserAvat
 import Loading from "@site/src/components/Loading";
 
 const NavbarAuth = () => {
-	const { isLoading, isAuthenticated, user } = useAuthState();
+	const { isLoading, isAuthenticated, user } = useAuthState(true);
 
 	if (isLoading) {
 		return <Loading />;

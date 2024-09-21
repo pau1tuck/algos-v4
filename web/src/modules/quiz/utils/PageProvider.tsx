@@ -25,7 +25,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION:
 			const updatedQuestions = [...state.questions, action.payload];
-			console.log("PageContext registered questions:", updatedQuestions); // Log registered questions
+			console.log("Registered Questions (PageProvider -> PageContext):", updatedQuestions); // Log registered questions
 			return {
 				...state,
 				questions: updatedQuestions,
