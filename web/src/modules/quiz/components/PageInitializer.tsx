@@ -56,7 +56,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	}
 
 	// Log pageData for debugging
-	console.log("Initialized pageData:", pageData);
+	console.log("Updated page data:", pageData);
 
 	return (
 		<PageProvider

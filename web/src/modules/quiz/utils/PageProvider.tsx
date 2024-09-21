@@ -1,4 +1,5 @@
 //web/src/modules/quiz/utils/PageProvider.tsx
+
 import React, { useReducer, useCallback } from "react";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { PageType } from "@site/src/modules/quiz/types/page.types";
@@ -25,17 +26,19 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION:
 			const updatedQuestions = [...state.questions, action.payload];
-			console.log("Registered Questions (PageProvider -> PageContext):", updatedQuestions); // Log registered questions
+			console.log("Registered Question:", action.payload);
 			return {
 				...state,
 				questions: updatedQuestions,
 			};
 		case UPDATE_QUESTION_STATUS:
+			const updatedStatusQuestions = state.questions.map((question) =>
+				question.id === action.payload.id ? { ...question, ...action.payload.updates } : question
+			);
+			console.log("Updated Question Status:", updatedStatusQuestions);
 			return {
 				...state,
-				questions: state.questions.map((question) =>
-					question.id === action.payload.id ? { ...question, ...action.payload.updates } : question
-				),
+				questions: updatedStatusQuestions,
 			};
 		case RESET_PAGE:
 			return {
@@ -85,7 +88,6 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 
 	const registerQuestion = useCallback((question: QuestionProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
-		console.log("Registered Question:", question);
 	}, []);
 
 	const updateQuestionStatus = useCallback((id: number, updates: Partial<QuestionProps>) => {
@@ -132,7 +134,7 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 				updateQuestionStatus,
 				calculatePageScore,
 				resetPage,
-				requiresAuth,  // Add this to the context value
+				requiresAuth,
 			}}
 		>
 			{children}

@@ -1,4 +1,5 @@
 //web/src/modules/quiz/components/TrueFalseQuestion.tsx
+
 import React, { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
@@ -56,6 +57,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		setUserAnswer(answer);
 		const isAnswerCorrect = answer === correctAnswer;
 		setIsCorrect(isAnswerCorrect);
+		console.log("User answered:", answer, "Correct answer:", answer === correctAnswer);
+
+		// Immediately update the page context with the answer's status
+		updateQuestionStatus(questionId, {
+			status: QuestionStatus.Answered,
+			correct: isAnswerCorrect,
+		});
 	};
 
 	// Determine if buttons should be locked (disabled) after an answer is selected
@@ -65,7 +73,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		<div className={styles["question-container"]}>
 			<ReactMarkdown
 				components={{
-					code({ node, inline, className, children, ...props }) { // TYPE: ReactMarkdown code arguments
+					code({ node, inline, className, children, ...props }) {
 						const match = /language-(\w+)/.exec(className || "");
 						return !inline && match ? (
 							<SyntaxHighlighter
@@ -88,24 +96,19 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			</ReactMarkdown>
 
 			<div className={styles["true-false-options"]}>
-				{/* True button */}
 				<button
 					type="button"
 					onClick={() => handleAnswer(true)}
-					disabled={isLocked} // Disable after selecting an answer
-					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""
-						}`}
+					disabled={isLocked}
+					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""}`}
 				>
 					True
 				</button>
-
-				{/* False button */}
 				<button
 					type="button"
 					onClick={() => handleAnswer(false)}
-					disabled={isLocked} // Disable after selecting an answer
-					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""
-						}`}
+					disabled={isLocked}
+					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""}`}
 				>
 					False
 				</button>
