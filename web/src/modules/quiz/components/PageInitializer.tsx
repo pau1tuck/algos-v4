@@ -1,6 +1,6 @@
 //web/src/modules/quiz/components/PageInitializer.tsx
-import React from "react";
-import { useEffect } from "react";
+
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
 import SubmitButton from "@site/src/modules/quiz/components/SubmitButton";
@@ -37,18 +37,26 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	const { resetPage } = usePageContext();
 	const history = useHistory();
 
-	const isAuthorized = usePageAuthorization(pageData.role as UserRole, pageData.requiresAuth);
+	// Check if the user is authorized to access the page
+	const isAuthorized = usePageAuthorization(
+		pageData.role as UserRole,
+		pageData.requiresAuth
+	);
 
+	// Redirect to login if authorization fails
 	useEffect(() => {
 		if (!isAuthorized && pageData.requiresAuth) {
-			history.push("/login"); // Redirect to login if auth is required and user is not authorized
+			history.push("/login");
 			return;
 		}
 	}, [history, isAuthorized, pageData.requiresAuth]);
 
 	if (pageData.requiresAuth && !isAuthorized) {
-		return <div>Loading...</div>; // Show loading or unauthorized message
+		return <div>Loading...</div>;
 	}
+
+	// Log pageData for debugging
+	console.log("Initialized pageData:", pageData);
 
 	return (
 		<PageProvider

@@ -25,19 +25,16 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
         topic: "Topic 1",
         page_order: 1,
         type: "quiz",
-        role: UserRole.Admin,
-        requiresAuth: false, // New field to indicate if authentication is required
+        role: UserRole.Admin, // FIXME: Test requiresAuth true for this page
+        requiresAuth: false,
         prerequisites: [],
         difficulty: DifficultyLevel.Junior,
         pageScore: 0,
         points: 10,
-        estimatedTime: "5 minutes",
         tags: ["test", "intro"],
-        relatedPages: [],
-        resources: [],
+        coursePathProgress: 0, // Keep the fields relevant to the progress tracking and quizzes
         lastAccessed: null,
-        learningObjectives: ["Understand the basics"],
-        coursePathProgress: 0,
+        // Remove 'learningObjectives' and 'resources'
     }}
 />
 
