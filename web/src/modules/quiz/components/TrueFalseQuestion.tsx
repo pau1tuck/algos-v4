@@ -49,7 +49,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	useEffect(() => {
 		setUserAnswer(null);
 		setIsCorrect(null);
-	}, [resetFlag]);
+	}, [resetFlag, setUserAnswer, setIsCorrect]);
 
 	// Handle user's answer submission (locally only)
 	const handleAnswer = (answer: boolean) => {
@@ -65,7 +65,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		<div className={styles["question-container"]}>
 			<ReactMarkdown
 				components={{
-					code({ node, inline, className, children, ...props }) {
+					code({ node, inline, className, children, ...props }) { // TYPE: ReactMarkdown code arguments
 						const match = /language-(\w+)/.exec(className || "");
 						return !inline && match ? (
 							<SyntaxHighlighter

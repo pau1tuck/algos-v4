@@ -23,7 +23,8 @@
 		"rules": {
 			"correctness": {
 				"noSwitchDeclarations": "off",
-				"noUnusedVariables": "warn"
+				"noUnusedVariables": "warn",
+				"useExhaustiveDependencies": "info"
 			},
 			"style": {
 				"noDefaultExport": "off",

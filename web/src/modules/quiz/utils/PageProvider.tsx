@@ -85,6 +85,7 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 
 	const registerQuestion = useCallback((question: QuestionProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
+		console.log("Registered Question:", question);
 	}, []);
 
 	const updateQuestionStatus = useCallback((id: number, updates: Partial<QuestionProps>) => {
