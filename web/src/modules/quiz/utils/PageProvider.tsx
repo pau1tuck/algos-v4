@@ -1,6 +1,6 @@
 //web/src/modules/quiz/utils/PageProvider.tsx
 
-import React, { useReducer, useCallback } from "react";
+import React, { useReducer, useCallback, useEffect } from "react";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { PageType } from "@site/src/modules/quiz/types/page.types";
 import { PageContext, PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
@@ -10,6 +10,21 @@ const REGISTER_QUESTION = "REGISTER_QUESTION";
 const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG";
+
+// Helper to save PageContext state to localStorage
+const saveStateToLocalStorage = (state: PageState, page_id: number) => {
+	console.log(`Saving state to localStorage for page_id: ${page_id}`, state);
+	localStorage.setItem(`quizState_${page_id}`, JSON.stringify(state));
+};
+
+// Helper to load PageContext state from localStorage
+const loadStateFromLocalStorage = (page_id: number) => {
+	const savedState = localStorage.getItem(`quizState_${page_id}`);
+	if (savedState) {
+		console.log(`Loaded state from localStorage for page_id: ${page_id}`, JSON.parse(savedState));
+	}
+	return savedState ? JSON.parse(savedState) : null;
+};
 
 type PageState = {
 	questions: QuestionProps[];
@@ -41,6 +56,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				questions: updatedStatusQuestions,
 			};
 		case RESET_PAGE:
+			console.log("Resetting Page");
 			return {
 				...state,
 				questions: state.questions.map((question) => ({
@@ -84,7 +100,8 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 		requiresAuth = false,  // Add requiresAuth here
 	} = pageData;
 
-	const [state, dispatch] = useReducer(pageReducer, { questions, resetFlag: false });
+	// Load saved state from localStorage when the component mounts
+	const [state, dispatch] = useReducer(pageReducer, loadStateFromLocalStorage(page_id) || { questions, resetFlag: false });
 
 	const registerQuestion = useCallback((question: QuestionProps) => {
 		dispatch({ type: REGISTER_QUESTION, payload: question });
@@ -108,6 +125,11 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 		dispatch({ type: RESET_PAGE });
 		dispatch({ type: TOGGLE_RESET_FLAG });
 	}, []);
+
+	// Save PageContext state to localStorage whenever questions change
+	useEffect(() => {
+		saveStateToLocalStorage(state, page_id);
+	}, [state, page_id]);
 
 	return (
 		<PageContext.Provider
