@@ -12,20 +12,14 @@ const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG";
 
-// Commented-out helper to save PageContext state to localStorage
-// const saveStateToLocalStorage = (state: PageState, page_id: number) => {
-// 	console.log(`Saving state to localStorage for page_id: ${page_id}`, state);
-// 	localStorage.setItem(`quizState_${page_id}`, JSON.stringify(state));
-// };
-
-// Commented-out helper to load PageContext state from localStorage
-// const loadStateFromLocalStorage = (page_id: number) => {
-// 	const savedState = localStorage.getItem(`quizState_${page_id}`);
-// 	if (savedState) {
-// 		console.log(`Loaded state from localStorage for page_id: ${page_id}`, JSON.parse(savedState));
-// 	}
-// 	return savedState ? JSON.parse(savedState) : null;
-// };
+// Helper to clear localStorage for each question on the page
+const clearLocalStorageForQuestions = (questions: QuestionProps[]) => {
+	questions.forEach((question) => {
+		const localStorageKey = `TFQuestion_${question.id}`;
+		localStorage.removeItem(localStorageKey);
+		console.log(`Cleared localStorage for: ${localStorageKey}`);
+	});
+};
 
 type PageState = {
 	questions: QuestionProps[];
@@ -68,6 +62,9 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 			};
 
 		case RESET_PAGE:
+			// Clear localStorage for all questions on the page
+			clearLocalStorageForQuestions(state.questions);
+
 			return {
 				...state,
 				questions: state.questions.map((question) => ({

@@ -1,5 +1,3 @@
-//web/src/modules/quiz/components/TrueFalseQuestion.tsx
-
 import React, { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
@@ -33,6 +31,24 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 
 	const { registerQuestion, updateQuestionStatus, resetFlag } = usePageContext(); // Page context
 
+	// Helper function to load question state from localStorage
+	const loadQuestionFromLocalStorage = () => {
+		const savedData = localStorage.getItem(`question_${questionId}`);
+		if (savedData) {
+			const parsedData = JSON.parse(savedData);
+			console.log("Loaded from localStorage:", parsedData);
+			setUserAnswer(parsedData.userAnswer);
+			setIsCorrect(parsedData.isCorrect);
+		}
+	};
+
+	// Save the current state to localStorage
+	const saveQuestionToLocalStorage = (answer: boolean, correct: boolean) => {
+		const dataToSave = { userAnswer: answer, isCorrect: correct };
+		localStorage.setItem(`question_${questionId}`, JSON.stringify(dataToSave));
+		console.log("Saved to localStorage:", dataToSave);
+	};
+
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
 		registerQuestion({
@@ -44,6 +60,9 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			status: QuestionStatus.NotStarted,
 			correct: false,
 		});
+
+		// Load from localStorage when component mounts
+		loadQuestionFromLocalStorage();
 	}, [questionId, type, order, pointValue, difficulty, registerQuestion]);
 
 	// Reset userAnswer and isCorrect when resetFlag toggles
@@ -62,14 +81,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 
 		// Update both completeness and correctness in PageContext
 		updateQuestionStatus(questionId, {
-			status: QuestionStatus.Complete,  // Mark as complete
-			correct: isAnswerCorrect,         // Set correctness
+			status: QuestionStatus.Complete, // Mark as complete
+			correct: isAnswerCorrect, // Set correctness
 		});
 
-		console.log("TFQuestion: Updating question status with:", {
-			status: QuestionStatus.Complete,
-			correct: isAnswerCorrect,
-		});
+		// Save the result to localStorage
+		saveQuestionToLocalStorage(answer, isAnswerCorrect);
 	};
 
 	// Determine if buttons should be locked (disabled) after an answer is selected
@@ -106,7 +123,8 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(true)}
 					disabled={isLocked}
-					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""}`}
+					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""
+						}`}
 				>
 					True
 				</button>
@@ -114,7 +132,8 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(false)}
 					disabled={isLocked}
-					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""}`}
+					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""
+						}`}
 				>
 					False
 				</button>
