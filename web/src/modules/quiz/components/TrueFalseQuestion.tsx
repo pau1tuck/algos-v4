@@ -57,19 +57,17 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		setUserAnswer(answer);
 		const isAnswerCorrect = answer === correctAnswer;
 		setIsCorrect(isAnswerCorrect);
-		console.log("User answered:", answer, "Correct answer:", isAnswerCorrect);
 
-		// Update the status to "complete" and mark correct/incorrect
-		const newStatus = isAnswerCorrect ? QuestionStatus.Correct : QuestionStatus.Incorrect;
+		console.log("TFQuestion: User answered:", answer, "Correct answer:", isAnswerCorrect);
 
+		// Update both completeness and correctness in PageContext
 		updateQuestionStatus(questionId, {
-			status: newStatus,
-			correct: isAnswerCorrect,
+			status: QuestionStatus.Complete,  // Mark as complete
+			correct: isAnswerCorrect,         // Set correctness
 		});
 
-		// Log what is being passed to the PageContext
-		console.log("Updating question status with:", {
-			status: newStatus,
+		console.log("TFQuestion: Updating question status with:", {
+			status: QuestionStatus.Complete,
 			correct: isAnswerCorrect,
 		});
 	};

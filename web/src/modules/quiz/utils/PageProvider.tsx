@@ -6,25 +6,26 @@ import { PageType } from "@site/src/modules/quiz/types/page.types";
 import { PageContext, PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
 import { DifficultyLevel, QuestionProps, QuestionStatus } from "@site/src/modules/quiz/types/question.types";
 
+// Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
 const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG";
 
-// Helper to save PageContext state to localStorage
-const saveStateToLocalStorage = (state: PageState, page_id: number) => {
-	console.log(`Saving state to localStorage for page_id: ${page_id}`, state);
-	localStorage.setItem(`quizState_${page_id}`, JSON.stringify(state));
-};
+// Commented-out helper to save PageContext state to localStorage
+// const saveStateToLocalStorage = (state: PageState, page_id: number) => {
+// 	console.log(`Saving state to localStorage for page_id: ${page_id}`, state);
+// 	localStorage.setItem(`quizState_${page_id}`, JSON.stringify(state));
+// };
 
-// Helper to load PageContext state from localStorage
-const loadStateFromLocalStorage = (page_id: number) => {
-	const savedState = localStorage.getItem(`quizState_${page_id}`);
-	if (savedState) {
-		console.log(`Loaded state from localStorage for page_id: ${page_id}`, JSON.parse(savedState));
-	}
-	return savedState ? JSON.parse(savedState) : null;
-};
+// Commented-out helper to load PageContext state from localStorage
+// const loadStateFromLocalStorage = (page_id: number) => {
+// 	const savedState = localStorage.getItem(`quizState_${page_id}`);
+// 	if (savedState) {
+// 		console.log(`Loaded state from localStorage for page_id: ${page_id}`, JSON.parse(savedState));
+// 	}
+// 	return savedState ? JSON.parse(savedState) : null;
+// };
 
 type PageState = {
 	questions: QuestionProps[];
@@ -40,23 +41,33 @@ type PageAction =
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION:
+			// Prevent duplicate registrations of the same question
+			const questionAlreadyRegistered = state.questions.some(q => q.id === action.payload.id);
+			if (questionAlreadyRegistered) {
+				console.log(`Provider: Question with id ${action.payload.id} is already registered.`);
+				return state;
+			}
+
 			const updatedQuestions = [...state.questions, action.payload];
-			console.log("Registered Question:", action.payload);
+			console.log("Provider: Registered Question:", action.payload);
 			return {
 				...state,
 				questions: updatedQuestions,
 			};
+
 		case UPDATE_QUESTION_STATUS:
 			const updatedStatusQuestions = state.questions.map((question) =>
-				question.id === action.payload.id ? { ...question, ...action.payload.updates } : question
+				question.id === action.payload.id
+					? { ...question, ...action.payload.updates }
+					: question
 			);
-			console.log("Updated Question Status:", updatedStatusQuestions);
+			console.log("Provider: Updated Question Status:", updatedStatusQuestions);
 			return {
 				...state,
 				questions: updatedStatusQuestions,
 			};
+
 		case RESET_PAGE:
-			console.log("Resetting Page");
 			return {
 				...state,
 				questions: state.questions.map((question) => ({
@@ -65,11 +76,13 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 					correct: false,
 				})),
 			};
+
 		case TOGGLE_RESET_FLAG:
 			return {
 				...state,
 				resetFlag: !state.resetFlag,
 			};
+
 		default:
 			return state;
 	}
@@ -100,12 +113,19 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 		requiresAuth = false,  // Add requiresAuth here
 	} = pageData;
 
-	// Load saved state from localStorage when the component mounts
-	const [state, dispatch] = useReducer(pageReducer, loadStateFromLocalStorage(page_id) || { questions, resetFlag: false });
+	// Initialize state without loading from localStorage
+	const [state, dispatch] = useReducer(pageReducer, { questions, resetFlag: false });
 
 	const registerQuestion = useCallback((question: QuestionProps) => {
+		// Prevent duplicate registrations of the same question
+		if (state.questions.some(q => q.id === question.id)) {
+			console.log(`Provider: Question with id ${question.id} is already registered.`);
+			return;
+		}
+
 		dispatch({ type: REGISTER_QUESTION, payload: question });
-	}, []);
+		console.log("Provider: Registered Question:", question);
+	}, [state.questions, dispatch]);
 
 	const updateQuestionStatus = useCallback((id: number, updates: Partial<QuestionProps>) => {
 		dispatch({
@@ -126,10 +146,10 @@ export const PageProvider: React.FC<{ pageData?: Partial<PageContextProps>; chil
 		dispatch({ type: TOGGLE_RESET_FLAG });
 	}, []);
 
-	// Save PageContext state to localStorage whenever questions change
+	// Log page state whenever it changes
 	useEffect(() => {
-		saveStateToLocalStorage(state, page_id);
-	}, [state, page_id]);
+		console.log("Provider: Page State Updated:", state);
+	}, [state]);
 
 	return (
 		<PageContext.Provider
