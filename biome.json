@@ -26,6 +26,9 @@
 				"noUnusedVariables": "warn",
 				"useExhaustiveDependencies": "info"
 			},
+			"complexity": {
+				"noForEach": "warn"
+			},
 			"style": {
 				"noDefaultExport": "off",
 				"useImportType": "info",
