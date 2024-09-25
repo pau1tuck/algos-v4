@@ -2,7 +2,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 from content.models import QuestionData  # Assuming QuestionData is in content.models
-from .models import Level, Rank
+from django.db import models
+from content.models import Track  # Import Track model
+
+
+class MaxAttainableScores(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
+    total_pages = models.IntegerField(default=0)
+    total_challenges = models.IntegerField(default=0)
+    total_questions = models.IntegerField(default=0)
+
+    @property
+    def max_xp(self):
+        return (
+            (self.total_pages * 5) + self.total_questions + (self.total_challenges * 10)
+        )
+
+    def __str__(self):
+        return f"Max attainable scores for {self.track.title}"
 
 
 class UserProgress(models.Model):
