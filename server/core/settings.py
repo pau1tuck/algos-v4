@@ -11,17 +11,21 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent  # This points to /server
+# Path to your .env file located in the server directory
+env_path = BASE_DIR / ".env"
+# Load environment variables from .env file
+load_dotenv(dotenv_path=env_path)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-dikwy-c9=#aea-3tpj7=es#c6g^z($%#r4^%tf6xft7n9-1d57"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -166,6 +170,23 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",  # Adjust based on your Redis setup
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "TIMEOUT": None,  # You can set a timeout for cache expiration if needed
+    }
+}
+# Optional: To avoid key collisions, set a cache key prefix
+CACHE_KEY_PREFIX = "algobeast"
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"  # Redis instance as broker
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

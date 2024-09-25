@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from content.models import QuestionData  # Assuming QuestionData is in content.models
-from .models import SkillLevel, Rank
+from .models import Level, Rank
 
 
 class UserProgress(models.Model):
@@ -12,15 +12,15 @@ class UserProgress(models.Model):
     health = models.PositiveIntegerField(default=100)  # Current health of the user
     # coins = models.PositiveBigIntegerField(default=0)  # Coins earned by the user
 
-    # Foreign keys to SkillLevel and Rank
-    skill_level = models.ForeignKey(SkillLevel, on_delete=models.SET_NULL, null=True)
+    # Foreign keys to Level and Rank
+    level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True)
     rank = models.ForeignKey(Rank, on_delete=models.SET_NULL, null=True)
 
     # Track completed pages, questions, and challenges as JSON or List
-    completed_pages = models.JSONField(default=list)  # List of completed page IDs
     completed_questions = models.ManyToManyField(
         QuestionData, related_name="completed_questions"
     )  # Many-to-many with QuestionData
+    completed_pages = models.JSONField(default=list)  # List of completed page IDs
     completed_challenges = models.JSONField(
         default=list
     )  # List of completed challenge IDs
@@ -41,13 +41,13 @@ class UserProgress(models.Model):
         return f"{self.user.username}'s Progress"
 
 
-class SkillLevel(models.Model):
-    # •	This is determined based on the percentage of questions and challenges completed at various difficulty levels (e.g., Junior, Middle, Senior). For a user to reach a new skill level (e.g., from Junior to Senior), they need to complete a certain percentage of questions and challenges at the associated difficulty level.
+class Level(models.Model):
+    # •	This is determined based on the percentage of questions and challenges completed at various difficulty levels (e.g., Trainee, Junior, Middle, Senior, Lead). For a user to reach a new skill level (e.g., from Junior to Senior), they need to complete a certain percentage of questions and challenges at the associated difficulty level.
     name = models.CharField(max_length=50, unique=True)  # e.g., 'Junior', 'Senior'
     threshold = models.FloatField(default=0)  # Completion threshold (as a percentage)
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(
-        upload_to="images/skills/", null=True, blank=True
+        upload_to="images/levels/", null=True, blank=True
     )  # Image field for skill icons
 
     def __str__(self):
