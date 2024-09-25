@@ -52,7 +52,8 @@ class Grade(models.Model):
 # * RANKS
 class Rank(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max_length=100)  # e.g., 'Rookie', 'Pro', 'Master'
+    title = models.CharField(max_length=100)  # e.g., 'Apprentice', 'Professional'
+    slug = models.SlugField(unique=True)  # e.g., "apprentice"
     image = models.ImageField(
         upload_to="images/ranks/", null=True, blank=True
     )  # Optional, stores rank image
@@ -62,15 +63,47 @@ class Rank(models.Model):
     icon = models.CharField(
         max_length=100, null=True, blank=True
     )  # Icon for visual representation
-    percentage_threshold = (
+    order = models.PositiveIntegerField()  # Integer field to specify progression order
+    challenge_threshold = (
         models.FloatField()
-    )  # Percentage required to achieve this rank
-    order = (
-        models.PositiveIntegerField()
-    )  # Integer field to specify the order of progression
+    )  # Challenges required to achieve this rank
 
     def __str__(self):
         return self.title
+
+
+# * LEVELS
+class Level(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference to Track
+    title = models.CharField(
+        max_length=100
+    )  # e.g., 'Apprentice', 'Senior JavaScript Developer'
+    slug = models.SlugField(unique=True)  # e.g. "senior-js-developer"
+    image = models.ImageField(
+        upload_to="images/levels/", null=True, blank=True
+    )  # Optional, stores level image
+    thumbnail = models.ImageField(
+        upload_to="images/levels/", null=True, blank=True
+    )  # Optional, stores level thumbnail
+    icon = models.CharField(
+        max_length=100, null=True, blank=True
+    )  # Icon for visual representation
+    order = (
+        models.PositiveIntegerField()
+    )  # Integer field to specify the order of progression
+    pages_required = ArrayField(
+        models.PositiveIntegerField()
+    )  # Array of page IDs required to achieve this level
+
+    def __str__(self):
+        return f"{self.title} - {self.track.title}"
+
+
+#     name = models.CharField(max_length=50, unique=True)  # e.g., 'Junior', 'Senior'
+#     threshold = models.FloatField(default=0)  # Completion threshold (as a percentage)
+#     description = models.TextField(null=True, blank=True)
+#     image = models.ImageField(upload_to="images/levels/", null=True, blank=True)  # Image field for skill icons
 
 
 # * USER PROGRESS
@@ -87,12 +120,8 @@ class UserProgress(models.Model):
     challenges_completed = ArrayField(models.IntegerField(), default=list)
 
     # Track current progress
-    current_page = models.PositiveIntegerField(  # Current page ID
-        null=True, blank=True
-    )  # Last uncompleted page
-    last_completed = models.DateTimeField(
-        auto_now=True
-    )  # Timestamp of the last completion
+    current_page = models.PositiveIntegerField(null=True, blank=True)
+    last_completed = models.DateTimeField(auto_now=True)
 
     @property
     def xp(self):
@@ -101,6 +130,34 @@ class UserProgress(models.Model):
             + len(self.questions_completed)
             + (len(self.challenges_completed) * 10)
         )
+
+    @property
+    def grade(self):
+        return (
+            Grade.objects.filter(xp_threshold__lte=self.xp)
+            .order_by("-xp_threshold")
+            .first()
+        )
+
+    @property
+    def rank(self):
+        return (
+            Rank.objects.filter(challenge_threshold__lte=len(self.challenges_completed))
+            .order_by("-challenge_threshold")
+            .first()
+        )
+
+    @property
+    def level(self):
+        if not self.pages_completed:
+            return Level.objects.get(title="Aspiring JavaScript Developer")
+
+        levels = Level.objects.filter(track=self.track).order_by("order")
+        completed_pages = set(self.pages_completed)
+        for level in levels:
+            if set(level.pages_required).issubset(completed_pages):
+                return level
+        return None  # Catch any unexpected cases
 
     def __str__(self):
         return f"Progress for {self.user.username} in {self.track.title}"
