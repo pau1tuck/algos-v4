@@ -8,7 +8,7 @@ from content.models import Track  # Import Track model
 
 
 # * MAX ATTAINABLE SCORES
-class MaxAttainableScore(models.Model):
+class MaxAttainable(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
     total_pages = models.IntegerField(default=0)
     total_challenges = models.IntegerField(default=0)
@@ -27,7 +27,13 @@ class MaxAttainableScore(models.Model):
 # * GRADES
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max_length=100)  # e.g., 'White Belt', 'Yellow Belt'
+    title = models.CharField(
+        max_length=100
+    )  # e.g., 'White Belt (Yellow Stripe)', 'Yellow Belt'
+    slug = models.SlugField(unique=True)  # e.g. "white-yellow"
+    order = (
+        models.PositiveIntegerField()
+    )  # Integer field to specify the order of progression
     image = models.ImageField(
         upload_to="images/grades/", null=True, blank=True
     )  # Optional, stores grade image
@@ -37,12 +43,7 @@ class Grade(models.Model):
     icon = models.CharField(
         max_length=100, null=True, blank=True
     )  # Icon for visual representation
-    percentage_threshold = (
-        models.FloatField()
-    )  # Percentage required to achieve this grade
-    order = (
-        models.PositiveIntegerField()
-    )  # Integer field to specify the order of progression
+    xp_threshold = models.FloatField()
 
     def __str__(self):
         return self.title
@@ -81,8 +82,8 @@ class UserProgress(models.Model):
     health = models.IntegerField(default=100)
 
     # Completed items
-    pages_completed = ArrayField(models.IntegerField(), default=list)
     questions_completed = ArrayField(models.IntegerField(), default=list)
+    pages_completed = ArrayField(models.IntegerField(), default=list)
     challenges_completed = ArrayField(models.IntegerField(), default=list)
 
     # Track current progress
