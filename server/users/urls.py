@@ -1,12 +1,12 @@
 from django.urls import path, include
 from dj_rest_auth.views import PasswordResetConfirmView
 from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView
-from users.views import CustomUserView
+from users.views import CustomUserView, CustomRegisterView
 
 urlpatterns = [
     path("", include("dj_rest_auth.urls")),
     path("me/", CustomUserView.as_view(), name="custom-user"),
-    path("register/", include("dj_rest_auth.registration.urls")),
+    path("register/", CustomRegisterView.as_view(), name="custom-register"),
     path(
         "account-confirm-email/",
         VerifyEmailView.as_view(),

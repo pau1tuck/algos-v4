@@ -1,3 +1,4 @@
+# /server/core/settings.py
 """
 Django settings for core project.
 
@@ -171,6 +172,10 @@ REST_FRAMEWORK = {
     ],
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
+}
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -256,7 +261,7 @@ LOGGING = {
         # Logger for your 'users' app to capture user activity
         "users": {
             "handlers": ["console"],
-            "level": "INFO",  # Use 'DEBUG' for more details
+            "level": "DEBUG",  # Use 'DEBUG' for more details
             "propagate": False,
         },
     },
