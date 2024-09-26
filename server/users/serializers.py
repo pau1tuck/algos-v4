@@ -51,7 +51,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 
         user.first_name = self.validated_data.get("first_name", "")
         user.last_name = self.validated_data.get("last_name", "")
-        user.profile.country = self.validated_data.get("country", "")
+        user.country = self.validated_data.get("country", "")
         user.save()
 
         logger.info(f"User {user.email} successfully registered.")
