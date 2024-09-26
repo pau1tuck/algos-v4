@@ -150,7 +150,7 @@ class UserProgress(models.Model):
     @property
     def level(self):
         if not self.pages_completed:
-            return Level.objects.get(title="Aspiring JavaScript Developer")
+            return Level.objects.get(title="Aspiring Developer")
 
         levels = Level.objects.filter(track=self.track).order_by("order")
         completed_pages = set(self.pages_completed)
