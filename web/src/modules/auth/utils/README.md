@@ -55,7 +55,19 @@ Shows a loading screen if authentication is still in progress.
 - If unauthorized, redirects to either /login or /unauthorized.
 If authorized, initializes the page context and updates Redux with page progress.
 
-## How They Interact
+## 6. useIsAuthenticated
+
+	•	Purpose: Redirects logged-in users away from pages that should only be accessible to unauthenticated users, such as the registration or login pages.
+	•	Usage: Called within register.tsx, login.tsx, forgot.tsx, and other pages where authenticated users should be redirected.
+
+### Flow:
+
+1.	First, it checks for the presence of an authentication token in the browser’s cookies.
+2.	It also verifies the isAuthenticated value from the Redux store.
+3.	If either the token exists or isAuthenticated is true, the hook will redirect the user to /profile.
+4.	No backend API calls are made, ensuring a fast, efficient check.
+
+## How These Services Interact
 
 1. `withAuth`**:** Directly uses `useAuthState` to enforce authentication for non-MDX pages (e.g., /user/profile). It ensures users are redirected to /login if they aren’t authenticated.
 
