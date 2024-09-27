@@ -36,7 +36,10 @@ export const loginUser = createAsyncThunk(
 					},
 				},
 			);
-			console.log("User profile fetched:", userProfile.data); // Log profile data
+			console.log(
+				"User profile data added to Redux store:",
+				userProfile.data,
+			); // Log profile data
 			return { token: key, user: userProfile.data };
 		} catch (error) {
 			console.error("Login failed:", error.response.data); // Log error

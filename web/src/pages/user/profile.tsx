@@ -1,4 +1,7 @@
+//web/src/pages/user/profile.tsx
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@site/src/redux/store"; // Adjust this to your store setup
 import axios from "axios";
 import Cookies from "universal-cookie";
 import {
@@ -12,6 +15,7 @@ import {
 	Paper,
 } from "@mui/material";
 import Layout from "@theme/Layout";
+import { setUser } from "@site/src/redux/slices/authSlice"; // Action to update user profile
 import withAuth from "@site/src/modules/auth/utils/withAuth"; // Import the HOC
 
 const cookies = new Cookies();
@@ -24,35 +28,46 @@ interface UserProfile {
 }
 
 const ProfilePage: React.FC = () => {
-	const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+	const dispatch = useDispatch();
+	const { user } = useSelector((state: RootState) => state.auth); // Get user profile from Redux
+	const [userProfile, setUserProfile] = useState<UserProfile | null>(
+		user || null,
+	); // Initially use Redux state
+	const [loading, setLoading] = useState<boolean>(!userProfile); // If no Redux data, show loader
 	const [error, setError] = useState<string | null>(null);
 	const [editing, setEditing] = useState<boolean>(false);
 	const [updatedProfile, setUpdatedProfile] = useState<UserProfile | null>(
-		null,
+		userProfile,
 	);
 
+	// Fetch profile from backend if not available in Redux
 	useEffect(() => {
-		const token = cookies.get("token");
+		if (!userProfile) {
+			const token = cookies.get("token");
 
-		axios
-			.get("http://localhost:8000/api/users/profile/", {
-				headers: {
-					Authorization: `Token ${token}`,
-				},
-			})
-			.then((response) => {
-				setUserProfile(response.data);
-				setUpdatedProfile(response.data);
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.error("Error fetching user data:", error.response);
-				setError("Failed to load user profile.");
-				setLoading(false);
-			});
-	}, []);
+			axios
+				.get("http://localhost:8000/api/users/profile/", {
+					headers: {
+						Authorization: `Token ${token}`,
+					},
+				})
+				.then((response) => {
+					setUserProfile(response.data);
+					setUpdatedProfile(response.data);
+					setLoading(false);
 
+					// Dispatch the profile data to Redux
+					dispatch(setUser(response.data)); // Update Redux store with new profile data
+				})
+				.catch((error) => {
+					console.error("Error fetching user data:", error.response);
+					setError("Failed to load user profile.");
+					setLoading(false);
+				});
+		}
+	}, [userProfile, dispatch]);
+
+	// Save changes to profile
 	const handleSave = () => {
 		const token = cookies.get("token");
 		if (!token) return;
@@ -62,7 +77,8 @@ const ProfilePage: React.FC = () => {
 				headers: { Authorization: `Token ${token}` },
 			})
 			.then((response) => {
-				setUserProfile(response.data);
+				setUserProfile(response.data); // Update local state with new data
+				dispatch(setUser(response.data)); // Update Redux store with new data
 				setEditing(false);
 			})
 			.catch((err) => console.error("Failed to save changes", err));
