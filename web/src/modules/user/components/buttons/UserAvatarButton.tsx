@@ -1,31 +1,26 @@
-// src/modules/auth/components/buttons/UserAvatarButton.tsx
-import type React from "react";
-import { useState } from "react";
-import { Avatar, Box } from "@mui/material";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useDispatch } from "react-redux";
+//web/src/modules/user/components/buttons/UserAvatarButton.tsx
+import React, { useState } from "react";
+import { Avatar, Box, Menu, MenuItem } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@site/src/redux/slices/authSlice";
 import Link from "@docusaurus/Link"; // Import Docusaurus Link
-import { useHistory } from "react-router-dom"; // Import useHistory for navigation
+import { useHistory } from "@docusaurus/router"; // Use Docusaurus router for navigation
+import type { RootState } from "@site/src/redux/store"; // Import RootState to type the selector
 
-interface UserAvatarButtonProps {
-	user: {
-		first_name: string;
-		// Include other user properties if necessary
-	};
-}
-
-const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
+const UserAvatarButton: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const dispatch = useDispatch();
-	const history = useHistory(); // Initialize useHistory
+	const history = useHistory(); // Use Docusaurus history for navigation
 
+	// Fetch user data from Redux
+	const user = useSelector((state: RootState) => state.auth.user);
+
+	// Open the menu
 	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
-		console.log(user.first_name);
 	};
 
+	// Close the menu
 	const handleMenuClose = () => {
 		setAnchorEl(null);
 	};
@@ -33,14 +28,19 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 	const handleLogout = () => {
 		dispatch(logout());
 		handleMenuClose();
-		history.push("/"); // Redirect to the home page after logging out
+		history.push("/"); // Use Docusaurus history for navigation
 	};
+
+	if (!user) {
+		return null; // Render nothing if the user is not authenticated
+	}
 
 	return (
 		<Box ml={1}>
 			<Box sx={{ cursor: "pointer" }}>
-				<Avatar onClick={handleMenuOpen}>
-					{user.first_name.charAt(0)}
+				<Avatar onClick={handleMenuOpen} src={user.avatar || ""}>
+					{user.avatar ? null : user.first_name.charAt(0)}{" "}
+					{/* Fallback to initial if no avatar */}
 				</Avatar>
 			</Box>
 			<Menu
@@ -56,6 +56,7 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 						Profile
 					</Link>
 				</MenuItem>
+				{/* Logout functionality */}
 				<MenuItem onClick={handleLogout}>Logout</MenuItem>
 			</Menu>
 		</Box>

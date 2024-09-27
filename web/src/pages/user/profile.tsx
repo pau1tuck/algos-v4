@@ -125,6 +125,7 @@ const ProfilePage: React.FC = () => {
 					display: "flex",
 					justifyContent: "center",
 					marginTop: 10,
+					marginBottom: 10,
 				}}
 			>
 				<Paper elevation={3} sx={{ p: 4, width: "100%" }}>
