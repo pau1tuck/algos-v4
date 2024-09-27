@@ -7,10 +7,13 @@ import { Box } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch } from "@site/src/redux/store"; // Adjust path as needed
 import { loginUser } from "@site/src/redux/thunks/authThunk";
+import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
 
 const LoginPage = () => {
 	const history = useHistory();
 	const dispatch = useAppDispatch(); // Use custom hook
+
+	useIsAuthenticated(); // If the user is already authenticated, redirect to the profile page
 
 	const handleLogin = async (
 		email: string,
