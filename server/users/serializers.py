@@ -36,10 +36,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     password1 = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        print(
-            "CustomRegisterSerializer is in use"
-        )  # Print statement for console output
-        logger.info("CustomRegisterSerializer is in use.")  # Log to console
+        logger.info("CustomRegisterSerializer is in use.")
 
         # Copy password1 to password2 internally for validation purposes
         data["password2"] = data["password1"]
@@ -47,13 +44,14 @@ class CustomRegisterSerializer(RegisterSerializer):
         return super().validate(data)
 
     def custom_signup(self, request, user):
-        print("Custom user signup started.")  # Print statement for console output
-        logger.info("Custom user signup started.")
+        logger.info("Custom user regisration in progress.")
 
         user.first_name = self.validated_data.get("first_name", "")
         user.last_name = self.validated_data.get("last_name", "")
         user.country = self.validated_data.get("country", "")
         user.save()
 
-        logger.info(f"User {user.email} successfully registered.")
+        logger.info(
+            f"User {user.first_name} {user.last_name} <{user.email}> successfully registered."
+        )
         return user

@@ -3,20 +3,18 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Register from '@site/src/modules/auth/components/Register';
 import { Box, Stack, useMediaQuery, useTheme } from '@mui/material';
-import axios from 'axios'; // Assuming axios is used for API requests
+import axios from 'axios';
 import useIsAuthenticated from '@site/src/modules/auth/utils/useIsAuthenticated'; // Import the new hook
 
 const RegisterPage = () => {
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-    // Call the hook to redirect logged-in users
-    useIsAuthenticated();
+    useIsAuthenticated(); // If the user is already authenticated, redirect to the profile page
 
-    // Real onRegister function that communicates with the backend
     const handleRegister = async (
         email: string,
-        password: string,  // Only send one password
+        password: string, // Only send one password
         country: string,
         firstName: string,
         lastName: string
@@ -24,18 +22,18 @@ const RegisterPage = () => {
         try {
             const response = await axios.post("/api/auth/registration/", {
                 email,
-                password1: password,  // Send only password1
+                password1: password,
                 first_name: firstName,
                 last_name: lastName,
                 country,
             });
 
             if (response.status === 201) {
-                console.log("Registration successful");
+                console.log("Registration successful.");
                 return true;
             }
         } catch (error) {
-            console.error("Registration failed", error);
+            console.error("Registration failed.", error);
             return false;
         }
         return false;
