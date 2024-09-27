@@ -10,34 +10,40 @@ import {
 	Snackbar,
 	Alert,
 } from "@mui/material";
-import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated"; // Import the new hook
-import Loading from "@site/src/components/Loading"; // Assuming you have a Loading component
-import axios from "axios"; // Import axios for handling the registration API call
+import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
+import Loading from "@site/src/components/Loading";
+import axios from "axios";
 
 const RegisterPage = () => {
 	const theme = useTheme();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 
-	// Call the hook to redirect logged-in users
 	const { isLoading } = useIsAuthenticated();
-
-	// State to store error messages for display in Snackbar
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const [snackbarOpen, setSnackbarOpen] = useState(false); // Control Snackbar visibility
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
 
 	const handleRegister = async (
-		email: string,
-		password: string,
+		firstName: string, // Switched position
+		lastName: string, // Switched position
 		country: string,
-		firstName: string,
-		lastName: string,
+		email: string, // Switched position
+		password: string, // Switched position
 	): Promise<boolean> => {
+		// Logging the correctly ordered data being sent to the backend
+		console.log("Data being sent to the backend:", {
+			email,
+			password1: password,
+			first_name: firstName,
+			last_name: lastName,
+			country,
+		});
+
 		try {
 			const response = await axios.post(
 				"http://localhost:8000/api/users/register/",
 				{
 					email,
-					password1: password, // Send only password1
+					password1: password,
 					first_name: firstName,
 					last_name: lastName,
 					country,
@@ -45,47 +51,44 @@ const RegisterPage = () => {
 			);
 
 			if (response.status === 201) {
-				console.log("Registration successful.");
-				setErrorMessage(null); // Clear any previous error message
-				setSnackbarOpen(false); // Close Snackbar if successful
+				console.log("Registration successful:", response.data);
+				setErrorMessage(null);
+				setSnackbarOpen(false);
 				return true;
 			}
 		} catch (error) {
+			console.log("Backend error response:", error.response);
+
 			if (error.response && error.response.data) {
 				const backendErrors = error.response.data;
 				let errorMessage = "";
 
-				// Handle email errors
 				if (backendErrors.email) {
 					errorMessage += `Email: ${backendErrors.email[0]}\n`;
 				}
 
-				// Handle password errors
 				if (backendErrors.password1) {
 					errorMessage += `Password: ${backendErrors.password1[0]}\n`;
 				}
 
-				// Set the error message to be displayed in the Snackbar
 				setErrorMessage(errorMessage);
-				setSnackbarOpen(true); // Show Snackbar with error
+				setSnackbarOpen(true);
 			} else {
 				setErrorMessage(
 					"An unexpected error occurred. Please try again.",
 				);
-				setSnackbarOpen(true); // Show Snackbar with generic error
+				setSnackbarOpen(true);
 			}
 			return false;
 		}
 	};
 
-	// Close Snackbar handler
 	const handleCloseSnackbar = () => {
 		setSnackbarOpen(false);
 	};
 
-	// Show a loading state while checking authentication
 	if (isLoading) {
-		return <Loading />; // Render your loading spinner or a placeholder component
+		return <Loading />;
 	}
 
 	return (
@@ -127,7 +130,6 @@ const RegisterPage = () => {
 				</Stack>
 			</Box>
 
-			{/* Display a Snackbar with error messages */}
 			<Snackbar
 				open={snackbarOpen}
 				autoHideDuration={6000}
