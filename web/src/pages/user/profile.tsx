@@ -116,6 +116,12 @@ const ProfilePage: React.FC = () => {
 		);
 	}
 
+	// Full URL for avatar
+	const mediaBaseUrl = "http://localhost:8000"; // Backend URL for media files
+	const avatarUrl = userProfile?.avatar
+		? `${mediaBaseUrl}${userProfile.avatar}`
+		: "";
+
 	return (
 		<Layout>
 			<Container
@@ -136,7 +142,7 @@ const ProfilePage: React.FC = () => {
 					>
 						{/* Avatar */}
 						<Avatar
-							src={userProfile?.avatar || ""}
+							src={avatarUrl}
 							alt={`${userProfile?.first_name} ${userProfile?.last_name}`}
 							sx={{
 								width: 128,
@@ -145,7 +151,7 @@ const ProfilePage: React.FC = () => {
 								mb: 3,
 							}}
 						>
-							{userProfile ? userProfile.first_name[0] : ""}
+							{userProfile?.first_name.charAt(0)}
 						</Avatar>
 
 						{/* User info - Editable */}

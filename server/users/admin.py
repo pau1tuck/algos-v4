@@ -1,4 +1,5 @@
 # /server/users/admin.py
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Role
@@ -12,13 +13,15 @@ class CustomUserAdmin(UserAdmin):
         "first_name",
         "last_name",
         "country",
+        "city",  # Added city field
+        "headline",  # Added headline field
         "is_staff",
         "is_active",
         "created_at",
         "last_visit",
         "avatar",
     )
-    list_filter = ("email", "is_staff", "is_active", "country")
+    list_filter = ("email", "is_staff", "is_active", "country", "city", "headline")
 
     fieldsets = (
         (
@@ -27,7 +30,17 @@ class CustomUserAdmin(UserAdmin):
         ),
         (
             "Personal info",
-            {"fields": ("first_name", "last_name", "country", "avatar")},
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "country",
+                    "city",
+                    "headline",
+                    "custom_headline",
+                    "avatar",
+                )
+            },
         ),
         (
             "Permissions",
@@ -58,6 +71,9 @@ class CustomUserAdmin(UserAdmin):
                     "first_name",
                     "last_name",
                     "country",
+                    "city",
+                    "headline",
+                    "custom_headline",
                     "is_staff",
                     "is_active",
                     "roles",
@@ -67,7 +83,7 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
-    search_fields = ("email", "username", "first_name", "last_name")
+    search_fields = ("email", "username", "first_name", "last_name", "city", "headline")
     ordering = ("email",)
     readonly_fields = ("created_at", "last_visit")
 
