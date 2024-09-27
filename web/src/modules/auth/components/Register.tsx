@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+//web/src/modules/auth/components/Register.tsx
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,8 +11,6 @@ import {
 	Box,
 	MenuItem,
 	Divider,
-	Snackbar,
-	Alert,
 	Link as MuiLink,
 } from "@mui/material";
 import GoogleButton from "./GoogleButton";
@@ -23,7 +22,7 @@ interface RegisterProps {
 		lastName: string,
 		country: string,
 		email: string,
-		password: string
+		password: string,
 	) => Promise<boolean>;
 }
 
@@ -34,8 +33,15 @@ const schema = yup.object().shape({
 	email: yup.string().email("Invalid email").required("Email is required"),
 	password: yup
 		.string()
+		.required("Password is required")
 		.min(8, "Password must be at least 8 characters")
-		.required("Password is required"),
+		.matches(/[a-z]/, "Password must contain at least one lowercase letter")
+		.matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+		.matches(/\d/, "Password must contain at least one number")
+		.matches(
+			/[!@#$%^&*(),.?":{}|<>]/,
+			"Password must contain at least one special character",
+		),
 });
 
 const Register: React.FC<RegisterProps> = ({ onRegister }) => {
@@ -47,42 +53,14 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 		resolver: yupResolver(schema),
 	});
 
-	// State to manage Snackbar visibility and message
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-	const onSubmit = async (data) => { // TYPE: data: <any>
-		try {
-			const success = await onRegister(
-				data.firstName,
-				data.lastName,
-				data.country,
-				data.email,
-				data.password
-			);
-			if (success) {
-				// Navigate to user dashboard or login page
-			} else {
-				// Handle registration failure, display specific error
-				setErrorMessage("Registration failed due to an unknown error.");
-			}
-		} catch (err) {
-			// Handle specific backend error messages using optional chaining
-			const emailError = err?.response?.data?.email?.[0];
-			const generalError = err?.response?.data?.detail;
-
-			if (emailError) {
-				setErrorMessage(emailError); // Display email error
-			} else if (generalError) {
-				setErrorMessage(generalError); // Display any other error
-			} else {
-				setErrorMessage("An unexpected error occurred. Please try again.");
-			}
-		}
-	};
-
-	// Close Snackbar handler
-	const handleCloseSnackbar = () => {
-		setErrorMessage(null);
+	const onSubmit = async (data) => {
+		await onRegister(
+			data.firstName,
+			data.lastName,
+			data.country,
+			data.email,
+			data.password,
+		);
 	};
 
 	// Placeholder for countries dropdown
@@ -120,6 +98,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 					Sign up with Google
 				</GoogleButton>
 				<Divider sx={{ my: 2, width: "100%" }}>or</Divider>
+
 				<Box
 					component="form"
 					onSubmit={handleSubmit(onSubmit)}
@@ -236,15 +215,6 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 					</Button>
 				</Box>
 			</Box>
-			<Snackbar
-				open={!!errorMessage}
-				autoHideDuration={6000}
-				onClose={handleCloseSnackbar}
-			>
-				<Alert onClose={handleCloseSnackbar} severity="error">
-					{errorMessage}
-				</Alert>
-			</Snackbar>
 		</Container>
 	);
 };

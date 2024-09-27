@@ -1,8 +1,15 @@
 //web/pages/register.tsx
-import React from "react";
+import React, { useState } from "react";
 import Layout from "@theme/Layout";
 import Register from "@site/src/modules/auth/components/Register";
-import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
+import {
+	Box,
+	Stack,
+	useMediaQuery,
+	useTheme,
+	Snackbar,
+	Alert,
+} from "@mui/material";
 import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated"; // Import the new hook
 import Loading from "@site/src/components/Loading"; // Assuming you have a Loading component
 import axios from "axios"; // Import axios for handling the registration API call
@@ -13,6 +20,10 @@ const RegisterPage = () => {
 
 	// Call the hook to redirect logged-in users
 	const { isLoading } = useIsAuthenticated();
+
+	// State to store error messages for display in Snackbar
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [snackbarOpen, setSnackbarOpen] = useState(false); // Control Snackbar visibility
 
 	const handleRegister = async (
 		email: string,
@@ -35,13 +46,41 @@ const RegisterPage = () => {
 
 			if (response.status === 201) {
 				console.log("Registration successful.");
+				setErrorMessage(null); // Clear any previous error message
+				setSnackbarOpen(false); // Close Snackbar if successful
 				return true;
 			}
 		} catch (error) {
-			console.error("Registration failed.", error);
+			if (error.response && error.response.data) {
+				const backendErrors = error.response.data;
+				let errorMessage = "";
+
+				// Handle email errors
+				if (backendErrors.email) {
+					errorMessage += `Email: ${backendErrors.email[0]}\n`;
+				}
+
+				// Handle password errors
+				if (backendErrors.password1) {
+					errorMessage += `Password: ${backendErrors.password1[0]}\n`;
+				}
+
+				// Set the error message to be displayed in the Snackbar
+				setErrorMessage(errorMessage);
+				setSnackbarOpen(true); // Show Snackbar with error
+			} else {
+				setErrorMessage(
+					"An unexpected error occurred. Please try again.",
+				);
+				setSnackbarOpen(true); // Show Snackbar with generic error
+			}
 			return false;
 		}
-		return false;
+	};
+
+	// Close Snackbar handler
+	const handleCloseSnackbar = () => {
+		setSnackbarOpen(false);
 	};
 
 	// Show a loading state while checking authentication
@@ -49,7 +88,6 @@ const RegisterPage = () => {
 		return <Loading />; // Render your loading spinner or a placeholder component
 	}
 
-	// Render the page only after authentication check is complete
 	return (
 		<Layout>
 			<Box
@@ -88,6 +126,17 @@ const RegisterPage = () => {
 					</Box>
 				</Stack>
 			</Box>
+
+			{/* Display a Snackbar with error messages */}
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={6000}
+				onClose={handleCloseSnackbar}
+			>
+				<Alert onClose={handleCloseSnackbar} severity="error">
+					{errorMessage}
+				</Alert>
+			</Snackbar>
 		</Layout>
 	);
 };

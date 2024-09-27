@@ -74,7 +74,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 						alignItems: "center",
 					}}
 				>
-					<Typography component="h1" variant="h4" mb={2}>
+					<Typography component="h1" variant="h3" mb={2}>
 						Log in
 					</Typography>
 					<Typography variant="body2" mb={1}>

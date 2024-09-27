@@ -170,6 +170,14 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "login": "5/minute",  # Limit login attempts
+        "register": "3/minute",  # Limit registration attempts
+    },
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -186,6 +194,10 @@ CACHES = {
         "TIMEOUT": None,  # You can set a timeout for cache expiration if needed
     }
 }
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"  # This will use Redis for session management
+
 # Optional: To avoid key collisions, set a cache key prefix
 CACHE_KEY_PREFIX = "algobeast"
 
