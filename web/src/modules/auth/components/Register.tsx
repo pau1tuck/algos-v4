@@ -1,5 +1,4 @@
-// src/modules/auth/components/Register.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -11,6 +10,8 @@ import {
 	Box,
 	MenuItem,
 	Divider,
+	Snackbar,
+	Alert,
 	Link as MuiLink,
 } from "@mui/material";
 import GoogleButton from "./GoogleButton";
@@ -22,7 +23,7 @@ interface RegisterProps {
 		lastName: string,
 		country: string,
 		email: string,
-		password: string,
+		password: string
 	) => Promise<boolean>;
 }
 
@@ -46,6 +47,9 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 		resolver: yupResolver(schema),
 	});
 
+	// State to manage Snackbar visibility and message
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 	const onSubmit = async (data) => {
 		try {
 			const success = await onRegister(
@@ -53,16 +57,32 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 				data.lastName,
 				data.country,
 				data.email,
-				data.password,
+				data.password
 			);
 			if (success) {
 				// Navigate to user dashboard or login page
 			} else {
-				// Handle registration failure
+				// Handle registration failure, display specific error
+				setErrorMessage("Registration failed due to an unknown error.");
 			}
 		} catch (err) {
-			// Handle error
+			// Handle specific backend error messages using optional chaining
+			const emailError = err?.response?.data?.email?.[0];
+			const generalError = err?.response?.data?.detail;
+
+			if (emailError) {
+				setErrorMessage(emailError); // Display email error
+			} else if (generalError) {
+				setErrorMessage(generalError); // Display any other error
+			} else {
+				setErrorMessage("An unexpected error occurred. Please try again.");
+			}
 		}
+	};
+
+	// Close Snackbar handler
+	const handleCloseSnackbar = () => {
+		setErrorMessage(null);
 	};
 
 	// Placeholder for countries dropdown
@@ -216,6 +236,15 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 					</Button>
 				</Box>
 			</Box>
+			<Snackbar
+				open={!!errorMessage}
+				autoHideDuration={6000}
+				onClose={handleCloseSnackbar}
+			>
+				<Alert onClose={handleCloseSnackbar} severity="error">
+					{errorMessage}
+				</Alert>
+			</Snackbar>
 		</Container>
 	);
 };

@@ -1,3 +1,4 @@
+//web/src/pages/register.tsx
 import React from "react";
 import Layout from "@theme/Layout";
 import Register from "@site/src/modules/auth/components/Register";
