@@ -9,10 +9,12 @@ import {
 	useTheme,
 	Snackbar,
 	Alert,
+	CircularProgress,
 } from "@mui/material";
 import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
 import Loading from "@site/src/components/Loading";
 import axios from "axios";
+import Link from "@docusaurus/Link";
 
 const RegisterPage = () => {
 	const theme = useTheme();
@@ -21,15 +23,16 @@ const RegisterPage = () => {
 	const { isLoading } = useIsAuthenticated();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const [loading, setLoading] = useState(false); // Spinner state
 
 	const handleRegister = async (
-		firstName: string, // Switched position
-		lastName: string, // Switched position
+		email: string,
+		password: string,
+		firstName: string,
+		lastName: string,
 		country: string,
-		email: string, // Switched position
-		password: string, // Switched position
 	): Promise<boolean> => {
-		// Logging the correctly ordered data being sent to the backend
+		// Log the data being sent to the backend
 		console.log("Data being sent to the backend:", {
 			email,
 			password1: password,
@@ -39,6 +42,7 @@ const RegisterPage = () => {
 		});
 
 		try {
+			setLoading(true); // Start spinner
 			const response = await axios.post(
 				"http://localhost:8000/api/users/register/",
 				{
@@ -54,9 +58,15 @@ const RegisterPage = () => {
 				console.log("Registration successful:", response.data);
 				setErrorMessage(null);
 				setSnackbarOpen(false);
+				// Redirect after successful registration
+				setTimeout(() => {
+					// Use Docusaurus's Link for redirection
+					window.location.href = "/verify-email"; // or another Docusaurus page
+				}, 1000);
 				return true;
 			}
 		} catch (error) {
+			setLoading(false); // Stop spinner
 			console.log("Backend error response:", error.response);
 
 			if (error.response && error.response.data) {
@@ -125,7 +135,10 @@ const RegisterPage = () => {
 							p: 3,
 						}}
 					>
-						<Register onRegister={handleRegister} />
+						<Register
+							onRegister={handleRegister}
+							loading={loading}
+						/>
 					</Box>
 				</Stack>
 			</Box>

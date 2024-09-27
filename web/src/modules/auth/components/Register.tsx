@@ -12,18 +12,20 @@ import {
 	MenuItem,
 	Divider,
 	Link as MuiLink,
+	CircularProgress,
 } from "@mui/material";
 import GoogleButton from "./GoogleButton";
 import Link from "@docusaurus/Link";
 
 interface RegisterProps {
 	onRegister: (
+		email: string,
+		password: string,
 		firstName: string,
 		lastName: string,
 		country: string,
-		email: string,
-		password: string,
 	) => Promise<boolean>;
+	loading: boolean;
 }
 
 const schema = yup.object().shape({
@@ -44,7 +46,7 @@ const schema = yup.object().shape({
 		),
 });
 
-const Register: React.FC<RegisterProps> = ({ onRegister }) => {
+const Register: React.FC<RegisterProps> = ({ onRegister, loading }) => {
 	const {
 		control,
 		handleSubmit,
@@ -55,15 +57,14 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 
 	const onSubmit = async (data) => {
 		await onRegister(
+			data.email,
+			data.password,
 			data.firstName,
 			data.lastName,
 			data.country,
-			data.email,
-			data.password,
 		);
 	};
 
-	// Placeholder for countries dropdown
 	const countries = [
 		{ value: "us", label: "United States" },
 		{ value: "uk", label: "United Kingdom" },
@@ -90,11 +91,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 						Log in
 					</MuiLink>
 				</Typography>
-				<GoogleButton
-					onClick={() => {
-						// Handle Google Sign Up
-					}}
-				>
+				<GoogleButton onClick={() => {}}>
 					Sign up with Google
 				</GoogleButton>
 				<Divider sx={{ my: 2, width: "100%" }}>or</Divider>
@@ -210,8 +207,9 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 						fullWidth
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
+						disabled={loading} // Disable the button when loading
 					>
-						SUBMIT
+						{loading ? <CircularProgress size={24} /> : "SUBMIT"}
 					</Button>
 				</Box>
 			</Box>
