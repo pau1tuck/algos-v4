@@ -6,7 +6,7 @@ from users.views import CustomUserView, CustomRegisterView
 
 urlpatterns = [
     path("", include("dj_rest_auth.urls")),
-    path("me/", CustomUserView.as_view(), name="custom-user"),
+    path("profile/", CustomUserView.as_view(), name="custom-user"),
     path("register/", CustomRegisterView.as_view(), name="custom-register"),
     path(
         "account-confirm-email/",

@@ -16,20 +16,19 @@ class CustomUserAdmin(UserAdmin):
         "is_active",
         "created_at",
         "last_visit",
-        "avatar",  # Add avatar to the list_display
+        "avatar",
     )
     list_filter = ("email", "is_staff", "is_active", "country")
 
-    # Ensure that 'avatar' is only added to relevant fieldsets
     fieldsets = (
         (
             None,
             {"fields": ("email", "username", "password")},
-        ),  # Don't duplicate 'avatar' here
+        ),
         (
             "Personal info",
             {"fields": ("first_name", "last_name", "country", "avatar")},
-        ),  # Add 'avatar' in the Personal info section only
+        ),
         (
             "Permissions",
             {
@@ -62,7 +61,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_staff",
                     "is_active",
                     "roles",
-                    "avatar",  # Add 'avatar' when creating a new user
+                    "avatar",
                 ),
             },
         ),

@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk(
 
 			// Fetch user profile
 			const userProfile = await axios.get(
-				"http://localhost:8000/api/users/me",
+				"http://localhost:8000/api/users/profile/",
 				{
 					headers: {
 						Authorization: `Token ${key}`,
