@@ -50,7 +50,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister }) => {
 	// State to manage Snackbar visibility and message
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-	const onSubmit = async (data) => {
+	const onSubmit = async (data) => { // TYPE: data: <any>
 		try {
 			const success = await onRegister(
 				data.firstName,

@@ -1,20 +1,22 @@
 //web/src/pages/login.tsx
-
 import React from "react";
 import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "@docusaurus/router"; // Use Docusaurus router
 import { useAppDispatch } from "@site/src/redux/store"; // Adjust path as needed
 import { loginUser } from "@site/src/redux/thunks/authThunk";
 import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
+import Loading from "@site/src/components/Loading"; // Assuming you have a Loading component
 
 const LoginPage = () => {
 	const history = useHistory();
 	const dispatch = useAppDispatch(); // Use custom hook
 
-	useIsAuthenticated(); // If the user is already authenticated, redirect to the profile page
+	// Use the hook to check if the user is already authenticated
+	const { isLoading } = useIsAuthenticated();
 
+	// Handle the login process
 	const handleLogin = async (
 		email: string,
 		password: string,
@@ -37,6 +39,12 @@ const LoginPage = () => {
 		// Implement actual Google login logic here
 	};
 
+	// Show a loading state while checking authentication
+	if (isLoading) {
+		return <Loading />; // Render your loading spinner or a placeholder component
+	}
+
+	// Render the login page only after authentication check is complete
 	return (
 		<Layout>
 			<Box
