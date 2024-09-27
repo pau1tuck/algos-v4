@@ -1,3 +1,4 @@
+# /server/users/urls.py
 from django.urls import path, include
 from dj_rest_auth.views import PasswordResetConfirmView
 from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView

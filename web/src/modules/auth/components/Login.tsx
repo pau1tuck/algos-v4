@@ -1,5 +1,5 @@
 //web/src/modules/auth/components/Login.tsx
-import React, { useState } from "react";
+import type React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -13,7 +13,6 @@ import {
 	Divider,
 	Link as MuiLink,
 	Paper,
-	Snackbar,
 } from "@mui/material";
 import GoogleButton from "@site/src/modules/auth/components/GoogleButton";
 import Link from "@docusaurus/Link";
@@ -38,15 +37,11 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 		resolver: yupResolver(schema),
 	});
 
-	// State to manage Snackbar visibility and message
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
 	const onSubmit = async (data) => {
 		try {
 			const success = await onLogin(data.email, data.password);
 			if (!success) {
 				// If login fails, set an error message
-				setErrorMessage("Invalid email address or password");
 				setError("root", {
 					type: "manual",
 					message: "Invalid email address or password",
@@ -54,17 +49,11 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 			}
 		} catch (err) {
 			// Handle other errors like server issues
-			setErrorMessage("An error occurred. Please try again.");
 			setError("root", {
 				type: "manual",
 				message: "An error occurred. Please try again.",
 			});
 		}
-	};
-
-	// Close Snackbar handler
-	const handleCloseSnackbar = () => {
-		setErrorMessage(null);
 	};
 
 	return (
@@ -85,8 +74,14 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 						alignItems: "center",
 					}}
 				>
-					<Typography component="h1" variant="h4" pb={2}>
+					<Typography component="h1" variant="h4" mb={2}>
 						Log in
+					</Typography>
+					<Typography variant="body2" mb={1}>
+						Don't have an account?{" "}
+						<MuiLink component={Link} to="/register">
+							Sign up
+						</MuiLink>
 					</Typography>
 					<Box
 						component="form"
@@ -138,7 +133,9 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 							)}
 						/>
 						{errors.root && (
-							<Alert severity="error">{errors.root.message}</Alert>
+							<Alert severity="error" sx={{ mt: 2 }}>
+								{errors.root.message}
+							</Alert>
 						)}
 						<Button
 							type="submit"
@@ -166,15 +163,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 					</Box>
 				</Box>
 			</Paper>
-			<Snackbar
-				open={!!errorMessage}
-				autoHideDuration={6000}
-				onClose={handleCloseSnackbar}
-			>
-				<Alert onClose={handleCloseSnackbar} severity="error">
-					{errorMessage}
-				</Alert>
-			</Snackbar>
 		</Container>
 	);
 };

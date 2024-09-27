@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom"; // Import useHistory for navigati
 
 interface UserAvatarButtonProps {
 	user: {
-		// biome-ignore lint: style/useNamingConvention: Django and dj_rest_auth require this naming
 		first_name: string;
 		// Include other user properties if necessary
 	};
@@ -38,7 +37,7 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 	};
 
 	return (
-		<>
+		<Box ml={1}>
 			<Box sx={{ cursor: "pointer" }}>
 				<Avatar onClick={handleMenuOpen}>
 					{user.first_name.charAt(0)}
@@ -59,7 +58,7 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ user }) => {
 				</MenuItem>
 				<MenuItem onClick={handleLogout}>Logout</MenuItem>
 			</Menu>
-		</>
+		</Box>
 	);
 };
 

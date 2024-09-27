@@ -1,4 +1,4 @@
-// src/modules/auth/components/ForgotPassword.tsx
+//web/src/modules/auth/components/ForgotPassword.tsx
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
