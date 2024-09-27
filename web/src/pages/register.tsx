@@ -9,7 +9,6 @@ import {
 	useTheme,
 	Snackbar,
 	Alert,
-	CircularProgress,
 } from "@mui/material";
 import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
 import Loading from "@site/src/components/Loading";
@@ -61,7 +60,7 @@ const RegisterPage = () => {
 				// Redirect after successful registration
 				setTimeout(() => {
 					// Use Docusaurus's Link for redirection
-					window.location.href = "/verify-email"; // or another Docusaurus page
+					window.location.href = "/check"; // or another Docusaurus page
 				}, 1000);
 				return true;
 			}
