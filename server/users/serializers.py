@@ -17,11 +17,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = [
             "pk",
-            "username",
+            "username",  # Include username
             "first_name",
             "last_name",
-            "country",
             "email",
+            "country",
+            "city",  # Include city
+            "headline",  # Include headline
+            "custom_headline",  # Include custom headline
             "avatar",
             "roles",
             "last_visit",
