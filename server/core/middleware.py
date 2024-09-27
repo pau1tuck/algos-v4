@@ -1,4 +1,4 @@
-# server/core/middleware.py
+# /server/core/middleware.py
 
 import logging
 
@@ -28,3 +28,14 @@ class RequestResponseLoggingMiddleware:
         )
 
         return response
+
+
+def __call__(self, request):
+    # Check if the request contains file uploads (multipart/form-data)
+    if request.content_type.startswith("multipart/form-data"):
+        request_body = "Binary Data (multipart/form-data)"
+    else:
+        request_body = request.body.decode("utf-8") if request.body else "No Body"
+
+    logger.info(f"Request Body: {request_body}")
+    return self.get_response(request)
