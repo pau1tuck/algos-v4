@@ -1,35 +1,39 @@
-//web/src/pages/register.tsx
 import React from "react";
 import Layout from "@theme/Layout";
 import Register from "@site/src/modules/auth/components/Register";
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
+import axios from "axios"; // Assuming axios is used for API requests
 
 const RegisterPage = () => {
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 
-    // Dummy onRegister function
-    const dummyOnRegister = async (
+    // Real onRegister function that communicates with the backend
+    const handleRegister = async (
         email: string,
-        password: string,
+        password: string,  // Only send one password
         country: string,
         firstName: string,
         lastName: string
     ): Promise<boolean> => {
-        console.log(
-            `Attempting registration with email: ${email}, country: ${country}, firstName: ${firstName}, lastName: ${lastName}`
-        );
+        try {
+            const response = await axios.post("/api/auth/registration/", {
+                email,
+                password1: password,  // Send only password1 (handled as password on frontend)
+                first_name: firstName,
+                last_name: lastName,
+                country,
+            });
 
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // For testing, let's say registration is always successful
-        const isSuccessful = true;
-
-        console.log(
-            isSuccessful ? "Registration successful" : "Registration failed"
-        );
-        return isSuccessful;
+            if (response.status === 201) {
+                console.log("Registration successful");
+                return true;
+            }
+        } catch (error) {
+            console.error("Registration failed", error);
+            return false;
+        }
+        return false;
     };
 
     return (
@@ -66,7 +70,7 @@ const RegisterPage = () => {
                             p: 3,
                         }}
                     >
-                        <Register onRegister={dummyOnRegister} />
+                        <Register onRegister={handleRegister} />
                     </Box>
                 </Stack>
             </Box>

@@ -2,7 +2,9 @@
 from django.contrib.auth.models import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from allauth.account.models import EmailAddress
-from .models import Role
+
+# Remove the Role import from the top of the file
+# from .models import Role  # <-- Remove this import
 
 
 class CustomUserManager(BaseUserManager):
@@ -14,6 +16,9 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+
+        # Import Role here to avoid circular import
+        from .models import Role
 
         # Assign the "member" role by default if not provided
         if "roles" not in extra_fields or not extra_fields["roles"]:
@@ -37,6 +42,9 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_superuser=True."))
 
         user = self.create_user(email, password, **extra_fields)
+
+        # Import Role here to avoid circular import
+        from .models import Role
 
         # Assign all relevant roles to the superuser
         required_roles = ["member", "subscriber", "staff", "admin"]
