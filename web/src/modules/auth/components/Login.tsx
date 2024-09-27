@@ -136,6 +136,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 							<Alert severity="error" sx={{ mt: 2 }}>
 								{errors.root.message}
 							</Alert>
+>>>>>>>>> Temporary merge branch 2
 						)}
 						<Button
 							type="submit"
