@@ -1,3 +1,4 @@
+# /server/users/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Role
@@ -15,11 +16,20 @@ class CustomUserAdmin(UserAdmin):
         "is_active",
         "created_at",
         "last_visit",
+        "avatar",  # Add avatar to the list_display
     )
     list_filter = ("email", "is_staff", "is_active", "country")
+
+    # Ensure that 'avatar' is only added to relevant fieldsets
     fieldsets = (
-        (None, {"fields": ("email", "username", "password")}),
-        ("Personal info", {"fields": ("first_name", "last_name", "country")}),
+        (
+            None,
+            {"fields": ("email", "username", "password")},
+        ),  # Don't duplicate 'avatar' here
+        (
+            "Personal info",
+            {"fields": ("first_name", "last_name", "country", "avatar")},
+        ),  # Add 'avatar' in the Personal info section only
         (
             "Permissions",
             {
@@ -27,7 +37,7 @@ class CustomUserAdmin(UserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                    "roles",  # Add roles here
+                    "roles",
                     "groups",
                     "user_permissions",
                 )
@@ -35,6 +45,7 @@ class CustomUserAdmin(UserAdmin):
         ),
         ("Important dates", {"fields": ("last_login", "created_at", "last_visit")}),
     )
+
     add_fieldsets = (
         (
             None,
@@ -50,11 +61,13 @@ class CustomUserAdmin(UserAdmin):
                     "country",
                     "is_staff",
                     "is_active",
-                    "roles",  # Add roles here as well
+                    "roles",
+                    "avatar",  # Add 'avatar' when creating a new user
                 ),
             },
         ),
     )
+
     search_fields = ("email", "username", "first_name", "last_name")
     ordering = ("email",)
     readonly_fields = ("created_at", "last_visit")
