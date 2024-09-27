@@ -33,7 +33,7 @@ const useAuthChecker = (requiresAuth: boolean) => {
 				console.log("Retrieved token from cookies:", token);
 
 				const response = await axios.get(
-					"http://localhost:8000/api/users/me",
+					"http://localhost:8000/api/users/profile/",
 					{
 						headers: {
 							Authorization: `Token ${token}`,
