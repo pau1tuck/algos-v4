@@ -133,9 +133,13 @@ const Login: React.FC<LoginProps> = ({ onLogin, onGoogleLogin }) => {
 							)}
 						/>
 						{errors.root && (
+<<<<<<< HEAD
 							<Alert severity="error" sx={{ mt: 2 }}>
 								{errors.root.message}
 							</Alert>
+=======
+							<Alert severity="error" sx={{ mt: 2 }}>{errors.root.message}</Alert>
+>>>>>>> 78bcd91b08f5cb2598f89a841fe763295fdd0ec5
 						)}
 						<Button
 							type="submit"
