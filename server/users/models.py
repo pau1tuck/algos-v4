@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField("Last name", max_length=64, blank=True)
     email = models.EmailField(_("Email address"), unique=True)
     country = models.CharField(max_length=64, blank=True)
-    avatar = models.ImageField(upload_to="users/avatars/", blank=True, null=True)
+    avatar = models.ImageField(upload_to="uploads/avatars/", blank=True, null=True)
     roles = models.ManyToManyField(Role, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

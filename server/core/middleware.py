@@ -1,6 +1,7 @@
 # /server/core/middleware.py
 
 import logging
+from django.http import FileResponse
 
 logger = logging.getLogger("core")
 
@@ -32,11 +33,20 @@ class RequestResponseLoggingMiddleware:
 
         # Log response details
         logger.debug(f"Response Status Code: {response.status_code}")
-        try:
-            logger.debug(
-                f'Response Content: {response.content.decode("utf-8") if response.content else "No Content"}'
-            )
-        except UnicodeDecodeError:
-            logger.warning("Binary response detected, skipping content logging.")
+
+        if isinstance(response, FileResponse):
+            # Handle file responses
+            logger.debug("FileResponse detected, skipping content logging.")
+        else:
+            try:
+                logger.debug(
+                    f'Response Content: {response.content.decode("utf-8") if response.content else "No Content"}'
+                )
+            except AttributeError:
+                logger.warning(
+                    "No content attribute found, possibly a stream response."
+                )
+            except UnicodeDecodeError:
+                logger.warning("Binary response detected, skipping content logging.")
 
         return response
