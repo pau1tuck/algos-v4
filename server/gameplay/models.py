@@ -29,8 +29,8 @@ class MaxAttainable(models.Model):
 # * GRADE
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max_length=100)  # e.g., 'White Belt'
-    slug = models.SlugField(unique=True)  # e.g. "white-belt"
+    title = models.CharField(max_length=100)  # e.g., "Purple Belt"
+    slug = models.SlugField(unique=True)  # e.g. "purple-belt"
     description = models.TextField(null=True, blank=True)
     order = models.PositiveIntegerField()  # Order of progression
     image = models.ImageField(upload_to="images/grades/", null=True, blank=True)
