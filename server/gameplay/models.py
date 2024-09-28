@@ -1,9 +1,6 @@
-# /server/gameplay/models.py
+import json
 from django.db import models
 from django.contrib.auth.models import User
-from content.models import QuestionData  # Assuming QuestionData is in content.models
-from django.db import models
-from django.contrib.postgres.fields import ArrayField
 from content.models import Track  # Import Track model
 
 
@@ -25,25 +22,14 @@ class MaxAttainable(models.Model):
 
 
 # * GRADE
-# White Belt, White Belt (Yellow Stripe), Yellow Belt, Yellow Belt (Orange Stripe), Orange Belt
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(
-        max_length=100
-    )  # e.g., 'White Belt (Yellow Stripe)', 'Yellow Belt'
-    slug = models.SlugField(unique=True)  # e.g. "white-yellow"
-    order = (
-        models.PositiveIntegerField()
-    )  # Integer field to specify the order of progression
-    image = models.ImageField(
-        upload_to="images/grades/", null=True, blank=True
-    )  # Optional, stores grade image
-    thumbnail = models.ImageField(
-        upload_to="images/grades/", null=True, blank=True
-    )  # Optional, stores grade thumbnail
-    icon = models.CharField(
-        max_length=2, null=True, blank=True
-    )  # Icon for visual representation
+    title = models.CharField(max_length=100)  # e.g., 'White Belt'
+    slug = models.SlugField(unique=True)  # e.g. "white-belt"
+    order = models.PositiveIntegerField()  # Order of progression
+    image = models.ImageField(upload_to="images/grades/", null=True, blank=True)
+    thumbnail = models.ImageField(upload_to="images/grades/", null=True, blank=True)
+    icon = models.CharField(max_length=2, null=True, blank=True)  # Icon
     xp_threshold = models.FloatField()
 
     def __str__(self):
@@ -51,24 +37,15 @@ class Grade(models.Model):
 
 
 # * RANK
-# Explorer, Postulant, Apprentice, Journeyman, Professional, Master, Grand Master, BEAST
 class Rank(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max_length=100)  # e.g., 'Apprentice', 'Professional'
+    title = models.CharField(max_length=100)  # e.g., 'Apprentice'
     slug = models.SlugField(unique=True)  # e.g., "apprentice"
-    image = models.ImageField(
-        upload_to="images/ranks/", null=True, blank=True
-    )  # Optional, stores rank image
-    thumbnail = models.ImageField(
-        upload_to="images/ranks/", null=True, blank=True
-    )  # Optional, stores rank thumbnail
-    icon = models.CharField(
-        max_length=2, null=True, blank=True
-    )  # Icon for visual representation
-    order = models.PositiveIntegerField()  # Integer field to specify progression order
-    challenge_threshold = (
-        models.FloatField()
-    )  # Challenges required to achieve this rank
+    image = models.ImageField(upload_to="images/ranks/", null=True, blank=True)
+    thumbnail = models.ImageField(upload_to="images/ranks/", null=True, blank=True)
+    icon = models.CharField(max_length=2, null=True, blank=True)  # Icon
+    order = models.PositiveIntegerField()  # Progression order
+    challenge_threshold = models.FloatField()  # Challenges required to achieve rank
 
     def __str__(self):
         return self.title
@@ -77,35 +54,17 @@ class Rank(models.Model):
 # * LEVEL
 class Level(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference to Track
-    title = models.CharField(
-        max_length=100
-    )  # e.g., 'Apprentice', 'Senior JavaScript Developer'
-    slug = models.SlugField(unique=True)  # e.g. "senior-js-developer"
-    image = models.ImageField(
-        upload_to="images/levels/", null=True, blank=True
-    )  # Optional, stores level image
-    thumbnail = models.ImageField(
-        upload_to="images/levels/", null=True, blank=True
-    )  # Optional, stores level thumbnail
-    icon = models.CharField(
-        max_length=2, null=True, blank=True
-    )  # Icon for visual representation
-    order = (
-        models.PositiveIntegerField()
-    )  # Integer field to specify the order of progression
-    pages_required = ArrayField(
-        models.PositiveIntegerField()
-    )  # Array of page IDs required to achieve this level
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
+    title = models.CharField(max_length=100)  # e.g., 'Senior Developer'
+    slug = models.SlugField(unique=True)  # e.g., "senior-developer"
+    image = models.ImageField(upload_to="images/levels/", null=True, blank=True)
+    thumbnail = models.ImageField(upload_to="images/levels/", null=True, blank=True)
+    icon = models.CharField(max_length=2, null=True, blank=True)  # Icon
+    order = models.PositiveIntegerField()  # Progression order
+    pages_required = models.TextField(default="[]")  # Store as JSON string
 
     def __str__(self):
         return f"{self.title} - {self.track.title}"
-
-
-#     name = models.CharField(max_length=50, unique=True)  # e.g., 'Junior', 'Senior'
-#     threshold = models.FloatField(default=0)  # Completion threshold (as a percentage)
-#     description = models.TextField(null=True, blank=True)
-#     image = models.ImageField(upload_to="images/levels/", null=True, blank=True)  # Image field for skill icons
 
 
 # * USER PROGRESS
@@ -116,9 +75,10 @@ class UserProgress(models.Model):
     points = models.IntegerField(default=0)
     health = models.IntegerField(default=100)
 
-    questions_completed = ArrayField(models.IntegerField(), default=list)
-    pages_completed = ArrayField(models.IntegerField(), default=list)
-    challenges_completed = ArrayField(models.IntegerField(), default=list)
+    # Store list as JSON string for SQLite compatibility
+    questions_completed = models.TextField(default="[]")
+    pages_completed = models.TextField(default="[]")
+    challenges_completed = models.TextField(default="[]")
 
     current_page = models.PositiveIntegerField(null=True, blank=True)
     last_completed = models.DateTimeField(auto_now=True)
@@ -126,9 +86,9 @@ class UserProgress(models.Model):
     @property
     def xp(self):
         return (
-            (len(self.pages_completed) * 5)
-            + len(self.questions_completed)
-            + (len(self.challenges_completed) * 10)
+            len(self.get_pages_completed()) * 5
+            + len(self.get_questions_completed())
+            + len(self.get_challenges_completed()) * 10
         )
 
     @property
@@ -142,38 +102,60 @@ class UserProgress(models.Model):
     @property
     def rank(self):
         return (
-            Rank.objects.filter(challenge_threshold__lte=len(self.challenges_completed))
+            Rank.objects.filter(
+                challenge_threshold__lte=len(self.get_challenges_completed())
+            )
             .order_by("-challenge_threshold")
             .first()
         )
 
     @property
     def level(self):
-        if not self.pages_completed:
+        if not self.get_pages_completed():
             return Level.objects.get(title="Aspiring Developer")
 
         levels = Level.objects.filter(track=self.track).order_by("order")
-        completed_pages = set(self.pages_completed)
+        completed_pages = set(self.get_pages_completed())
         for level in levels:
-            if set(level.pages_required).issubset(completed_pages):
+            if set(json.loads(level.pages_required)).issubset(completed_pages):
                 return level
         return None
 
-    # Overriding save to set current_page and calculate points and health
+    def get_questions_completed(self):
+        return json.loads(self.questions_completed)
+
+    def get_pages_completed(self):
+        return json.loads(self.pages_completed)
+
+    def get_challenges_completed(self):
+        return json.loads(self.challenges_completed)
+
+    def set_questions_completed(self, data):
+        self.questions_completed = json.dumps(data)
+
+    def set_pages_completed(self, data):
+        self.pages_completed = json.dumps(data)
+
+    def set_challenges_completed(self, data):
+        self.challenges_completed = json.dumps(data)
+
+    # Overriding save to handle array logic and calculate points and health
     def save(self, *args, **kwargs):
-        if self.pages_completed:
-            self.current_page = self.pages_completed[-1]  # Most recent completed page
+        if self.get_pages_completed():
+            self.current_page = self.get_pages_completed()[
+                -1
+            ]  # Most recent completed page
 
         # Calculate points based on completed pages, questions, and challenges
         self.points = (
-            len(self.pages_completed) * 5
-            + len(self.questions_completed)
-            + len(self.challenges_completed) * 10
+            len(self.get_pages_completed()) * 5
+            + len(self.get_questions_completed())
+            + len(self.get_challenges_completed()) * 10
         )
 
-        # Calculate health (this could be adjusted based on more complex logic if needed)
+        # Calculate health
         self.health = 100 - (
-            len(self.questions_completed) * 2
+            len(self.get_questions_completed()) * 2
         )  # Deduct 2 points per question completed
 
         super().save(*args, **kwargs)
