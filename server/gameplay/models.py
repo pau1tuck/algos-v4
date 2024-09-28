@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from content.models import Track  # Import Track model
@@ -69,7 +70,9 @@ class Level(models.Model):
 
 # * USER PROGRESS
 class UserProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )  # Use custom user model
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
     points = models.IntegerField(default=0)
