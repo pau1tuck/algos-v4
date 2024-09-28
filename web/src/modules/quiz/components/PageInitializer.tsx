@@ -18,9 +18,9 @@ interface PageInitializerProps {
 		module: string;
 		topic: string;
 		order: number;
-		type: string;
+		type: PageType;
 		requiresAuth: boolean;
-		role: string;
+		role: UserRole;
 		prerequisites: number[];
 		difficulty: DifficultyLevel;
 		points: number;
@@ -58,14 +58,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	// console.log("Updated page data:", pageData);
 
 	return (
-		<PageProvider
-			pageData={{
-				...pageData,
-				type: pageData.type as PageType,
-				role: pageData.role as UserRole,
-				difficulty: pageData.difficulty as DifficultyLevel,
-			}}
-		>
+		<PageProvider pageData={pageData}>
 			{children}
 			<div className="page-actions">
 				<SubmitButton /> {/* SubmitButton handles progress dispatch */}

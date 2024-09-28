@@ -40,7 +40,7 @@ export interface ChallengePageData extends PageData {
 
 export interface PageProgress {
 	page_id: number;
-	completed: boolean;
+	completed: QuestionStatus;
 	module: string;
 	score: number; // The calculated score for the page (based on questions)
 	difficulty: DifficultyLevel;

@@ -26,15 +26,16 @@ export interface Level {
 	pagesRequired: number[];
 }
 
+// Main interface for tracking the user's progress
 export interface UserProgress {
-	userId: number; // ID of the user
-	trackId: number; // ID of the current learning track
-	points: number; // Total points earned (calculated based on questions and pages)
-	health: number; // User's health, handled by the backend
-	questionsCompleted: number[]; // IDs of completed questions
-	pagesCompleted: number[]; // IDs of completed pages
-	challengesCompleted: number[]; // IDs of completed challenges (optional)
-	// Removed currentPage and lastCompleted
+	userId: number;
+	trackId: number;
+	points: number;
+	health: number;
+	questionsCompleted: number[];
+	pagesCompleted: number[];
+	challengesCompleted: number[];
+	currentPage: number; // Keep this for display purposes, backend updates it
 }
 
 // Initial state for user progress
@@ -46,6 +47,7 @@ const initialState: UserProgress = {
 	questionsCompleted: [],
 	pagesCompleted: [],
 	challengesCompleted: [],
+	currentPage: 0, // Initialize to track the current page
 };
 
 // Redux slice to manage user progress
@@ -75,11 +77,10 @@ const userProgressSlice = createSlice({
 				]),
 			];
 
-			// Track the current page
-			state.currentPage = page_id;
+			// The backend will now handle updating `currentPage`, so we remove that logic here
 
 			// Add the score (points from page and questions) to the total points
-			state.points += score; // Increment points based on page score
+			state.points += score;
 		},
 
 		// Optionally update the state if a challenge is completed
@@ -105,7 +106,6 @@ const userProgressSlice = createSlice({
 	},
 });
 
-// Export the actions and the reducer
 export const { updatePageProgress, updateChallengesCompleted } =
 	userProgressSlice.actions;
 export default userProgressSlice.reducer;

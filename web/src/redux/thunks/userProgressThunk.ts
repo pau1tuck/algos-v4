@@ -1,5 +1,4 @@
 //web/src/redux/thunks/userProgressThunk.ts
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -40,11 +39,11 @@ export const saveUserProgress = createAsyncThunk(
 
 		// Prepare the data to be sent to the backend API
 		const data = {
-			points: userProgress.points,
-			health: userProgress.health,
-			completed_pages: userProgress.pagesCompleted,
-			completed_questions: userProgress.questionsCompleted,
-			challenges_completed: userProgress.challengesCompleted,
+			points: userProgress.points, // Send total points
+			health: userProgress.health, // Send current health
+			completed_pages: userProgress.pagesCompleted, // Completed pages
+			completed_questions: userProgress.questionsCompleted, // Completed questions
+			challenges_completed: userProgress.challengesCompleted, // Completed challenges
 		};
 
 		// Make a POST request to save user progress
