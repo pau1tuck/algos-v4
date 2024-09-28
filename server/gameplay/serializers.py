@@ -1,22 +1,24 @@
 # /server/gameplay/serializers.py
 
 from rest_framework import serializers
-from .models import UserProgress, Track
-from django.contrib.auth.models import User
+from .models import UserProgress
+from content.models import Track  # Ensure correct import for Track model
 
 
 class UserProgressSerializer(serializers.ModelSerializer):
-    # Accept userId and trackId as input fields
-    userId = serializers.IntegerField(write_only=True)
-    trackId = serializers.IntegerField(write_only=True)
+    # Include userId as read-only, sourced from user.id
+    userId = serializers.IntegerField(source="user.id", read_only=True)
+
+    # Accept trackId as a writable field and map it to the track field
+    trackId = serializers.PrimaryKeyRelatedField(
+        queryset=Track.objects.all(), source="track"
+    )
 
     class Meta:
         model = UserProgress
         fields = [
-            "userId",  # Include the user ID for input
-            "trackId",  # Include the track ID for input
-            "user",  # For output, this returns the actual user object
-            "track",  # For output, this returns the actual track object
+            "userId",  # Read-only, obtained from the authenticated user
+            "trackId",  # Writable, accepts numerical ID from frontend
             "points",
             "health",
             "questions_completed",
@@ -25,16 +27,17 @@ class UserProgressSerializer(serializers.ModelSerializer):
             "current_page",
             "last_completed",
         ]
+        read_only_fields = ("userId",)
+
+    def create(self, validated_data):
+        # Set the user to the authenticated user
+        user = self.context["request"].user
+        validated_data["user"] = user
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        # Get user and track from validated_data
-        user_id = validated_data.pop("userId", None)
-        track_id = validated_data.pop("trackId", None)
-
-        if user_id:
-            instance.user = User.objects.get(id=user_id)
-        if track_id:
-            instance.track = Track.objects.get(id=track_id)
+        # Prevent changing the user
+        validated_data.pop("user", None)
 
         # Update other fields as before
         instance.points = validated_data.get("points", instance.points)
