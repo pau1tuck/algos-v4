@@ -1,10 +1,14 @@
+// web/src/modules/quiz/components/TrueFalseQuestion.tsx
 import React, { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
-import { QuestionStatus, QuestionType } from "@site/src/modules/quiz/types/question.types";
+import {
+	QuestionStatus,
+	QuestionType,
+} from "@site/src/modules/quiz/types/question.types";
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 
 type TrueFalseQuestionProps = {
@@ -14,7 +18,7 @@ type TrueFalseQuestionProps = {
 	order: number;
 	question: string;
 	correctAnswer: boolean;
-	pointValue: number;
+	points: number; // Renamed from pointValue to points
 };
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
@@ -24,12 +28,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	difficulty,
 	correctAnswer,
 	order,
-	pointValue,
+	points, // Renamed from pointValue to points
 }) => {
 	const [userAnswer, setUserAnswer] = useState<boolean | null>(null); // Tracks user's answer
 	const [isCorrect, setIsCorrect] = useState<boolean | null>(null); // Tracks correctness of the answer
 
-	const { registerQuestion, updateQuestionStatus, resetFlag } = usePageContext(); // Page context
+	const { registerQuestion, updateQuestionStatus, resetFlag } =
+		usePageContext(); // Page context
 
 	// Helper function to load question state from localStorage
 	const loadQuestionFromLocalStorage = () => {
@@ -45,7 +50,10 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	// Save the current state to localStorage
 	const saveQuestionToLocalStorage = (answer: boolean, correct: boolean) => {
 		const dataToSave = { userAnswer: answer, isCorrect: correct };
-		localStorage.setItem(`question_${questionId}`, JSON.stringify(dataToSave));
+		localStorage.setItem(
+			`question_${questionId}`,
+			JSON.stringify(dataToSave),
+		);
 		console.log("Saved to localStorage:", dataToSave);
 	};
 
@@ -55,7 +63,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			id: Number(questionId),
 			type,
 			order,
-			value: Number(pointValue),
+			points: Number(points), // Register points instead of value
 			difficulty,
 			status: QuestionStatus.NotStarted,
 			correct: false,
@@ -63,7 +71,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 
 		// Load from localStorage when component mounts
 		loadQuestionFromLocalStorage();
-	}, [questionId, type, order, pointValue, difficulty, registerQuestion]);
+	}, [questionId, type, order, points, difficulty, registerQuestion]);
 
 	// Reset userAnswer and isCorrect when resetFlag toggles
 	useEffect(() => {
@@ -77,7 +85,12 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		const isAnswerCorrect = answer === correctAnswer;
 		setIsCorrect(isAnswerCorrect);
 
-		console.log("TFQuestion: User answered:", answer, "Correct answer:", isAnswerCorrect);
+		console.log(
+			"TFQuestion: User answered:",
+			answer,
+			"Correct answer:",
+			isAnswerCorrect,
+		);
 
 		// Update both completeness and correctness in PageContext
 		updateQuestionStatus(questionId, {
@@ -123,8 +136,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(true)}
 					disabled={isLocked}
-					className={`${styles["true-false-option"]} ${userAnswer === true ? (isCorrect ? styles.correct : styles.incorrect) : ""
-						}`}
+					className={`${styles["true-false-option"]} ${
+						userAnswer === true
+							? isCorrect
+								? styles.correct
+								: styles.incorrect
+							: ""
+					}`}
 				>
 					True
 				</button>
@@ -132,8 +150,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					type="button"
 					onClick={() => handleAnswer(false)}
 					disabled={isLocked}
-					className={`${styles["true-false-option"]} ${userAnswer === false ? (isCorrect ? styles.correct : styles.incorrect) : ""
-						}`}
+					className={`${styles["true-false-option"]} ${
+						userAnswer === false
+							? isCorrect
+								? styles.correct
+								: styles.incorrect
+							: ""
+					}`}
 				>
 					False
 				</button>

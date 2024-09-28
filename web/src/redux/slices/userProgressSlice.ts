@@ -1,113 +1,115 @@
 //web/src/redux/slices/userProgressSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { UserProgressState } from "@site/src/modules/user/types/user.type";
-import { PageProgress } from "@site/src/modules/quiz/types/page.types"; // Import from page.types.ts
+import { PageProgress } from "@site/src/modules/quiz/types/page.types";
 import {
 	fetchUserProgress,
 	saveUserProgress,
 } from "../thunks/userProgressThunk";
 
-interface Grade {
+// Interfaces for Grade, Rank, Level, and UserProgress
+export interface Grade {
 	id: number;
 	title: string;
 }
-interface Rank {
+
+export interface Rank {
 	id: number;
 	title: string;
 }
 
-interface UserProgress {
-	userId: number;
-	trackId: number;
-
-	points: number;
-	health: number;
-
-	questionsCompleted: number[];
-	pagesCompleted: number[];
-	challengesCompleted: number[];
-
-	currentPage: number;
-
-	xp: number;
-	grade: Grade;
-	rank: Rank;
-
-	progressTimestamp: number;
-	totalXp: number;
-	rankUpdate: number;
-	profileUpdate: number;
+export interface Level {
+	id: number;
+	title: string;
+	track: number;
+	order: number;
+	pagesRequired: number[];
 }
-/*
-Properties to Serialize for Gameplay:
 
-	1.	user.id: The ID of the currently authenticated user (can also be pulled from the session).
-	2.	track.id: The current learning track the user is following (e.g., JavaScript, Node.js).
-	5.	questions_completed: The list of question IDs the user has completed in this session.
-	3.	currentPage: The ID of the page the user just completed or submitted.
-	4.	pagesCompleted: The list of all page IDs the user has completed (may be added to with current_page_id).
-	6.	challenges_completed: The list of challenge IDs the user has completed in this session.
-	7.	points_earned: The points earned for the current page, challenge, or quiz.
-	8.	xp_earned: The calculated XP gained for completing the current activity.
-	9.	health_change: Any change in health (e.g., deductions for incorrect answers, health bonuses).
-	10.	progress_timestamp: The timestamp of when this progress was submitted (useful for progress tracking).
-	11.	total_xp: The updated total XP (after this submission).
-	12.	rank_update: The user’s new rank, if their rank has changed.
-	13.	grade_update: The user’s new grade, if their grade has changed.
-	14.	level_update: The user’s new level, if the submission completed necessary pages for a level.
-	15.	last_completed_timestamp: The time when the last completed page or challenge occurred (this could be set to now).
-	16.	current_health: The user’s updated health after submission.
-	17.	total_points: The user’s updated point total (after adding new points from this submission).
-	18.	progress_status: Status message or flags (e.g., “completed”, “in-progress”) indicating how the current submission affects overall course progress.
-*/
+// Main interface for tracking the user's progress
+export interface UserProgress {
+	userId: number; // ID of the user
+	trackId: number; // ID of the current learning track
+	points: number; // Total points earned (calculated based on questions and pages)
+	health: number; // User's health, handled by the backend
+	questionsCompleted: number[]; // IDs of completed questions
+	pagesCompleted: number[]; // IDs of completed pages
+	challengesCompleted: number[]; // IDs of completed challenges (optional)
+	currentPage: number; // ID of the current page the user is on
+	lastCompleted: string; // Timestamp of the last completed page
+}
 
-const initialState: UserProgressState = {
-	pages: [],
-	totalScore: 0,
-	xp: 0,
-	points: 0,
-	health: 100,
-	skill: "novice",
-	profession: "default",
-	rank: "beginner",
+// Initial state for user progress
+const initialState: UserProgress = {
+	userId: 0, // Placeholder until user progress is fetched
+	trackId: 0, // Placeholder for track ID
+	points: 0, // Will be calculated based on page and question completion
+	health: 100, // Initial health, managed by the backend
+	questionsCompleted: [], // Empty array to track completed questions
+	pagesCompleted: [], // Empty array to track completed pages
+	challengesCompleted: [], // Empty array to track completed challenges
+	currentPage: 0, // Placeholder for current page
+	lastCompleted: new Date().toISOString(), // Timestamp of the last completed page
 };
 
+// Redux slice to manage user progress
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
+		// Updates the state when a page is completed
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
-			const existingPage = state.pages.find(
-				(page) => page.page_id === action.payload.page_id,
-			);
+			const { page_id, score, questions } = action.payload;
 
-			if (existingPage) {
-				Object.assign(existingPage, action.payload);
-			} else {
-				state.pages.push(action.payload);
+			// Add page to pagesCompleted if not already present
+			if (!state.pagesCompleted.includes(page_id)) {
+				state.pagesCompleted.push(page_id);
 			}
 
-			state.totalScore = state.pages.reduce(
-				(total, page) => total + page.score,
-				0,
-			);
+			// Get completed questions and update the state
+			const completedQuestions = questions
+				.filter((question) => question.correct)
+				.map((question) => question.id);
 
-			state.xp += action.payload.score;
-			state.points += action.payload.score;
+			// Merge new completed questions into the existing list (avoiding duplicates)
+			state.questionsCompleted = [
+				...new Set([
+					...state.questionsCompleted,
+					...completedQuestions,
+				]),
+			];
+
+			// Track the current page
+			state.currentPage = page_id;
+
+			// Add the score (points from page and questions) to the total points
+			state.points += score; // Increment points based on page score
 		},
-		// other reducers
+
+		// Optionally update the state if a challenge is completed
+		updateChallengesCompleted: (state, action: PayloadAction<number>) => {
+			const challengeId = action.payload;
+
+			// Add challenge to challengesCompleted if not already present
+			if (!state.challengesCompleted.includes(challengeId)) {
+				state.challengesCompleted.push(challengeId);
+			}
+		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchUserProgress.fulfilled, (state, action) => {
+				// Update the state with data from the backend when user progress is fetched
 				return { ...state, ...action.payload };
 			})
 			.addCase(saveUserProgress.fulfilled, (state) => {
+				// Log success when progress is saved to the backend
 				console.log("User progress saved successfully:", state);
 			});
 	},
 });
 
-export const { updatePageProgress } = userProgressSlice.actions;
+// Export the actions and the reducer
+export const { updatePageProgress, updateChallengesCompleted } =
+	userProgressSlice.actions;
 export default userProgressSlice.reducer;

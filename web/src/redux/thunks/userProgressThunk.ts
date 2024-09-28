@@ -1,86 +1,73 @@
 //web/src/redux/thunks/userProgressThunk.ts
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-	DifficultyLevel,
-	QuestionStatus,
-	QuestionType,
-} from "@site/src/modules/quiz/types/question.types";
-import type { UserProgressState } from "@site/src/modules/user/types/user.type";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import type { UserProgress } from "../slices/userProgressSlice"; // Import the UserProgress interface
 
-// Simulating in-memory storage for user progress (this will reset if the page is refreshed)
-let inMemoryUserProgress: UserProgressState = {
-	pages: [
-		{
-			page_id: 1,
-			module: "Introduction",
-			difficulty: DifficultyLevel.Middle,
-			completed: true,
-			score: 20,
-			lastAccessed: new Date().toISOString(),
-			questions: [
-				{
-					id: 1,
-					type: QuestionType.TrueFalse,
-					order: 1,
-					status: QuestionStatus.Complete,
-					correct: true,
-					value: 5,
-					difficulty: DifficultyLevel.Junior,
-				},
-				{
-					id: 2,
-					type: QuestionType.MultipleChoice,
-					order: 2,
-					status: QuestionStatus.Complete,
-					correct: false,
-					value: 9,
-					difficulty: DifficultyLevel.Senior,
-				},
-			],
-		},
-	],
-	totalScore: 20,
-	xp: 50,
-	points: 50,
-	health: 100,
-	skill: "novice",
-	profession: "developer",
-	rank: "beginner",
-};
+// Define the base URL for the backend API
+const BASE_URL = "http://localhost:8000/api/gameplay";
 
-// Fetch user progress from memory (dummy implementation)
+// Fetch user progress from the backend
 export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
 	async () => {
-		console.log(
-			"Dummy fetchUserProgress called, returning dummy data:",
-			inMemoryUserProgress,
-		);
+		const cookies = new Cookies();
+		const token = cookies.get("token");
 
-		return new Promise<UserProgressState>((resolve) => {
-			setTimeout(() => {
-				resolve(inMemoryUserProgress);
-			}, 1000); // Simulate network delay
+		// Make a GET request to the backend API to fetch user progress
+		const response = await axios.get(`${BASE_URL}/user-progress`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
 		});
+
+		if (response.status !== 200) {
+			throw new Error("Failed to fetch user progress");
+		}
+
+		// Return the user progress data from the backend
+		return response.data;
 	},
 );
 
-// Save user progress to memory (dummy implementation)
+// Save user progress to the backend
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
-	async (userProgress: UserProgressState) => {
-		// Simulate saving progress by updating the in-memory store
-		inMemoryUserProgress = { ...userProgress };
+	async (userProgress: UserProgress) => {
+		const cookies = new Cookies();
+		const token = cookies.get("token");
 
-		console.log(
-			"Dummy saveUserProgress called with data:",
-			inMemoryUserProgress,
-		);
+		// Prepare the data to be sent to the backend API
+		const data = {
+			xp: userProgress.points, // Send total points as XP (this can be changed based on the backend)
+			points: userProgress.points, // Send total points to the backend
+			health: userProgress.health, // Send health to the backend
+			completed_pages: userProgress.pagesCompleted, // Send the list of completed page IDs
+			completed_questions: userProgress.questionsCompleted.map(
+				(questionId) => ({
+					question_id: questionId,
+					correct: true, // Assuming all questions in this array are correct
+				}),
+			), // Send the completed questions
+			current_page: userProgress.currentPage, // Send the current page ID
+			challenges_completed: userProgress.challengesCompleted, // Send the list of completed challenges
+			last_completed: userProgress.lastCompleted, // Send the last completed timestamp
+		};
 
-		return new Promise<UserProgressState>((resolve) => {
-			setTimeout(() => {
-				resolve(inMemoryUserProgress);
-			}, 1000); // Simulate network delay
+		// Make a POST request to save user progress
+		const response = await axios.post(`${BASE_URL}/user-progress`, data, {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Token ${token}`,
+			},
 		});
+
+		if (response.status !== 200) {
+			throw new Error("Failed to save user progress");
+		}
+
+		// Return the updated progress from the backend
+		return response.data;
 	},
 );

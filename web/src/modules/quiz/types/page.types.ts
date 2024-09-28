@@ -1,4 +1,4 @@
-//web/src/modules/quiz/types/page.types.ts
+// web/src/modules/quiz/types/page.types.ts
 import type { UserRole } from "@site/src/modules/user/types/user.type";
 import type {
 	DifficultyLevel,
@@ -24,8 +24,7 @@ export interface PageData {
 	role: UserRole;
 	prerequisites: number[];
 	difficulty: DifficultyLevel;
-	pageScore: number;
-	points: number;
+	points: number; // Points earned for the entire page
 	tags?: string[];
 	lastAccessed: Date | null; // Tracks when the page was last accessed
 	questions?: QuestionProps[]; // Stores question data related to the page
@@ -43,8 +42,8 @@ export interface PageProgress {
 	page_id: number;
 	completed: boolean;
 	module: string;
-	score: number;
+	score: number; // The calculated score for the page (based on questions)
 	difficulty: DifficultyLevel;
 	lastAccessed: string;
-	questions: QuestionProps[];
+	questions: QuestionProps[]; // Question progress and points
 }
