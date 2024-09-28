@@ -41,13 +41,13 @@ export interface UserProgress {
 // Initial state for user progress
 const initialState: UserProgress = {
 	userId: 0,
-	trackId: 0,
+	trackId: 1, // Default trackId to 1 (JavaScript track)
 	points: 0,
 	health: 100,
 	questionsCompleted: [],
 	pagesCompleted: [],
 	challengesCompleted: [],
-	currentPage: 0, // Initialize to track the current page
+	currentPage: 0,
 };
 
 // Redux slice to manage user progress

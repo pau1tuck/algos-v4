@@ -19,8 +19,8 @@ class UserProgressAPITest(TestCase):
 
         # Create initial user progress
         self.user_progress = UserProgress.objects.create(
-            user_id=self.user,
-            track_id=self.track,
+            user=self.user,  # Update to match the renamed field
+            track=self.track,  # Update to match the renamed field
             points=10,
             health=100,
             questions_completed=[1, 2],
@@ -44,7 +44,7 @@ class UserProgressAPITest(TestCase):
         # Make a POST request to update the user progress
         url = reverse("user-progress-list")
         data = {
-            "track_id": self.track.id,
+            "track": self.track.id,  # Update to match the renamed field
             "points": 50,
             "health": 90,
             "pages_completed": [1, 2, 3],

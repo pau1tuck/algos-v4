@@ -3,6 +3,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import MaxAttainable, Grade, Rank, Level, UserProgress
 
+# Global flag to prevent recursive signals
+signal_trigger = False
+
 
 @receiver(post_save, sender=MaxAttainable)
 def update_grade_thresholds(sender, instance, **kwargs):
@@ -30,12 +33,20 @@ def update_rank_thresholds(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Level)
 def recheck_user_progress_on_level_update(sender, instance, **kwargs):
-    # Fetch all UserProgress for the track of the updated level
-    user_progresses = UserProgress.objects.filter(track=instance.track)
+    global signal_trigger
 
-    for progress in user_progresses:
-        # Check if the user now qualifies for the updated level
-        completed_pages = set(progress.pages_completed)
-        if set(instance.pages_required).issubset(completed_pages):
-            # Assign the new level
-            progress.save()  # This will trigger any level calculation logic in UserProgress
+    if not signal_trigger:
+        signal_trigger = True
+        try:
+            # Fetch all UserProgress for the track of the updated level
+            user_progresses = UserProgress.objects.filter(track=instance.track)
+
+            for progress in user_progresses:
+                # Check if the user now qualifies for the updated level
+                completed_pages = set(progress.pages_completed)
+                if set(instance.pages_required).issubset(completed_pages):
+                    # Assign the new level but avoid recursion by limiting fields updated
+                    progress.save(update_fields=["current_page", "last_completed"])
+
+        finally:
+            signal_trigger = False

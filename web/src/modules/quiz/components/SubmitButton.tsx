@@ -31,10 +31,11 @@ const SubmitButton: React.FC = () => {
 				questions,
 			}),
 		);
-
 		// Ensure we retrieve the updated state using getState before dispatching saveUserProgress
 		dispatch((dispatch, getState) => {
 			const updatedUserProgress = getState().userProgress;
+			// Default the trackId to 1 if not provided
+			updatedUserProgress.trackId = updatedUserProgress.trackId || 1;
 			dispatch(saveUserProgress(updatedUserProgress));
 		});
 	};

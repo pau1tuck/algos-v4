@@ -110,8 +110,8 @@ class Level(models.Model):
 
 # * USER PROGRESS
 class UserProgress(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    track_id = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
     points = models.IntegerField(default=0)
     health = models.IntegerField(default=100)
