@@ -4,7 +4,7 @@ import Layout from "@theme/Layout";
 import Login from "@site/src/modules/auth/components/Login";
 import { Box } from "@mui/material";
 import { useHistory } from "@docusaurus/router"; // Use Docusaurus router
-import { useAppDispatch } from "@site/src/redux/store"; // Adjust path as needed
+import { useAppDispatch } from "@site/src/redux/utils/useAppDispatch";
 import { loginUser } from "@site/src/redux/thunks/authThunk";
 import useIsAuthenticated from "@site/src/modules/auth/utils/useIsAuthenticated";
 import Loading from "@site/src/components/Loading"; // Assuming you have a Loading component
