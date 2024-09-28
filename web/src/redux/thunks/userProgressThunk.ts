@@ -52,9 +52,12 @@ export const saveUserProgress = createAsyncThunk(
 				challenges_completed: userProgress.challengesCompleted, // Send completed challenges
 			};
 
-			// Make a POST request to save user progress
-			const response = await axios.post(
-				`${BASE_URL}/user-progress`,
+			// Determine the userProgressId to target the correct resource for update
+			const userProgressId = userProgress.userId;
+
+			// Make a PUT request to update user progress
+			const response = await axios.put(
+				`${BASE_URL}/user-progress/${userProgressId}/`,
 				data,
 				{
 					headers: {
@@ -64,9 +67,9 @@ export const saveUserProgress = createAsyncThunk(
 				},
 			);
 
-			// Check for both 200 OK and 201 Created
-			if (![200, 201].includes(response.status)) {
-				throw new Error("Failed to save user progress");
+			// Check for both 200 OK and 204 No Content (no body returned on successful update)
+			if (![200, 204].includes(response.status)) {
+				throw new Error("Failed to update user progress");
 			}
 
 			// Return the updated progress from the backend
@@ -74,7 +77,7 @@ export const saveUserProgress = createAsyncThunk(
 		} catch (error) {
 			// Handle error by rejecting with a value
 			return rejectWithValue(
-				error.response?.data || "Error saving user progress",
+				error.response?.data || "Error updating user progress",
 			);
 		}
 	},
