@@ -42,7 +42,7 @@ export interface PageProgress {
 	page_id: number;
 	completed: QuestionStatus;
 	module: string;
-	score: number; // The calculated score for the page (based on questions)
+	score?: number; // The calculated score for the page (based on questions)
 	difficulty: DifficultyLevel;
 	lastAccessed: string;
 	questions: QuestionProps[]; // Question progress and points

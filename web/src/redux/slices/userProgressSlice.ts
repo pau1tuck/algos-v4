@@ -1,4 +1,4 @@
-//web/src/redux/slices/userProgressSlice.ts
+// web/src/redux/slices/userProgressSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { PageProgress } from "@site/src/modules/quiz/types/page.types";
@@ -6,25 +6,6 @@ import {
 	fetchUserProgress,
 	saveUserProgress,
 } from "../thunks/userProgressThunk";
-
-// Interfaces for Grade, Rank, Level, and UserProgress
-export interface Grade {
-	id: number;
-	title: string;
-}
-
-export interface Rank {
-	id: number;
-	title: string;
-}
-
-export interface Level {
-	id: number;
-	title: string;
-	track: number;
-	order: number;
-	pagesRequired: number[];
-}
 
 // Main interface for tracking the user's progress
 export interface UserProgress {
@@ -57,7 +38,7 @@ const userProgressSlice = createSlice({
 	reducers: {
 		// Updates the state when a page is completed
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
-			const { page_id, score, questions } = action.payload;
+			const { page_id, questions } = action.payload;
 
 			// Add page to pagesCompleted if not already present
 			if (!state.pagesCompleted.includes(page_id)) {
@@ -77,10 +58,7 @@ const userProgressSlice = createSlice({
 				]),
 			];
 
-			// The backend will now handle updating `currentPage`, so we remove that logic here
-
-			// Add the score (points from page and questions) to the total points
-			state.points += score;
+			// The backend will now handle updating `currentPage` and `points`, so we remove that logic here
 		},
 
 		// Optionally update the state if a challenge is completed

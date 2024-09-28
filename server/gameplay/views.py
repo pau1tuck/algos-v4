@@ -12,8 +12,12 @@ class UserProgressViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # Return progress for the authenticated user
-        return UserProgress.objects.filter(user_id=self.request.user)
+        return UserProgress.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         # Save user progress for the authenticated user
-        serializer.save(user_id=self.request.user)
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        # Ensure user is set to the authenticated user on update as well
+        serializer.save(user=self.request.user)

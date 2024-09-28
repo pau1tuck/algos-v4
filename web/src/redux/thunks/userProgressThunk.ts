@@ -2,7 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import type { UserProgress } from "../slices/userProgressSlice"; // Import the UserProgress interface
+import type { UserProgress } from "../slices/userProgressSlice";
 
 // Define the base URL for the backend API
 const BASE_URL = "http://localhost:8000/api/gameplay";
@@ -45,13 +45,11 @@ export const saveUserProgress = createAsyncThunk(
 			const cookies = new Cookies();
 			const token = cookies.get("token");
 
-			// Corrected keys to match backend serializer fields
+			// Prepare the data to be sent to the backend API
 			const data = {
-				points: userProgress.points, // Send total points
-				health: userProgress.health, // Send current health
-				pages_completed: userProgress.pagesCompleted, // Corrected key
-				questions_completed: userProgress.questionsCompleted, // Corrected key
-				challenges_completed: userProgress.challengesCompleted, // Completed challenges
+				pages_completed: userProgress.pagesCompleted, // Send completed pages
+				questions_completed: userProgress.questionsCompleted, // Send completed questions
+				challenges_completed: userProgress.challengesCompleted, // Send completed challenges
 			};
 
 			// Make a POST request to save user progress

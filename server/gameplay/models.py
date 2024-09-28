@@ -120,7 +120,6 @@ class UserProgress(models.Model):
     pages_completed = ArrayField(models.IntegerField(), default=list)
     challenges_completed = ArrayField(models.IntegerField(), default=list)
 
-    # Current page will be the last one in pages_completed
     current_page = models.PositiveIntegerField(null=True, blank=True)
     last_completed = models.DateTimeField(auto_now=True)
 
@@ -158,12 +157,25 @@ class UserProgress(models.Model):
         for level in levels:
             if set(level.pages_required).issubset(completed_pages):
                 return level
-        return None  # Catch any unexpected cases
+        return None
 
-    # Overriding save to set current_page as the most recent in pages_completed
+    # Overriding save to set current_page and calculate points and health
     def save(self, *args, **kwargs):
         if self.pages_completed:
             self.current_page = self.pages_completed[-1]  # Most recent completed page
+
+        # Calculate points based on completed pages, questions, and challenges
+        self.points = (
+            len(self.pages_completed) * 5
+            + len(self.questions_completed)
+            + len(self.challenges_completed) * 10
+        )
+
+        # Calculate health (this could be adjusted based on more complex logic if needed)
+        self.health = 100 - (
+            len(self.questions_completed) * 2
+        )  # Deduct 2 points per question completed
+
         super().save(*args, **kwargs)
 
     def __str__(self):

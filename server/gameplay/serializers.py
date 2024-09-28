@@ -19,15 +19,19 @@ class UserProgressSerializer(serializers.ModelSerializer):
         fields = [
             "userId",  # Read-only, obtained from the authenticated user
             "trackId",  # Writable, accepts numerical ID from frontend
-            "points",
-            "health",
+            "points",  # Points now read-only, calculated on the backend
+            "health",  # Health now read-only, calculated on the backend
             "questions_completed",
             "pages_completed",
             "challenges_completed",
             "current_page",
             "last_completed",
         ]
-        read_only_fields = ("userId",)
+        read_only_fields = (
+            "userId",
+            "points",
+            "health",
+        )  # Prevent modification via API
 
     def create(self, validated_data):
         # Set the user to the authenticated user
@@ -39,18 +43,27 @@ class UserProgressSerializer(serializers.ModelSerializer):
         # Prevent changing the user
         validated_data.pop("user", None)
 
-        # Update other fields as before
-        instance.points = validated_data.get("points", instance.points)
-        instance.health = validated_data.get("health", instance.health)
-        instance.questions_completed = validated_data.get(
-            "questions_completed", instance.questions_completed
+        # Merge and remove duplicates for completed fields
+        instance.questions_completed = list(
+            set(
+                instance.questions_completed
+                + validated_data.get("questions_completed", [])
+            )
         )
-        instance.pages_completed = validated_data.get(
-            "pages_completed", instance.pages_completed
+        instance.pages_completed = list(
+            set(instance.pages_completed + validated_data.get("pages_completed", []))
         )
-        instance.challenges_completed = validated_data.get(
-            "challenges_completed", instance.challenges_completed
+        instance.challenges_completed = list(
+            set(
+                instance.challenges_completed
+                + validated_data.get("challenges_completed", [])
+            )
         )
+
+        # The points and health are calculated automatically in the model's save() method,
+        # so we do not allow them to be manually updated here.
+
+        # Only update current_page from validated_data if provided
         instance.current_page = validated_data.get(
             "current_page", instance.current_page
         )
