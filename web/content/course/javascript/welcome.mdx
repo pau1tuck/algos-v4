@@ -23,7 +23,7 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
         section: "Introduction",
         module: "Introduction",
         topic: "Topic 1",
-        page_order: 1,
+        order: 1,
         type: "quiz",
         role: UserRole.Admin,
         requiresAuth: false, // FIXME: Test requiresAuth true for this page
@@ -43,7 +43,7 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
     difficulty={DifficultyLevel.Junior}
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
-    pointValue={10}
+    points={10}
 />
 <br />
 

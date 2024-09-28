@@ -119,7 +119,8 @@ class UserProgress(models.Model):
     questions_completed = ArrayField(models.IntegerField(), default=list)
     pages_completed = ArrayField(models.IntegerField(), default=list)
     challenges_completed = ArrayField(models.IntegerField(), default=list)
-    # Track current progress
+
+    # Current page will be the last one in pages_completed
     current_page = models.PositiveIntegerField(null=True, blank=True)
     last_completed = models.DateTimeField(auto_now=True)
 
@@ -158,6 +159,12 @@ class UserProgress(models.Model):
             if set(level.pages_required).issubset(completed_pages):
                 return level
         return None  # Catch any unexpected cases
+
+    # Overriding save to set current_page as the most recent in pages_completed
+    def save(self, *args, **kwargs):
+        if self.pages_completed:
+            self.current_page = self.pages_completed[-1]  # Most recent completed page
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Progress for {self.user.username} in {self.track.title}"

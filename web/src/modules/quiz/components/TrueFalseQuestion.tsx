@@ -38,7 +38,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 
 	// Helper function to load question state from localStorage
 	const loadQuestionFromLocalStorage = () => {
-		const savedData = localStorage.getItem(`question_${questionId}`);
+		const savedData = localStorage.getItem(`TFQuestion_${questionId}`);
 		if (savedData) {
 			const parsedData = JSON.parse(savedData);
 			console.log("Loaded from localStorage:", parsedData);
@@ -51,7 +51,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	const saveQuestionToLocalStorage = (answer: boolean, correct: boolean) => {
 		const dataToSave = { userAnswer: answer, isCorrect: correct };
 		localStorage.setItem(
-			`question_${questionId}`,
+			`TFQuestion_${questionId}`,
 			JSON.stringify(dataToSave),
 		);
 		console.log("Saved to localStorage:", dataToSave);

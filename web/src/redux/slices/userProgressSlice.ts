@@ -26,7 +26,6 @@ export interface Level {
 	pagesRequired: number[];
 }
 
-// Main interface for tracking the user's progress
 export interface UserProgress {
 	userId: number; // ID of the user
 	trackId: number; // ID of the current learning track
@@ -35,21 +34,18 @@ export interface UserProgress {
 	questionsCompleted: number[]; // IDs of completed questions
 	pagesCompleted: number[]; // IDs of completed pages
 	challengesCompleted: number[]; // IDs of completed challenges (optional)
-	currentPage: number; // ID of the current page the user is on
-	lastCompleted: string; // Timestamp of the last completed page
+	// Removed currentPage and lastCompleted
 }
 
 // Initial state for user progress
 const initialState: UserProgress = {
-	userId: 0, // Placeholder until user progress is fetched
-	trackId: 0, // Placeholder for track ID
-	points: 0, // Will be calculated based on page and question completion
-	health: 100, // Initial health, managed by the backend
-	questionsCompleted: [], // Empty array to track completed questions
-	pagesCompleted: [], // Empty array to track completed pages
-	challengesCompleted: [], // Empty array to track completed challenges
-	currentPage: 0, // Placeholder for current page
-	lastCompleted: new Date().toISOString(), // Timestamp of the last completed page
+	userId: 0,
+	trackId: 0,
+	points: 0,
+	health: 100,
+	questionsCompleted: [],
+	pagesCompleted: [],
+	challengesCompleted: [],
 };
 
 // Redux slice to manage user progress

@@ -23,7 +23,6 @@ interface PageInitializerProps {
 		role: string;
 		prerequisites: number[];
 		difficulty: DifficultyLevel;
-		pageScore: number;
 		points: number;
 		tags?: string[];
 	};
@@ -40,7 +39,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	// Check if the user is authorized to access the page
 	const isAuthorized = usePageAuthorization(
 		pageData.role as UserRole,
-		pageData.requiresAuth
+		pageData.requiresAuth,
 	);
 
 	// Redirect to login if authorization fails

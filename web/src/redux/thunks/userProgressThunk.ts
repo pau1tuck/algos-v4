@@ -40,19 +40,11 @@ export const saveUserProgress = createAsyncThunk(
 
 		// Prepare the data to be sent to the backend API
 		const data = {
-			xp: userProgress.points, // Send total points as XP (this can be changed based on the backend)
-			points: userProgress.points, // Send total points to the backend
-			health: userProgress.health, // Send health to the backend
-			completed_pages: userProgress.pagesCompleted, // Send the list of completed page IDs
-			completed_questions: userProgress.questionsCompleted.map(
-				(questionId) => ({
-					question_id: questionId,
-					correct: true, // Assuming all questions in this array are correct
-				}),
-			), // Send the completed questions
-			current_page: userProgress.currentPage, // Send the current page ID
-			challenges_completed: userProgress.challengesCompleted, // Send the list of completed challenges
-			last_completed: userProgress.lastCompleted, // Send the last completed timestamp
+			points: userProgress.points,
+			health: userProgress.health,
+			completed_pages: userProgress.pagesCompleted,
+			completed_questions: userProgress.questionsCompleted,
+			challenges_completed: userProgress.challengesCompleted,
 		};
 
 		// Make a POST request to save user progress
