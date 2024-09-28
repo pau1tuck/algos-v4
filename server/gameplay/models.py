@@ -7,12 +7,12 @@ from django.contrib.postgres.fields import ArrayField
 from content.models import Track  # Import Track model
 
 
-# * MAX ATTAINABLE SCORES
+# * MAX ATTAINABLE SCORE
 class MaxAttainable(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
+    total_questions = models.IntegerField(default=0)
     total_pages = models.IntegerField(default=0)
     total_challenges = models.IntegerField(default=0)
-    total_questions = models.IntegerField(default=0)
 
     @property
     def max_xp(self):
@@ -24,7 +24,8 @@ class MaxAttainable(models.Model):
         return f"Max attainable scores for {self.track.title}"
 
 
-# * GRADES
+# * GRADE
+# White Belt, White Belt (Yellow Stripe), Yellow Belt, Yellow Belt (Orange Stripe), Orange Belt
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(
@@ -41,7 +42,7 @@ class Grade(models.Model):
         upload_to="images/grades/", null=True, blank=True
     )  # Optional, stores grade thumbnail
     icon = models.CharField(
-        max_length=100, null=True, blank=True
+        max_length=2, null=True, blank=True
     )  # Icon for visual representation
     xp_threshold = models.FloatField()
 
@@ -49,7 +50,8 @@ class Grade(models.Model):
         return self.title
 
 
-# * RANKS
+# * RANK
+# Explorer, Postulant, Apprentice, Journeyman, Professional, Master, Grand Master, BEAST
 class Rank(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(max_length=100)  # e.g., 'Apprentice', 'Professional'
@@ -61,7 +63,7 @@ class Rank(models.Model):
         upload_to="images/ranks/", null=True, blank=True
     )  # Optional, stores rank thumbnail
     icon = models.CharField(
-        max_length=100, null=True, blank=True
+        max_length=2, null=True, blank=True
     )  # Icon for visual representation
     order = models.PositiveIntegerField()  # Integer field to specify progression order
     challenge_threshold = (
@@ -72,7 +74,7 @@ class Rank(models.Model):
         return self.title
 
 
-# * LEVELS
+# * LEVEL
 class Level(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference to Track
@@ -87,7 +89,7 @@ class Level(models.Model):
         upload_to="images/levels/", null=True, blank=True
     )  # Optional, stores level thumbnail
     icon = models.CharField(
-        max_length=100, null=True, blank=True
+        max_length=2, null=True, blank=True
     )  # Icon for visual representation
     order = (
         models.PositiveIntegerField()
@@ -108,17 +110,15 @@ class Level(models.Model):
 
 # * USER PROGRESS
 class UserProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    track_id = models.ForeignKey(Track, on_delete=models.CASCADE)
 
     points = models.IntegerField(default=0)
     health = models.IntegerField(default=100)
 
-    # Completed items
     questions_completed = ArrayField(models.IntegerField(), default=list)
     pages_completed = ArrayField(models.IntegerField(), default=list)
     challenges_completed = ArrayField(models.IntegerField(), default=list)
-
     # Track current progress
     current_page = models.PositiveIntegerField(null=True, blank=True)
     last_completed = models.DateTimeField(auto_now=True)

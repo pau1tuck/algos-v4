@@ -1,4 +1,4 @@
-// src/redux/slices/userProgressSlice.ts
+//web/src/redux/slices/userProgressSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { UserProgressState } from "@site/src/modules/user/types/user.type";
@@ -8,14 +8,45 @@ import {
 	saveUserProgress,
 } from "../thunks/userProgressThunk";
 
+interface Grade {
+	id: number;
+	title: string;
+}
+interface Rank {
+	id: number;
+	title: string;
+}
+
+interface UserProgress {
+	userId: number;
+	trackId: number;
+
+	points: number;
+	health: number;
+
+	questionsCompleted: number[];
+	pagesCompleted: number[];
+	challengesCompleted: number[];
+
+	currentPage: number;
+
+	xp: number;
+	grade: Grade;
+	rank: Rank;
+
+	progressTimestamp: number;
+	totalXp: number;
+	rankUpdate: number;
+	profileUpdate: number;
+}
 /*
 Properties to Serialize for Gameplay:
 
-	1.	user_id: The ID of the currently authenticated user (can also be pulled from the session).
-	2.	track_id: The current learning track the user is following (e.g., JavaScript, Node.js).
-	3.	current_page_id: The ID of the page the user just completed or submitted.
-	4.	pages_completed: The list of all page IDs the user has completed (may be added to with current_page_id).
+	1.	user.id: The ID of the currently authenticated user (can also be pulled from the session).
+	2.	track.id: The current learning track the user is following (e.g., JavaScript, Node.js).
 	5.	questions_completed: The list of question IDs the user has completed in this session.
+	3.	currentPage: The ID of the page the user just completed or submitted.
+	4.	pagesCompleted: The list of all page IDs the user has completed (may be added to with current_page_id).
 	6.	challenges_completed: The list of challenge IDs the user has completed in this session.
 	7.	points_earned: The points earned for the current page, challenge, or quiz.
 	8.	xp_earned: The calculated XP gained for completing the current activity.
