@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from content.models import Track  # Import Track model
 
 
-# * MAX ATTAINABLE SCORE
+# * MAX ATTAINABLE VALUES
 class MaxAttainable(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
     total_questions = models.IntegerField(default=0)
@@ -21,12 +21,17 @@ class MaxAttainable(models.Model):
     def __str__(self):
         return f"Max attainable scores for {self.track.title}"
 
+    class Meta:
+        verbose_name = "Max Attainable Value"
+        verbose_name_plural = "Max Attainable Values"
+
 
 # * GRADE
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(max_length=100)  # e.g., 'White Belt'
     slug = models.SlugField(unique=True)  # e.g. "white-belt"
+    description = models.TextField(null=True, blank=True)
     order = models.PositiveIntegerField()  # Order of progression
     image = models.ImageField(upload_to="images/grades/", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/grades/", null=True, blank=True)
@@ -42,6 +47,7 @@ class Rank(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(max_length=100)  # e.g., 'Apprentice'
     slug = models.SlugField(unique=True)  # e.g., "apprentice"
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="images/ranks/", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/ranks/", null=True, blank=True)
     icon = models.CharField(max_length=2, null=True, blank=True)  # Icon
@@ -58,6 +64,7 @@ class Level(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)  # Reference Track model
     title = models.CharField(max_length=100)  # e.g., 'Senior Developer'
     slug = models.SlugField(unique=True)  # e.g., "senior-developer"
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to="images/levels/", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/levels/", null=True, blank=True)
     icon = models.CharField(max_length=2, null=True, blank=True)  # Icon
@@ -165,3 +172,7 @@ class UserProgress(models.Model):
 
     def __str__(self):
         return f"Progress for {self.user.username} in {self.track.title}"
+
+    class Meta:
+        verbose_name = "User Progress Record"
+        verbose_name_plural = "User Progress Records"
