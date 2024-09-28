@@ -45,12 +45,12 @@ export const saveUserProgress = createAsyncThunk(
 			const cookies = new Cookies();
 			const token = cookies.get("token");
 
-			// Prepare the data to be sent to the backend API
+			// Corrected keys to match backend serializer fields
 			const data = {
 				points: userProgress.points, // Send total points
 				health: userProgress.health, // Send current health
-				completed_pages: userProgress.pagesCompleted, // Completed pages
-				completed_questions: userProgress.questionsCompleted, // Completed questions
+				pages_completed: userProgress.pagesCompleted, // Corrected key
+				questions_completed: userProgress.questionsCompleted, // Corrected key
 				challenges_completed: userProgress.challengesCompleted, // Completed challenges
 			};
 
@@ -66,7 +66,8 @@ export const saveUserProgress = createAsyncThunk(
 				},
 			);
 
-			if (response.status !== 200) {
+			// Check for both 200 OK and 201 Created
+			if (![200, 201].includes(response.status)) {
 				throw new Error("Failed to save user progress");
 			}
 
