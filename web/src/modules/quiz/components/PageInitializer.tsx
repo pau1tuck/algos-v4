@@ -1,17 +1,19 @@
-//web/src/modules/quiz/components/PageInitializer.tsx
+// web/src/modules/quiz/components/PageInitializer.tsx
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { PageProvider } from "@site/src/modules/quiz/utils/PageProvider";
-import SubmitButton from "@site/src/modules/quiz/components/SubmitButton";
-import usePageAuthorization from "@site/src/modules/auth/utils/usePageAuthorization";
-import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
+import usePageAuthorization from '@site/src/modules/auth/utils/usePageAuthorization';
+import SubmitButton from '@site/src/modules/quiz/components/SubmitButton';
+import { PageProvider } from '@site/src/modules/quiz/utils/PageProvider';
+import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
+
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { PageType } from "@site/src/modules/quiz/types/page.types";
 import type { UserRole } from "@site/src/modules/user/types/user.type";
 
 interface PageInitializerProps {
 	pageData: {
+		trackId: number; // Add trackId to the pageData interface
 		page_id: number;
 		title: string;
 		section: string;
@@ -25,6 +27,8 @@ interface PageInitializerProps {
 		difficulty: DifficultyLevel;
 		points: number;
 		tags?: string[];
+		coursePathProgress: number;
+		lastAccessed: Date | null;
 	};
 	children: React.ReactNode;
 }
@@ -53,9 +57,6 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	if (pageData.requiresAuth && !isAuthorized) {
 		return <div>Loading...</div>;
 	}
-
-	// Log pageData for debugging
-	// console.log("Updated page data:", pageData);
 
 	return (
 		<PageProvider pageData={pageData}>

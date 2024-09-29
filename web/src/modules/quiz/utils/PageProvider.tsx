@@ -1,17 +1,13 @@
-//web/src/modules/quiz/utils/PageProvider.tsx
+// web/src/modules/quiz/utils/PageProvider.tsx
 
-import React, { useReducer, useCallback, useEffect } from "react";
-import { UserRole } from "@site/src/modules/user/types/user.type";
-import { PageType } from "@site/src/modules/quiz/types/page.types";
+import React, { useCallback, useEffect, useReducer } from 'react';
+
+import { PageType } from '@site/src/modules/quiz/types/page.types';
 import {
-	PageContext,
-	PageContextProps,
-} from "@site/src/modules/quiz/utils/PageContext";
-import {
-	DifficultyLevel,
-	QuestionProps,
-	QuestionStatus,
-} from "@site/src/modules/quiz/types/question.types";
+    DifficultyLevel, QuestionProps, QuestionStatus
+} from '@site/src/modules/quiz/types/question.types';
+import { PageContext, PageContextProps } from '@site/src/modules/quiz/utils/PageContext';
+import { UserRole } from '@site/src/modules/user/types/user.type';
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -36,7 +32,6 @@ type PageAction =
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION:
-			// Prevent duplicate registrations of the same question
 			const questionAlreadyRegistered = state.questions.some(
 				(q) => q.id === action.payload.id,
 			);
@@ -70,7 +65,6 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 			};
 
 		case RESET_PAGE:
-			// No need to clear localStorage anymore
 			return {
 				...state,
 				questions: state.questions.map((question) => ({
@@ -106,13 +100,14 @@ export const PageProvider: React.FC<{
 		role = UserRole.Guest,
 		prerequisites = [],
 		difficulty = DifficultyLevel.Junior,
-		points = 0, // Points are passed directly from the PageContext
+		points = 0,
 		completed = QuestionStatus.NotStarted,
 		tags = [],
 		lastAccessed = null,
 		coursePathProgress = 0,
 		questions = [],
-		requiresAuth = false, // Add requiresAuth here
+		requiresAuth = false,
+		trackId = 1, // Add trackId to the pageData
 	} = pageData;
 
 	// Initialize state without loading from localStorage
@@ -123,7 +118,6 @@ export const PageProvider: React.FC<{
 
 	const registerQuestion = useCallback(
 		(question: QuestionProps) => {
-			// Prevent duplicate registrations of the same question
 			if (state.questions.some((q) => q.id === question.id)) {
 				console.log(
 					`Provider: Question with id ${question.id} is already registered.`,
@@ -147,7 +141,6 @@ export const PageProvider: React.FC<{
 		[],
 	);
 
-	// Calculate the total points for the page based on completed questions
 	const calculatePageScore = useCallback(() => {
 		const totalScore = state.questions.reduce((totalScore, question) => {
 			return question.correct ? totalScore + question.points : totalScore;
@@ -160,7 +153,6 @@ export const PageProvider: React.FC<{
 		dispatch({ type: "TOGGLE_RESET_FLAG" });
 	}, []);
 
-	// Log page state whenever it changes
 	useEffect(() => {
 		console.log("Provider: Page State Updated:", state);
 	}, [state]);
@@ -185,6 +177,7 @@ export const PageProvider: React.FC<{
 				coursePathProgress,
 				questions: state.questions,
 				resetFlag: state.resetFlag,
+				trackId, // Make trackId available in PageContext
 				registerQuestion,
 				updateQuestionStatus,
 				calculatePageScore,

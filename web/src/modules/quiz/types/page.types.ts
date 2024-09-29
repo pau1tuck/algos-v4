@@ -31,6 +31,9 @@ export interface PageData {
 	resetFlag: boolean; // Signals whether the page has been reset
 	completed: QuestionStatus; // Required to track if the page is completed
 	coursePathProgress: number; // Required progress tracking for user course
+
+	// New field for track association
+	trackId: number; // Add trackId to associate the page with a specific track
 }
 
 // Extend PageData for Challenge-specific pages
@@ -38,12 +41,15 @@ export interface ChallengePageData extends PageData {
 	challengeID: number; // Only for Challenge pages
 }
 
-export interface PageProgress {
-	page_id: number;
-	completed: QuestionStatus;
-	module: string;
+export interface PageProgress
+	extends Pick<
+		PageData,
+		| "page_id"
+		| "completed"
+		| "module"
+		| "difficulty"
+		| "lastAccessed"
+		| "questions"
+	> {
 	score?: number; // The calculated score for the page (based on questions)
-	difficulty: DifficultyLevel;
-	lastAccessed: string;
-	questions: QuestionProps[]; // Question progress and points
 }
