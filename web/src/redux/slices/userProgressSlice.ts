@@ -1,10 +1,11 @@
-//web/src/redux/slices/userProgressSlice.ts
+// web/src/redux/slices/userProgressSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import { PageProgress } from '@site/src/modules/quiz/types/page.types'; // Import from quiz types
 
 import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
 
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 // Interfaces for Grade, Rank, Level, and UserProgress
 export interface Grade {
 	id: number;
@@ -96,10 +97,23 @@ const userProgressSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchUserProgress.fulfilled, (state, action) => {
-				// This is where the state is updated with real data from the backend
-				return { ...state, ...action.payload };
-			})
+			.addCase(
+				fetchUserProgress.fulfilled,
+				(state, action: PayloadAction<UserProgress>) => {
+					// Update the state with fetched user progress by assigning properties
+					state.userId = action.payload.userId;
+					state.trackId = action.payload.trackId;
+					state.points = action.payload.points;
+					state.health = action.payload.health;
+					state.questionsCompleted =
+						action.payload.questionsCompleted;
+					state.pagesCompleted = action.payload.pagesCompleted;
+					state.challengesCompleted =
+						action.payload.challengesCompleted;
+					state.currentPage = action.payload.currentPage;
+					state.lastCompleted = action.payload.lastCompleted;
+				},
+			)
 			.addCase(saveUserProgress.fulfilled, (state) => {
 				// Action triggered when progress is saved successfully
 				console.log("User progress saved successfully:", state);

@@ -1,5 +1,7 @@
-// web/src/redux/thunks/userProgressThunk.ts
-import { createAsyncThunk } from "@reduxjs/toolkit";
+// websrc/redux/thunks/userProgressThunk.ts
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import type { RootState } from "@site/src/redux/store"; // Import RootState
 import type { UserProgress } from "../slices/userProgressSlice";
 
 // Dummy data to simulate fetched user progress
@@ -12,24 +14,31 @@ const dummyUserProgress: UserProgress = {
 	pagesCompleted: [1, 2],
 	challengesCompleted: [1],
 	currentPage: 2,
-	lastCompleted: new Date().toISOString(), // Adding the missing lastCompleted field
+	lastCompleted: new Date().toISOString(),
 };
 
 // Fetch user progress (dummy implementation)
 export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
-	async (_, { rejectWithValue }) => {
+	async (_, { getState, rejectWithValue }) => {
 		try {
-			// Simulate fetching user progress with dummy data
-			console.log("Fetching user progress (dummy data)...");
-			return dummyUserProgress;
+			const state = getState() as RootState;
+			const userId = state.auth.user?.id || 0;
+
+			// Use userId in your dummy data
+			const userProgress = {
+				...dummyUserProgress,
+				userId,
+			};
+
+			console.log("Fetching user progress (dummy data)...", userProgress);
+			return userProgress;
 		} catch (error) {
 			// Handle error by rejecting with a value
 			return rejectWithValue("Error fetching dummy user progress");
 		}
 	},
 );
-
 // Save user progress (dummy implementation)
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",

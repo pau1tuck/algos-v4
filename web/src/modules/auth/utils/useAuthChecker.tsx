@@ -1,12 +1,16 @@
-//web/src/modules/auth/utils/useAuthChecker.tsx
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { setUser, logout } from "@site/src/redux/slices/authSlice";
-import { RootState } from "@site/src/redux/store";
+// src/modules/auth/utils/useAuthChecker.tsx
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { logout, setUser } from '@site/src/redux/slices/authSlice';
+import { RootState } from '@site/src/redux/store';
+import { fetchUserProgress } from '@site/src/redux/thunks/userProgressThunk';
+import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch'; // Import useAppDispatch
 
 const useAuthChecker = (requiresAuth: boolean) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch(); // Use the typed dispatch
 	const [isLoading, setIsLoading] = useState(true);
 	const [checkedAuth, setCheckedAuth] = useState(false);
 
@@ -56,6 +60,9 @@ const useAuthChecker = (requiresAuth: boolean) => {
 					// If token is valid, dispatch the user data to Redux
 					if (response.status === 200) {
 						dispatch(setUser(response.data));
+
+						// Fetch user progress after setting the user
+						dispatch(fetchUserProgress());
 					}
 				}
 			} catch (error) {

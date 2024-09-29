@@ -1,6 +1,7 @@
-//web/src/modules/quiz/components/SubmitButton.tsx
+// web/src/modules/quiz/components/SubmitButton.tsx
+
 import React from 'react';
-import { useSelector } from 'react-redux'; // Use this instead of useAppSelector
+import { useSelector } from 'react-redux';
 
 import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
@@ -10,7 +11,13 @@ import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 const SubmitButton: React.FC = () => {
-	const { page_id, questions, module, difficulty } = usePageContext();
+	const {
+		page_id,
+		questions,
+		module,
+		difficulty,
+		calculatePageScore, // Include calculatePageScore from context
+	} = usePageContext();
 	const dispatch = useAppDispatch();
 
 	// Ensure the Redux state is selected properly using useSelector
@@ -24,6 +31,8 @@ const SubmitButton: React.FC = () => {
 	const handleSubmit = async () => {
 		if (!pageCompleted) return; // Prevent submission if the page is incomplete
 
+		const score = calculatePageScore(); // Calculate the score for the page
+
 		// Dispatch updated page progress to Redux
 		dispatch(
 			updatePageProgress({
@@ -31,8 +40,8 @@ const SubmitButton: React.FC = () => {
 				module,
 				difficulty,
 				completed: QuestionStatus.Complete,
-				questions, // Pass only the questions and necessary fields
-				// Removed lastAccessed field as it's handled by the backend
+				questions, // Pass the questions
+				score, // Include the calculated score
 			}),
 		);
 
