@@ -31,27 +31,34 @@ type PageAction =
 
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
-		case REGISTER_QUESTION:
+		case REGISTER_QUESTION: {
+			// Ensure question ID is a number
+			const newQuestion = {
+				...action.payload,
+				id: Number(action.payload.id),
+			};
+
 			const questionAlreadyRegistered = state.questions.some(
-				(q) => q.id === action.payload.id,
+				(q) => Number(q.id) === newQuestion.id,
 			);
+
 			if (questionAlreadyRegistered) {
 				console.log(
-					`Provider: Question with id ${action.payload.id} is already registered.`,
+					`Provider: Question with id ${newQuestion.id} is already registered.`,
 				);
 				return state;
 			}
 
-			const updatedQuestions = [...state.questions, action.payload];
-			console.log("Provider: Registered Question:", action.payload);
+			console.log("Provider: Registered Question:", newQuestion);
 			return {
 				...state,
-				questions: updatedQuestions,
+				questions: [...state.questions, newQuestion],
 			};
+		}
 
-		case UPDATE_QUESTION_STATUS:
+		case UPDATE_QUESTION_STATUS: {
 			const updatedStatusQuestions = state.questions.map((question) =>
-				question.id === action.payload.id
+				Number(question.id) === Number(action.payload.id)
 					? { ...question, ...action.payload.updates }
 					: question,
 			);
@@ -63,6 +70,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 				...state,
 				questions: updatedStatusQuestions,
 			};
+		}
 
 		case RESET_PAGE:
 			return {
@@ -118,24 +126,34 @@ export const PageProvider: React.FC<{
 
 	const registerQuestion = useCallback(
 		(question: QuestionProps) => {
-			if (state.questions.some((q) => q.id === question.id)) {
+			const numericQuestionId = Number(question.id);
+
+			if (
+				state.questions.some((q) => Number(q.id) === numericQuestionId)
+			) {
 				console.log(
-					`Provider: Question with id ${question.id} is already registered.`,
+					`Provider: Question with id ${numericQuestionId} is already registered.`,
 				);
 				return;
 			}
 
-			dispatch({ type: REGISTER_QUESTION, payload: question });
-			console.log("Provider: Registered Question:", question);
+			dispatch({
+				type: REGISTER_QUESTION,
+				payload: { ...question, id: numericQuestionId },
+			});
+			console.log("Provider: Registered Question:", {
+				...question,
+				id: numericQuestionId,
+			});
 		},
-		[state.questions, dispatch],
+		[state.questions],
 	);
 
 	const updateQuestionStatus = useCallback(
 		(id: number, updates: Partial<QuestionProps>) => {
 			dispatch({
-				type: "UPDATE_QUESTION_STATUS",
-				payload: { id, updates },
+				type: UPDATE_QUESTION_STATUS,
+				payload: { id: Number(id), updates },
 			});
 		},
 		[],

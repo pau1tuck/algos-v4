@@ -1,6 +1,6 @@
 // web/src/modules/quiz/components/SubmitButton.tsx
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
@@ -28,10 +28,29 @@ const SubmitButton: React.FC = () => {
 	// Check if all questions are correct to consider the page completed
 	const pageCompleted = questions.every((question) => question.correct);
 
+	// Log the questions array whenever it changes
+	useEffect(() => {
+		console.log("SubmitButton: Current questions:", questions);
+	}, [questions]);
+
 	const handleSubmit = async () => {
-		if (!pageCompleted) return; // Prevent submission if the page is incomplete
+		if (!pageCompleted) {
+			console.log("SubmitButton: Page not completed, cannot submit.");
+			return; // Prevent submission if the page is incomplete
+		}
 
 		const score = calculatePageScore(); // Calculate the score for the page
+		console.log("SubmitButton: Calculated score:", score);
+
+		// Log the data being dispatched to updatePageProgress
+		console.log("SubmitButton: Dispatching updatePageProgress with:", {
+			page_id,
+			module,
+			difficulty,
+			completed: QuestionStatus.Complete,
+			questions,
+			score,
+		});
 
 		// Dispatch updated page progress to Redux
 		dispatch(
@@ -50,6 +69,12 @@ const SubmitButton: React.FC = () => {
 			...updatedUserProgress, // Copy all properties
 			trackId: updatedUserProgress.trackId || 1, // Ensure trackId is present
 		};
+
+		// Log the userProgressToSave object before dispatching
+		console.log(
+			"SubmitButton: Dispatching saveUserProgress with:",
+			userProgressToSave,
+		);
 
 		// Dispatch saveUserProgress after state has been updated
 		dispatch(saveUserProgress(userProgressToSave));

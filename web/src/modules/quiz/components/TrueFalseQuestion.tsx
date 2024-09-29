@@ -1,4 +1,5 @@
-//web/src/modules/quiz/components/TrueFalseQuestion.tsx
+// web/src/modules/quiz/components/TrueFalseQuestion.tsx
+
 import React, { useEffect, useState } from 'react';
 import { BsFillQuestionSquareFill } from 'react-icons/bs';
 import ReactMarkdown from 'react-markdown';
@@ -7,10 +8,11 @@ import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { Box } from '@mui/material';
 import styles from '@site/src/modules/quiz/css/quiz.module.css';
-import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
+import {
+    DifficultyLevel, QuestionStatus, QuestionType
+} from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
-import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 type TrueFalseQuestionProps = {
 	questionId: number;
 	type: QuestionType;
@@ -18,7 +20,7 @@ type TrueFalseQuestionProps = {
 	order: number;
 	question: string;
 	correctAnswer: boolean;
-	points: number; // Renamed from pointValue to points
+	points: number;
 };
 
 const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
@@ -28,34 +30,36 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	difficulty,
 	correctAnswer,
 	order,
-	points, // Renamed from pointValue to points
+	points,
 }) => {
-	const [userAnswer, setUserAnswer] = useState<boolean | null>(null); // Tracks user's answer
-	const [isCorrect, setIsCorrect] = useState<boolean | null>(null); // Tracks correctness of the answer
+	const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
+	const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
 	const { registerQuestion, updateQuestionStatus, resetFlag } =
-		usePageContext(); // Page context
+		usePageContext();
+
+	const numericQuestionId = Number(questionId); // Ensure questionId is a number
 
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
 		registerQuestion({
-			id: Number(questionId),
+			id: numericQuestionId,
 			type,
 			order,
-			points: Number(points), // Register points instead of value
+			points: Number(points),
 			difficulty,
 			status: QuestionStatus.NotStarted,
 			correct: false,
 		});
-	}, [questionId, type, order, points, difficulty, registerQuestion]);
+	}, [numericQuestionId, type, order, points, difficulty, registerQuestion]);
 
 	// Reset userAnswer and isCorrect when resetFlag toggles
 	useEffect(() => {
 		setUserAnswer(null);
 		setIsCorrect(null);
-	}, [resetFlag, setUserAnswer, setIsCorrect]);
+	}, [resetFlag]);
 
-	// Handle user's answer submission (locally only)
+	// Handle user's answer submission
 	const handleAnswer = (answer: boolean) => {
 		setUserAnswer(answer);
 		const isAnswerCorrect = answer === correctAnswer;
@@ -69,13 +73,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 		);
 
 		// Update both completeness and correctness in PageContext
-		updateQuestionStatus(questionId, {
-			status: QuestionStatus.Complete, // Mark as complete
-			correct: isAnswerCorrect, // Set correctness
+		updateQuestionStatus(numericQuestionId, {
+			status: QuestionStatus.Complete,
+			correct: isAnswerCorrect,
 		});
 	};
 
-	// Determine if buttons should be locked (disabled) after an answer is selected
+	// Determine if buttons should be locked after an answer is selected
 	const isLocked = userAnswer !== null;
 
 	return (

@@ -8,13 +8,13 @@ import type { UserProgress } from "../slices/userProgressSlice";
 const dummyUserProgress: UserProgress = {
 	userId: 1,
 	trackId: 1, // JavaScript track
-	points: 100,
-	health: 85,
-	questionsCompleted: [1, 2],
-	pagesCompleted: [1, 2],
-	challengesCompleted: [1],
-	currentPage: 2,
-	lastCompleted: new Date().toISOString(),
+	points: 0, // Start with zero points
+	health: 100, // Full health
+	questionsCompleted: [], // Empty array
+	pagesCompleted: [], // Empty array
+	challengesCompleted: [], // Empty array
+	currentPage: 0, // No pages completed yet
+	lastCompleted: null, // No last completed timestamp
 };
 
 // Fetch user progress (dummy implementation)

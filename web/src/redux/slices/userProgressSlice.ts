@@ -1,6 +1,7 @@
 // web/src/redux/slices/userProgressSlice.ts
+
 import { createSlice } from '@reduxjs/toolkit';
-import { PageProgress } from '@site/src/modules/quiz/types/page.types'; // Import from quiz types
+import { PageProgress } from '@site/src/modules/quiz/types/page.types';
 
 import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
 
@@ -60,15 +61,18 @@ const userProgressSlice = createSlice({
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { page_id, score, questions } = action.payload;
 
+			// Ensure page_id is a number
+			const numericPageId = Number(page_id);
+
 			// Add page to pagesCompleted if not already present
-			if (!state.pagesCompleted.includes(page_id)) {
-				state.pagesCompleted.push(page_id);
+			if (!state.pagesCompleted.includes(numericPageId)) {
+				state.pagesCompleted.push(numericPageId);
 			}
 
 			// Get completed questions and update the state
 			const completedQuestions = questions
 				.filter((question) => question.correct)
-				.map((question) => question.id);
+				.map((question) => Number(question.id)); // Ensure IDs are numbers
 
 			// Add new completed questions to the list
 			state.questionsCompleted = [
@@ -79,15 +83,18 @@ const userProgressSlice = createSlice({
 			];
 
 			// Track the current page
-			state.currentPage = page_id;
+			state.currentPage = numericPageId;
 
 			// Add the score (points from page and questions) to the total points
 			state.points += score; // Increment the points with the score from the page
+
+			// Update lastCompleted timestamp
+			state.lastCompleted = new Date().toISOString();
 		},
 
 		// Optionally update the state if a challenge is completed
 		updateChallengesCompleted: (state, action: PayloadAction<number>) => {
-			const challengeId = action.payload;
+			const challengeId = Number(action.payload); // Ensure ID is a number
 
 			// If the challenge isn't already in the completed list, add it
 			if (!state.challengesCompleted.includes(challengeId)) {
