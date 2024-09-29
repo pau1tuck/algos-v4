@@ -1,104 +1,102 @@
 /* Shared Container Styling for All Questions */
 .question-container {
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 600px;
-    background-color: #fafafa;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin-bottom: 25px; /* Consistent margin for all question types */
+	border-radius: 8px;
+	padding: 20px;
+	max-width: 600px;
+	background-color: #fafafa;
+	/*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	margin-bottom: 25px; /* Consistent margin for all question types */
 }
 
 /* Common Title Styling */
 .question-title,
 .multiple-choice-question,
 .true-false-question {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 /* True-False Specific Styles */
 .true-false-options {
-    display: flex; /* Changed from block to flex to align items side by side */
-    gap: 10px; /* Space between the buttons */
-    margin-bottom: 10px;
-    justify-content: left; /* Align items to the left */
+	display: flex; /* Changed from block to flex to align items side by side */
+	gap: 10px; /* Space between the buttons */
+	margin-bottom: 10px;
+	justify-content: left; /* Align items to the left */
 }
 
 /* Option and Input Styling */
 .question-option,
 .short-answer-input,
 .true-false-option {
-    width: 100%;
-    max-width: 200px; /* Consistent width */
-    font-size: 1.1rem;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-    padding-left: 15px;
-    margin-bottom: 10px;
-    text-align: left;
-    cursor: pointer;
-    transition:
-        background-color 0.3s,
-        border-color 0.3s;
+	width: 100%;
+	max-width: 200px; /* Consistent width */
+	font-size: 1.1rem;
+	background-color: #fff;
+	border: 2px solid #ddd;
+	border-radius: 4px;
+	padding: 10px;
+	padding-left: 15px;
+	margin-bottom: 10px;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color 0.1s, border-color 0.1s;
 }
 
 .true-false-option {
-    padding-left: 10px;
-    text-align: center;
+	padding-left: 10px;
+	text-align: center;
 }
 .short-answer-input {
-    cursor: unset;
+	cursor: unset;
 }
 
 .question-option:hover,
 .short-answer-submit:hover,
 .true-false-option:hover {
-    background-color: #fafafa;
-    border-color: #ccc;
+	background-color: #fafafa;
+	border-color: #ccc;
 }
 
 /* Correct and Incorrect Styling for Multiple Choice Options */
 .question-option.correct {
-    border-color: #4caf50;
-    background-color: #e8f5e9;
+	border-color: #4caf50;
+	background-color: #e8f5e9;
 }
 
 .question-option.incorrect {
-    border-color: #f44336;
-    background-color: #ffebee;
+	border-color: #f44336;
+	background-color: #ffebee;
 }
 
 /* Correct and Incorrect Styling for True-False Options */
 .true-false-option.correct {
-    border-color: #4caf50;
-    background-color: #e8f5e9;
+	border-color: #4caf50;
+	background-color: #e8f5e9;
 }
 
 .true-false-option.incorrect {
-    border-color: #f44336;
-    background-color: #ffebee;
+	border-color: #f44336;
+	background-color: #ffebee;
 }
 
 /* Feedback Styling */
 .question-feedback,
 .short-answer-feedback,
 .true-false-feedback {
-    margin-top: 15px;
-    font-size: 1rem;
+	margin-top: 15px;
+	font-size: 1rem;
 }
 
 .short-answer-feedback.correct,
 .question-feedback.correct {
-    color: #4caf50;
+	color: #4caf50;
 }
 
 .short-answer-feedback.incorrect,
 .question-feedback.incorrect {
-    color: #f44336;
+	color: #f44336;
 }

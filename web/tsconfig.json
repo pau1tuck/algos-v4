@@ -3,6 +3,9 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "types": ["docusaurus-plugin-sass"]
+    "target": "ES6",
+    "types": [
+      "docusaurus-plugin-sass"
+    ]
   },
 }

@@ -13,6 +13,7 @@ import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
+import { Blue } from "@site/src/components/Highlights";
 
 # Welcome (Test Page)
 
@@ -37,11 +38,25 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
     }}
 />
 
+### True or False Question
+
+Given a JavaScript object containing basic profile data (e.g., name, email, etc.), iterate over its properties and display a formatted summary.
+
+A `user` <Blue>**object**</Blue> containing user profile data.
+
+```JavaScript
+const user = {
+    name: "John Doe",
+    email: "jdoe@me.com",
+    phone: "555-555-5555",
+}
+```
+
 <TrueFalseQuestion
     questionId={1}
     order={1}
     difficulty={DifficultyLevel.Junior}
-    question="JavaScript is a strongly-typed language."
+    question="🤔 JavaScript is a strongly-typed language."
     correctAnswer={false}
     points={10}
 />

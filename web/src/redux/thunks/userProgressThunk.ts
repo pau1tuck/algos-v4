@@ -1,13 +1,51 @@
 // web/src/redux/thunks/userProgressThunk.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import Cookies from "universal-cookie";
 import type { UserProgress } from "../slices/userProgressSlice";
 
-// Define the base URL for the backend API
-const BASE_URL = "http://localhost:8000/api/gameplay";
+// Dummy data to simulate fetched user progress
+const dummyUserProgress: UserProgress = {
+	userId: 1,
+	trackId: 1, // JavaScript track
+	points: 100,
+	health: 85,
+	questionsCompleted: [1, 2],
+	pagesCompleted: [1, 2],
+	challengesCompleted: [1],
+	currentPage: 2,
+	lastCompleted: new Date().toISOString(), // Adding the missing lastCompleted field
+};
 
-// Fetch user progress from the backend
+// Fetch user progress (dummy implementation)
+export const fetchUserProgress = createAsyncThunk(
+	"userProgress/fetchUserProgress",
+	async (_, { rejectWithValue }) => {
+		try {
+			// Simulate fetching user progress with dummy data
+			console.log("Fetching user progress (dummy data)...");
+			return dummyUserProgress;
+		} catch (error) {
+			// Handle error by rejecting with a value
+			return rejectWithValue("Error fetching dummy user progress");
+		}
+	},
+);
+
+// Save user progress (dummy implementation)
+export const saveUserProgress = createAsyncThunk(
+	"userProgress/saveUserProgress",
+	async (userProgress: UserProgress, { rejectWithValue }) => {
+		try {
+			// Simulate saving user progress by logging to the console
+			console.log("Saving user progress (dummy):", userProgress);
+			return userProgress; // Return the same user progress
+		} catch (error) {
+			// Handle error by rejecting with a value
+			return rejectWithValue("Error saving dummy user progress");
+		}
+	},
+);
+/* 
+// Original backend call for fetching user progress
 export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
 	async (_, { rejectWithValue }) => {
@@ -29,7 +67,7 @@ export const fetchUserProgress = createAsyncThunk(
 			// Return the user progress data from the backend
 			return response.data;
 		} catch (error) {
-			// Handle error by rejecting with a value
+					// Handle error by rejecting with a value
 			return rejectWithValue(
 				error.response?.data || "Error fetching user progress",
 			);
@@ -37,7 +75,7 @@ export const fetchUserProgress = createAsyncThunk(
 	},
 );
 
-// Save user progress to the backend
+// Original backend call for saving user progress
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgress, { rejectWithValue }) => {
@@ -82,3 +120,4 @@ export const saveUserProgress = createAsyncThunk(
 		}
 	},
 );
+*/
