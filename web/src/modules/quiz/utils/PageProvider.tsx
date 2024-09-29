@@ -1,4 +1,4 @@
-// web/src/modules/quiz/utils/PageProvider.tsx
+//web/src/modules/quiz/utils/PageProvider.tsx
 
 import React, { useReducer, useCallback, useEffect } from "react";
 import { UserRole } from "@site/src/modules/user/types/user.type";
@@ -18,15 +18,6 @@ const REGISTER_QUESTION = "REGISTER_QUESTION";
 const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG";
-
-// Helper to clear localStorage for each question on the page
-const clearLocalStorageForQuestions = (questions: QuestionProps[]) => {
-	questions.forEach((question) => {
-		const localStorageKey = `TFQuestion_${question.id}`;
-		localStorage.removeItem(localStorageKey);
-		console.log(`Cleared localStorage for: ${localStorageKey}`);
-	});
-};
 
 type PageState = {
 	questions: QuestionProps[];
@@ -79,9 +70,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 			};
 
 		case RESET_PAGE:
-			// Clear localStorage for all questions on the page
-			clearLocalStorageForQuestions(state.questions);
-
+			// No need to clear localStorage anymore
 			return {
 				...state,
 				questions: state.questions.map((question) => ({

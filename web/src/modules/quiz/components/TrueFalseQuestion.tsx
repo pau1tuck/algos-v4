@@ -1,4 +1,4 @@
-// web/src/modules/quiz/components/TrueFalseQuestion.tsx
+//web/src/modules/quiz/components/TrueFalseQuestion.tsx
 import React, { useState, useEffect } from "react";
 import styles from "@site/src/modules/quiz/css/quiz.module.css";
 import ReactMarkdown from "react-markdown";
@@ -36,27 +36,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 	const { registerQuestion, updateQuestionStatus, resetFlag } =
 		usePageContext(); // Page context
 
-	// Helper function to load question state from localStorage
-	const loadQuestionFromLocalStorage = () => {
-		const savedData = localStorage.getItem(`TFQuestion_${questionId}`);
-		if (savedData) {
-			const parsedData = JSON.parse(savedData);
-			console.log("Loaded from localStorage:", parsedData);
-			setUserAnswer(parsedData.userAnswer);
-			setIsCorrect(parsedData.isCorrect);
-		}
-	};
-
-	// Save the current state to localStorage
-	const saveQuestionToLocalStorage = (answer: boolean, correct: boolean) => {
-		const dataToSave = { userAnswer: answer, isCorrect: correct };
-		localStorage.setItem(
-			`TFQuestion_${questionId}`,
-			JSON.stringify(dataToSave),
-		);
-		console.log("Saved to localStorage:", dataToSave);
-	};
-
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
 		registerQuestion({
@@ -68,9 +47,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			status: QuestionStatus.NotStarted,
 			correct: false,
 		});
-
-		// Load from localStorage when component mounts
-		loadQuestionFromLocalStorage();
 	}, [questionId, type, order, points, difficulty, registerQuestion]);
 
 	// Reset userAnswer and isCorrect when resetFlag toggles
@@ -97,9 +73,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			status: QuestionStatus.Complete, // Mark as complete
 			correct: isAnswerCorrect, // Set correctness
 		});
-
-		// Save the result to localStorage
-		saveQuestionToLocalStorage(answer, isAnswerCorrect);
 	};
 
 	// Determine if buttons should be locked (disabled) after an answer is selected
