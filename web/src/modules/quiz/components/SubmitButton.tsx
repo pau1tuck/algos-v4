@@ -1,18 +1,27 @@
-// web/src/modules/quiz/components/SubmitButton.tsx
-import React from "react";
-import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
-import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
-import { saveUserProgress } from "@site/src/redux/thunks/userProgressThunk";
-import { useAppDispatch } from "@site/src/redux/utils/useAppDispatch";
-import { QuestionStatus } from "@site/src/modules/quiz/types/question.types";
+//web/src/modules/quiz/components/SubmitButton.tsx
+import React from 'react';
+import { useSelector } from 'react-redux'; // Use this instead of useAppSelector
+
+import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
+import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
+import { updatePageProgress } from '@site/src/redux/slices/userProgressSlice';
+import { RootState } from '@site/src/redux/store'; // Import RootState for typing
+import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
+import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 const SubmitButton: React.FC = () => {
 	const { page_id, questions, module, difficulty } = usePageContext();
 	const dispatch = useAppDispatch();
 
+	// Ensure the Redux state is selected properly using useSelector
+	const updatedUserProgress = useSelector(
+		(state: RootState) => state.userProgress,
+	);
+
+	// Check if all questions are correct to consider the page completed
 	const pageCompleted = questions.every((question) => question.correct);
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		if (!pageCompleted) return; // Prevent submission if the page is incomplete
 
 		// Dispatch updated page progress to Redux
@@ -22,17 +31,19 @@ const SubmitButton: React.FC = () => {
 				module,
 				difficulty,
 				completed: QuestionStatus.Complete,
-				lastAccessed: new Date().toISOString(),
-				questions,
+				questions, // Pass only the questions and necessary fields
+				// Removed lastAccessed field as it's handled by the backend
 			}),
 		);
 
-		// Ensure we retrieve the updated state using getState before dispatching saveUserProgress
-		dispatch((dispatch, getState) => {
-			const updatedUserProgress = getState().userProgress;
-			updatedUserProgress.trackId = updatedUserProgress.trackId || 1; // Default the trackId to 1 if not provided
-			dispatch(saveUserProgress(updatedUserProgress));
-		});
+		// Create a new object, do not modify the original state
+		const userProgressToSave = {
+			...updatedUserProgress, // Copy all properties
+			trackId: updatedUserProgress.trackId || 1, // Ensure trackId is present
+		};
+
+		// Dispatch saveUserProgress after state has been updated
+		dispatch(saveUserProgress(userProgressToSave));
 	};
 
 	return (
