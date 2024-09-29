@@ -77,6 +77,13 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			status: QuestionStatus.Complete,
 			correct: isAnswerCorrect,
 		});
+
+		// After updating question status
+		console.log("TrueFalseQuestion: Updated question status:", {
+			id: numericQuestionId,
+			status: QuestionStatus.Complete,
+			correct: isAnswerCorrect,
+		});
 	};
 
 	// Determine if buttons should be locked after an answer is selected

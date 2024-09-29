@@ -2,18 +2,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { RootState } from "@site/src/redux/store"; // Import RootState
-import type { UserProgress } from "../slices/userProgressSlice";
+import type { UserProgress } from "@site/src/modules/user/types/progress.types";
 
 // Dummy data to simulate fetched user progress
 const dummyUserProgress: UserProgress = {
 	userId: 1,
 	trackId: 1, // JavaScript track
-	points: 0, // Start with zero points
-	health: 100, // Full health
-	questionsCompleted: [], // Empty array
-	pagesCompleted: [], // Empty array
-	challengesCompleted: [], // Empty array
-	currentPage: 0, // No pages completed yet
+	points: 27, // Start with zero points
+	health: 85, // Full health
+	questionsCompleted: [7, 9], // Empty array
+	pagesCompleted: [4], // Empty array
+	challengesCompleted: [3], // Empty array
+	currentPage: 4,
 	lastCompleted: null, // No last completed timestamp
 };
 

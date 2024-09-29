@@ -1,44 +1,14 @@
 // web/src/redux/slices/userProgressSlice.ts
 
 import { createSlice } from '@reduxjs/toolkit';
-import { PageProgress } from '@site/src/modules/quiz/types/page.types';
 
 import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
 
+import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
+
+import type { UserProgress } from "@site/src/modules/user/types/progress.types";
+
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-// Interfaces for Grade, Rank, Level, and UserProgress
-export interface Grade {
-	id: number;
-	title: string;
-}
-
-export interface Rank {
-	id: number;
-	title: string;
-}
-
-export interface Level {
-	id: number;
-	title: string;
-	track: number;
-	order: number;
-	pagesRequired: number[];
-}
-
-// Main interface for tracking the user's progress
-export interface UserProgress {
-	userId: number;
-	trackId: number;
-	points: number; // Will be calculated by the backend
-	health: number; // Will be calculated by the backend
-	questionsCompleted: number[];
-	pagesCompleted: number[];
-	challengesCompleted: number[]; // This can be optional
-	currentPage: number; // Tracks the last accessed page
-	lastCompleted: string; // Timestamp of the last progress update
-}
-
 // Initial state for user progress
 const initialState: UserProgress = {
 	userId: 0, // Placeholder until the user is fetched
@@ -48,7 +18,6 @@ const initialState: UserProgress = {
 	questionsCompleted: [],
 	pagesCompleted: [],
 	challengesCompleted: [],
-	currentPage: 0,
 	lastCompleted: new Date().toISOString(),
 };
 
@@ -61,6 +30,10 @@ const userProgressSlice = createSlice({
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { page_id, score, questions } = action.payload;
 
+			console.log(
+				"updatePageProgress: Received action.payload:",
+				action.payload,
+			);
 			// Ensure page_id is a number
 			const numericPageId = Number(page_id);
 
@@ -88,8 +61,11 @@ const userProgressSlice = createSlice({
 			// Add the score (points from page and questions) to the total points
 			state.points += score; // Increment the points with the score from the page
 
-			// Update lastCompleted timestamp
-			state.lastCompleted = new Date().toISOString();
+			// Removed lastCompleted update as per your request
+			// console.log("Removed state.lastCompleted update as per request");
+			// state.lastCompleted = new Date().toISOString();
+
+			console.log("updatePageProgress: Updated state:", state);
 		},
 
 		// Optionally update the state if a challenge is completed

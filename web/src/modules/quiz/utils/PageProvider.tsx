@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useReducer } from 'react';
 
 import { PageType } from '@site/src/modules/quiz/types/page.types';
 import {
-    DifficultyLevel, QuestionProps, QuestionStatus
+    DifficultyLevel, QuestionProps, QuestionStatus, QuestionType
 } from '@site/src/modules/quiz/types/question.types';
 import { PageContext, PageContextProps } from '@site/src/modules/quiz/utils/PageContext';
 import { UserRole } from '@site/src/modules/user/types/user.type';
@@ -118,7 +118,7 @@ export const PageProvider: React.FC<{
 		trackId = 1, // Add trackId to the pageData
 	} = pageData;
 
-	// Initialize state without loading from localStorage
+	// Initialize state
 	const [state, dispatch] = useReducer(pageReducer, {
 		questions,
 		resetFlag: false,
@@ -160,11 +160,15 @@ export const PageProvider: React.FC<{
 	);
 
 	const calculatePageScore = useCallback(() => {
-		const totalScore = state.questions.reduce((totalScore, question) => {
-			return question.correct ? totalScore + question.points : totalScore;
+		const questionScore = state.questions.reduce((total, question) => {
+			return question.correct ? total + question.points : total;
 		}, 0);
+
+		// Add the page's points to the question score
+		const totalScore = questionScore + points; // 'points' is from pageData
+
 		return totalScore;
-	}, [state.questions]);
+	}, [state.questions, points]);
 
 	const resetPage = useCallback(() => {
 		dispatch({ type: "RESET_PAGE" });
@@ -175,34 +179,35 @@ export const PageProvider: React.FC<{
 		console.log("Provider: Page State Updated:", state);
 	}, [state]);
 
+	// Provide context value without memoization
+	const contextValue = {
+		page_id,
+		title,
+		section,
+		module,
+		topic,
+		order,
+		type,
+		role,
+		prerequisites,
+		difficulty,
+		points,
+		completed,
+		tags,
+		lastAccessed,
+		coursePathProgress,
+		questions: state.questions,
+		resetFlag: state.resetFlag,
+		trackId,
+		registerQuestion,
+		updateQuestionStatus,
+		calculatePageScore,
+		resetPage,
+		requiresAuth,
+	};
+
 	return (
-		<PageContext.Provider
-			value={{
-				page_id,
-				title,
-				section,
-				module,
-				topic,
-				order,
-				type,
-				role,
-				prerequisites,
-				difficulty,
-				points,
-				completed,
-				tags,
-				lastAccessed,
-				coursePathProgress,
-				questions: state.questions,
-				resetFlag: state.resetFlag,
-				trackId, // Make trackId available in PageContext
-				registerQuestion,
-				updateQuestionStatus,
-				calculatePageScore,
-				resetPage,
-				requiresAuth,
-			}}
-		>
+		<PageContext.Provider value={contextValue}>
 			{children}
 		</PageContext.Provider>
 	);
