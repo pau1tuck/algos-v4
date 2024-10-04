@@ -23,6 +23,7 @@ export interface UserProgress {
 	trackId: number;
 	points: number; // Will be calculated by the backend
 	health: number; // Will be calculated by the backend
+	// FIXME Where is XP?
 	questionsCompleted: number[];
 	pagesCompleted: number[];
 	challengesCompleted: number[]; // This can be optional
