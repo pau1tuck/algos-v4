@@ -1,29 +1,74 @@
 from django.db import models
 
 
-class Track(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)  # Allow manual ID input
-    title = models.CharField(max_length=100)  # Track title, e.g., 'JavaScript'
+class DifficultyLevel(models.Model):
+    name = models.CharField(
+        max_length=50, unique=True
+    )  # E.g., Trainee, Junior, Middle, Senior, Lead
     description = models.TextField(null=True, blank=True)
-    slug = models.SlugField(unique=True)  # Unique slug for URL purposes
+
+    def __str__(self):
+        return self.name
+
+
+class Track(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to="images/tracks/", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/tracks/", null=True, blank=True)
-    icon = models.CharField(
-        max_length=100, null=True, blank=True
-    )  # Optional, Font-awesome icon name for visual representation
+    icon = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.title
 
 
-# class DifficultyLevel(models.Model):
-#    name = models.CharField(
-#        max_length=50, unique=True
-#    )  # E.g., Trainee, Junior, Middle, Senior, Lead
-#    description = models.TextField(null=True, blank=True)
-#
-#    def __str__(self):
-#        return self.name
+class Course(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    track = models.ForeignKey(Track, related_name="courses", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="images/courses/", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Module(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    course = models.ForeignKey(Course, related_name="modules", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="images/modules/", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Section(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    module = models.ForeignKey(
+        Module, related_name="sections", on_delete=models.CASCADE
+    )
+    image = models.ImageField(upload_to="images/sections/", null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Page(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to="images/pages/", null=True, blank=True)
+    questions = models.ManyToManyField("Question", related_name="pages", blank=True)
+    section = models.ForeignKey(Section, related_name="pages", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
 
 
 # class QuestionType(models.Model):
