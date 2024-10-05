@@ -21,7 +21,7 @@ export interface PageData {
 	order: number;
 	type: PageType;
 	requiresAuth: boolean;
-	role: UserRole;
+	roles: UserRole[];
 	prerequisites: number[];
 	difficulty: DifficultyLevel;
 	points: number; // Points earned for the entire page
