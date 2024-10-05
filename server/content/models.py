@@ -11,6 +11,9 @@ class DifficultyLevel(models.Model):
         return self.name
 
 
+from django.db import models
+
+
 class Track(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(max_length=100)
@@ -19,6 +22,7 @@ class Track(models.Model):
     image = models.ImageField(upload_to="images/tracks/", null=True, blank=True)
     thumbnail = models.ImageField(upload_to="images/tracks/", null=True, blank=True)
     icon = models.CharField(max_length=100, null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # Order for the track
 
     def __str__(self):
         return self.title
@@ -30,6 +34,7 @@ class Course(models.Model):
     description = models.TextField(blank=True, null=True)
     track = models.ForeignKey(Track, related_name="courses", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/courses/", null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # Order for the course
 
     def __str__(self):
         return self.title
@@ -41,6 +46,7 @@ class Module(models.Model):
     description = models.TextField(blank=True, null=True)
     course = models.ForeignKey(Course, related_name="modules", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images/modules/", null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # Order for the module
 
     def __str__(self):
         return self.title
@@ -54,6 +60,7 @@ class Section(models.Model):
         Module, related_name="sections", on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="images/sections/", null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # Order for the section
 
     def __str__(self):
         return self.title
@@ -61,11 +68,17 @@ class Section(models.Model):
 
 class Page(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max_length=255)
+    title = models.CharField(max=255)
     description = models.TextField()
     image = models.ImageField(upload_to="images/pages/", null=True, blank=True)
     questions = models.ManyToManyField("Question", related_name="pages", blank=True)
     section = models.ForeignKey(Section, related_name="pages", on_delete=models.CASCADE)
+    order = models.PositiveIntegerField(default=0)  # Order for the page
+    points = models.IntegerField(default=0)  # Points for completing the page
+    prerequisites = models.ManyToManyField(
+        "self", blank=True, related_name="required_for"
+    )  # Prerequisite pages
+    requires_auth = models.BooleanField(default=False)  # Authentication requirement
 
     def __str__(self):
         return self.title
