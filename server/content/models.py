@@ -68,9 +68,10 @@ class Section(models.Model):
 
 class Page(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
-    title = models.CharField(max=255)
+    title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to="images/pages/", null=True, blank=True)
+    banner = models.ImageField(upload_to="images/banners/", null=True, blank=True)
     questions = models.ManyToManyField("Question", related_name="pages", blank=True)
     section = models.ForeignKey(Section, related_name="pages", on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=0)  # Order for the page
