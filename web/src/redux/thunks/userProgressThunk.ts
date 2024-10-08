@@ -10,11 +10,10 @@ export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
 	async (_, { getState, rejectWithValue }) => {
 		try {
-			const state = getState() as any; // Adjust as necessary
-			const userId = state.auth.user?.pk || 0; // Get user ID from auth state using 'pk'
+			const state = getState() as any;
+			const userId = state.auth.user?.pk || 0;
 			console.log("User ID (pk):", userId);
 
-			// Use userId in your dummy data
 			const userProgress = {
 				...dummyUserProgress,
 				userId, // Ensure we are using the current user's ID
@@ -33,18 +32,17 @@ export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgress, { getState, rejectWithValue }) => {
 		try {
-			// Retrieve current user ID from the global auth state
 			const state = getState() as any;
-			const userId = state.auth.user?.pk; // Get the authenticated user's ID from 'pk'
+			const userId = state.auth.user?.pk;
 
-			// Prepare the data to be saved, using the correct userId
+			// Prepare the data to be saved, including the updated points
 			const progressToSave = {
-				userId: userId, // Use the correct user ID from 'pk'
+				userId: userId,
 				trackId: userProgress.trackId,
 				pagesCompleted: userProgress.pagesCompleted,
 				challengesCompleted: userProgress.challengesCompleted,
 				health: userProgress.health,
-				// No need to include xp, points, level, grade, rank, lastCompleted, etc.
+				points: userProgress.points, // Save the updated points
 			};
 
 			// Simulate saving user progress by logging it

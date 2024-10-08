@@ -10,53 +10,47 @@ import {
 
 import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
-			const { page_id, score, questions } = action.payload;
+			const { page_id, score } = action.payload;
 
 			console.log(
 				"updatePageProgress: Received action.payload:",
 				action.payload,
 			);
 
-			state.pagesCompleted.push(page_id);
-			state.questionsCompleted = questions.map((q) => Number(q.id));
+			// Append the new page_id to the existing pagesCompleted array, ensuring no duplicates
+			state.pagesCompleted = Array.from(
+				new Set([...state.pagesCompleted, page_id]),
+			);
+
+			// Update the total points by adding the score (points) from this page
 			state.points += score;
 
+			// Log the updated state
 			console.log("updatePageProgress: Updated state:", {
 				pagesCompleted: state.pagesCompleted,
-				questionsCompleted: state.questionsCompleted,
 				points: state.points,
-				xp: state.xp,
-				level: state.level,
-				grade: state.grade,
-				rank: state.rank,
 			});
 		},
 	},
 	extraReducers: (builder) => {
-		builder
-			.addCase(fetchUserProgress.fulfilled, (state, action) => {
-				// Update state with fetched data
-				state.level = action.payload.level;
-				state.grade = action.payload.grade;
-				state.rank = action.payload.rank;
-
-				console.log(
-					"Fetched user progress with level, grade, and rank:",
-					{
-						level: state.level,
-						grade: state.grade,
-						rank: state.rank,
-					},
-				);
-			})
-			.addCase(saveUserProgress.fulfilled, (state, action) => {
-				console.log("User progress saved:", action.payload);
-			});
+		builder.addCase(fetchUserProgress.fulfilled, (state, action) => {
+			// Initialize state with fetched user progress data
+			state.level = action.payload.level;
+			state.grade = action.payload.grade;
+			state.rank = action.payload.rank;
+			state.pagesCompleted = action.payload.pagesCompleted; // Fetch existing pagesCompleted
+			state.points = action.payload.points; // Initialize points from fetched data
+			console.log(
+				"Fetched user progress with points:",
+				action.payload.points,
+			);
+		});
 	},
 });
 

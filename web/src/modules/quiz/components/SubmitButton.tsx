@@ -1,28 +1,26 @@
 // web/src/modules/quiz/components/SubmitButton.tsx
 
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
-import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
-import { updatePageProgress } from '@site/src/redux/slices/userProgressSlice';
-import { RootState } from '@site/src/redux/store';
-import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
-import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
+import { QuestionStatus } from "@site/src/modules/quiz/types/question.types";
+import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
+import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
+import { RootState } from "@site/src/redux/store";
+import { saveUserProgress } from "@site/src/redux/thunks/userProgressThunk";
+import { useAppDispatch } from "@site/src/redux/utils/useAppDispatch";
 
 const SubmitButton: React.FC = () => {
-	const { page_id, questions, module, difficulty, calculatePageScore } =
-		usePageContext();
+	const { page_id, module, difficulty, points } = usePageContext(); // Points from PageContext
 	const dispatch = useAppDispatch();
 
-	// Ensure the Redux state is selected properly using useSelector
+	// Get the current user progress from Redux
 	const updatedUserProgress = useSelector(
 		(state: RootState) => state.userProgress,
 	);
 
 	const handleSubmit = async () => {
-		const score = calculatePageScore();
-		console.log("SubmitButton: Calculated score:", score);
+		console.log("SubmitButton: Page points from PageInitializer:", points);
 
 		// Dispatch updated page progress to Redux
 		dispatch(
@@ -31,15 +29,15 @@ const SubmitButton: React.FC = () => {
 				module,
 				difficulty,
 				completed: QuestionStatus.Complete,
-				questions,
-				score,
+				questions: [],
+				score: points, // Use the fixed points from PageInitializer
 			}),
 		);
 
-		// Create a new object, do not modify the original state
+		// Save user progress with the updated points
 		const userProgressToSave = {
 			...updatedUserProgress,
-			trackId: updatedUserProgress.trackId || 1,
+			points: updatedUserProgress.points + points, // Add new page points to the existing points
 		};
 
 		// Dispatch saveUserProgress after state has been updated
