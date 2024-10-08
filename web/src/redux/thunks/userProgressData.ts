@@ -51,7 +51,7 @@ export const dummyUserProgress: UserProgress = {
 	userId: 1,
 	trackId: 1, // JavaScript track
 	points: 27,
-	xp: 100, // XP value here
+	xp: 57, // XP value here
 	health: 85,
 	questionsCompleted: [7, 9],
 	pagesCompleted: [4],
