@@ -1,14 +1,14 @@
 // web/src/modules/quiz/components/SubmitButton.tsx
 
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
-import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
-import { updatePageProgress } from '@site/src/redux/slices/userProgressSlice';
-import { RootState } from '@site/src/redux/store';
-import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
-import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
+import { QuestionStatus } from "@site/src/modules/quiz/types/question.types";
+import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
+import { updatePageProgress } from "@site/src/redux/slices/userProgressSlice";
+import { RootState } from "@site/src/redux/store";
+import { saveUserProgress } from "@site/src/redux/thunks/userProgressThunk";
+import { useAppDispatch } from "@site/src/redux/utils/useAppDispatch";
 
 const SubmitButton: React.FC = () => {
 	const { page_id, questions, module, difficulty, calculatePageScore } =
@@ -19,6 +19,7 @@ const SubmitButton: React.FC = () => {
 	const updatedUserProgress = useSelector(
 		(state: RootState) => state.userProgress,
 	);
+	const [isPageUpdated, setIsPageUpdated] = useState(false);
 
 	const handleSubmit = async () => {
 		const score = calculatePageScore();
@@ -36,15 +37,26 @@ const SubmitButton: React.FC = () => {
 			}),
 		);
 
-		// Create a new object, do not modify the original state
-		const userProgressToSave = {
-			...updatedUserProgress,
-			trackId: updatedUserProgress.trackId || 1,
-		};
-
-		// Dispatch saveUserProgress after state has been updated
-		dispatch(saveUserProgress(userProgressToSave));
+		// Set flag to true after dispatching the update
+		setIsPageUpdated(true);
 	};
+
+	// useEffect to trigger saveUserProgress only after page progress has been updated
+	useEffect(() => {
+		if (isPageUpdated) {
+			// Save user progress with the updated pagesCompleted array
+			const userProgressToSave = {
+				...updatedUserProgress, // Get the fully updated state (with the new page_id included)
+				trackId: updatedUserProgress.trackId || 1,
+			};
+
+			// Dispatch saveUserProgress after state has been updated
+			dispatch(saveUserProgress(userProgressToSave));
+
+			// Reset flag after saving
+			setIsPageUpdated(false);
+		}
+	}, [isPageUpdated, updatedUserProgress, dispatch]);
 
 	return <button onClick={handleSubmit}>Submit</button>;
 };
