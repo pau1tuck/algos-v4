@@ -72,6 +72,26 @@ const user = {
 
 <br />
 
+## Parsing Integers
+
+<MultipleChoiceQuestion
+    questionId={2}
+    type="multipleChoice"
+    difficulty={DifficultyLevel.Junior}
+    order={2}
+    points={10}
+    question={`
+\`\`\`js
+const date = Number.parseInt("21 February 2024");
+\`\`\`
+
+What is the value of \`date\`?`}
+    options={["Null", "21", "NaN", "212024"]}
+    correctAnswer={1}
+/>
+
+<br />
+
 <CodeEditor
     height={300}
     minimap={false}
@@ -92,18 +112,6 @@ const user = {
     }`}
 />
 
-## Parsing Integers
-
-<MultipleChoiceQuestion
-  question={`
-\`\`\`js
-const date = Number.parseInt("21 February 2024");
-\`\`\`
-
-What is the value of \`date\`?`}
-options={["Null", "21", "NaN", "212024"]}
-correctAnswer={1}
-/>
 
 <ShortAnswerQuestion
   question={`
