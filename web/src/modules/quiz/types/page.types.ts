@@ -28,7 +28,6 @@ export interface PageData {
 	tags?: string[];
 	lastAccessed?: Date | null; // Make lastAccessed optional here
 	questions?: QuestionProps[]; // Stores question data related to the page
-	resetFlag: boolean; // Signals whether the page has been reset
 	completed: QuestionStatus; // Required to track if the page is completed
 	coursePathProgress: number; // Required progress tracking for user course
 	trackId: number; // Add trackId to associate the page with a specific track

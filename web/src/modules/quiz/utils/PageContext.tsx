@@ -1,9 +1,11 @@
 //web/src/modules/quiz/utils/PageContext.tsx
-import { createContext } from "react";
+import { createContext } from 'react';
+
 import type { QuestionProps } from "@site/src/modules/quiz/types/question.types";
 import type { PageData } from "@site/src/modules/quiz/types/page.types";
 
 export interface PageContextProps extends PageData {
+	resetFlag: boolean;
 	// Functions that modify the context
 	registerQuestion: (question: QuestionProps) => void;
 	updateQuestionStatus: (id: number, status: Partial<QuestionProps>) => void;
@@ -12,4 +14,6 @@ export interface PageContextProps extends PageData {
 }
 
 // Create the context
-export const PageContext = createContext<PageContextProps | undefined>(undefined);
+export const PageContext = createContext<PageContextProps | undefined>(
+	undefined,
+);
