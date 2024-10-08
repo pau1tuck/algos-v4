@@ -1,31 +1,19 @@
 // web/src/redux/slices/userProgressSlice.ts
 
 import { createSlice } from "@reduxjs/toolkit";
+import { initialState } from "@site/src/redux/utils/userProgressState";
 
-import { saveUserProgress } from "../thunks/userProgressThunk";
+import {
+	fetchUserProgress,
+	saveUserProgress,
+} from "../thunks/userProgressThunk";
 
 import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
-import type { UserProgress } from "@site/src/modules/user/types/progress.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-// Initial state for user progress
-const initialState: UserProgress = {
-	userId: 0, // Placeholder until the user is fetched
-	trackId: 0, // Placeholder for the learning track
-	points: 0, // Will be handled by backend
-	xp: 0, // Will be handled by backend
-	health: 100, // Will be handled by backend
-	questionsCompleted: [],
-	pagesCompleted: [],
-	challengesCompleted: [],
-	lastCompleted: new Date().toISOString(),
-};
-
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
-		// Updates the state when a page is completed
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { page_id, score, questions } = action.payload;
 
@@ -34,27 +22,41 @@ const userProgressSlice = createSlice({
 				action.payload,
 			);
 
-			// Simplified logging and basic state update for demo purposes
-			state.pagesCompleted.push(page_id); // Log page_id for now
-			state.questionsCompleted = questions.map((q) => Number(q.id)); // Log question IDs
+			state.pagesCompleted.push(page_id);
+			state.questionsCompleted = questions.map((q) => Number(q.id));
 			state.points += score;
 
-			console.log("updatePageProgress: Updated state (simplified):", {
+			console.log("updatePageProgress: Updated state:", {
 				pagesCompleted: state.pagesCompleted,
 				questionsCompleted: state.questionsCompleted,
 				points: state.points,
-				xp: state.xp, // Added XP field to the log
+				xp: state.xp,
+				level: state.level,
+				grade: state.grade,
+				rank: state.rank,
 			});
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(saveUserProgress.fulfilled, (state, action) => {
-			// Log the state including XP when the progress is saved
-			console.log(
-				"User progress would be saved here (logged):",
-				action.payload,
-			);
-		});
+		builder
+			.addCase(fetchUserProgress.fulfilled, (state, action) => {
+				// Update state with fetched data
+				state.level = action.payload.level;
+				state.grade = action.payload.grade;
+				state.rank = action.payload.rank;
+
+				console.log(
+					"Fetched user progress with level, grade, and rank:",
+					{
+						level: state.level,
+						grade: state.grade,
+						rank: state.rank,
+					},
+				);
+			})
+			.addCase(saveUserProgress.fulfilled, (state, action) => {
+				console.log("User progress saved:", action.payload);
+			});
 	},
 });
 

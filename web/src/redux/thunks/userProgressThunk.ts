@@ -1,22 +1,9 @@
 // web/src/redux/thunks/userProgressThunk.ts
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { dummyUserProgress } from "@site/src/redux/thunks/userProgressData";
 
 import type { UserProgress } from "@site/src/modules/user/types/progress.types";
-
-// Dummy data to simulate fetched user progress
-const dummyUserProgress: UserProgress = {
-	userId: 1,
-	trackId: 1, // JavaScript track
-	points: 27,
-	xp: 100, // Added XP value here
-	health: 85,
-	questionsCompleted: [7, 9],
-	pagesCompleted: [4],
-	challengesCompleted: [3],
-	currentPage: 4,
-	lastCompleted: null, // No last completed timestamp
-};
 
 // Fetch user progress (dummy implementation)
 export const fetchUserProgress = createAsyncThunk(
