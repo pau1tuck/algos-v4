@@ -1,32 +1,19 @@
 // web/src/redux/slices/userProgressSlice.ts
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import { initialState } from "@site/src/redux/utils/userProgressState";
 
-import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
+import {
+	fetchUserProgress,
+	saveUserProgress,
+} from "../thunks/userProgressThunk";
 
 import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
-
-import type { UserProgress } from "@site/src/modules/user/types/progress.types";
-
 import type { PayloadAction } from "@reduxjs/toolkit";
-// Initial state for user progress
-const initialState: UserProgress = {
-	userId: 0, // Placeholder until the user is fetched
-	trackId: 0, // Placeholder for the learning track
-	points: 0, // Will be handled by backend
-	health: 100, // Will be handled by backend
-	questionsCompleted: [],
-	pagesCompleted: [],
-	challengesCompleted: [],
-	lastCompleted: new Date().toISOString(),
-};
-
-// Redux slice to manage user progress
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
-		// Updates the state when a page is completed
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { page_id, score, questions } = action.payload;
 
@@ -34,77 +21,44 @@ const userProgressSlice = createSlice({
 				"updatePageProgress: Received action.payload:",
 				action.payload,
 			);
-			// Ensure page_id is a number
-			const numericPageId = Number(page_id);
 
-			// Add page to pagesCompleted if not already present
-			if (!state.pagesCompleted.includes(numericPageId)) {
-				state.pagesCompleted.push(numericPageId);
-			}
+			state.pagesCompleted.push(page_id);
+			state.questionsCompleted = questions.map((q) => Number(q.id));
+			state.points += score;
 
-			// Get completed questions and update the state
-			const completedQuestions = questions
-				.filter((question) => question.correct)
-				.map((question) => Number(question.id)); // Ensure IDs are numbers
-
-			// Add new completed questions to the list
-			state.questionsCompleted = [
-				...new Set([
-					...state.questionsCompleted,
-					...completedQuestions,
-				]),
-			];
-
-			// Track the current page
-			state.currentPage = numericPageId;
-
-			// Add the score (points from page and questions) to the total points
-			state.points += score; // Increment the points with the score from the page
-
-			// Removed lastCompleted update as per your request
-			// console.log("Removed state.lastCompleted update as per request");
-			// state.lastCompleted = new Date().toISOString();
-
-			console.log("updatePageProgress: Updated state:", state);
-		},
-
-		// Optionally update the state if a challenge is completed
-		updateChallengesCompleted: (state, action: PayloadAction<number>) => {
-			const challengeId = Number(action.payload); // Ensure ID is a number
-
-			// If the challenge isn't already in the completed list, add it
-			if (!state.challengesCompleted.includes(challengeId)) {
-				state.challengesCompleted.push(challengeId);
-			}
+			console.log("updatePageProgress: Updated state:", {
+				pagesCompleted: state.pagesCompleted,
+				questionsCompleted: state.questionsCompleted,
+				points: state.points,
+				xp: state.xp,
+				level: state.level,
+				grade: state.grade,
+				rank: state.rank,
+			});
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(
-				fetchUserProgress.fulfilled,
-				(state, action: PayloadAction<UserProgress>) => {
-					// Update the state with fetched user progress by assigning properties
-					state.userId = action.payload.userId;
-					state.trackId = action.payload.trackId;
-					state.points = action.payload.points;
-					state.health = action.payload.health;
-					state.questionsCompleted =
-						action.payload.questionsCompleted;
-					state.pagesCompleted = action.payload.pagesCompleted;
-					state.challengesCompleted =
-						action.payload.challengesCompleted;
-					state.currentPage = action.payload.currentPage;
-					state.lastCompleted = action.payload.lastCompleted;
-				},
-			)
-			.addCase(saveUserProgress.fulfilled, (state) => {
-				// Action triggered when progress is saved successfully
-				console.log("User progress saved successfully:", state);
+			.addCase(fetchUserProgress.fulfilled, (state, action) => {
+				// Update state with fetched data
+				state.level = action.payload.level;
+				state.grade = action.payload.grade;
+				state.rank = action.payload.rank;
+
+				console.log(
+					"Fetched user progress with level, grade, and rank:",
+					{
+						level: state.level,
+						grade: state.grade,
+						rank: state.rank,
+					},
+				);
+			})
+			.addCase(saveUserProgress.fulfilled, (state, action) => {
+				console.log("User progress saved:", action.payload);
 			});
 	},
 });
 
-// Export the actions and reducer
-export const { updatePageProgress, updateChallengesCompleted } =
-	userProgressSlice.actions;
+export const { updatePageProgress } = userProgressSlice.actions;
 export default userProgressSlice.reducer;
