@@ -1,18 +1,19 @@
-// websrc/redux/thunks/userProgressThunk.ts
-import { createAsyncThunk } from '@reduxjs/toolkit';
+// web/src/redux/thunks/userProgressThunk.ts
 
-import type { RootState } from "@site/src/redux/store"; // Import RootState
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import type { UserProgress } from "@site/src/modules/user/types/progress.types";
 
 // Dummy data to simulate fetched user progress
 const dummyUserProgress: UserProgress = {
 	userId: 1,
 	trackId: 1, // JavaScript track
-	points: 27, // Start with zero points
-	health: 85, // Full health
-	questionsCompleted: [7, 9], // Empty array
-	pagesCompleted: [4], // Empty array
-	challengesCompleted: [3], // Empty array
+	points: 27,
+	xp: 100, // Added XP value here
+	health: 85,
+	questionsCompleted: [7, 9],
+	pagesCompleted: [4],
+	challengesCompleted: [3],
 	currentPage: 4,
 	lastCompleted: null, // No last completed timestamp
 };
@@ -22,7 +23,7 @@ export const fetchUserProgress = createAsyncThunk(
 	"userProgress/fetchUserProgress",
 	async (_, { getState, rejectWithValue }) => {
 		try {
-			const state = getState() as RootState;
+			const state = getState() as any; // Adjust as necessary
 			const userId = state.auth.user?.id || 0;
 
 			// Use userId in your dummy data
@@ -34,99 +35,22 @@ export const fetchUserProgress = createAsyncThunk(
 			console.log("Fetching user progress (dummy data)...", userProgress);
 			return userProgress;
 		} catch (error) {
-			// Handle error by rejecting with a value
 			return rejectWithValue("Error fetching dummy user progress");
 		}
 	},
 );
-// Save user progress (dummy implementation)
+
+// Save user progress (simplified to just log the data)
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
 	async (userProgress: UserProgress, { rejectWithValue }) => {
 		try {
-			// Simulate saving user progress by logging to the console
-			console.log("Saving user progress (dummy):", userProgress);
-			return userProgress; // Return the same user progress
+			// Simulate saving user progress by logging it
+			console.log("Logging user progress to be saved:", userProgress);
+			return userProgress; // Return the same user progress for now
 		} catch (error) {
-			// Handle error by rejecting with a value
+			console.log("Error saving user progress:", error);
 			return rejectWithValue("Error saving dummy user progress");
 		}
 	},
 );
-/* 
-// Original backend call for fetching user progress
-export const fetchUserProgress = createAsyncThunk(
-	"userProgress/fetchUserProgress",
-	async (_, { rejectWithValue }) => {
-		try {
-			const cookies = new Cookies();
-			const token = cookies.get("token");
-
-			// Make a GET request to the backend API to fetch user progress
-			const response = await axios.get(`${BASE_URL}/user-progress`, {
-				headers: {
-					Authorization: `Token ${token}`,
-				},
-			});
-
-			if (response.status !== 200) {
-				throw new Error("Failed to fetch user progress");
-			}
-
-			// Return the user progress data from the backend
-			return response.data;
-		} catch (error) {
-					// Handle error by rejecting with a value
-			return rejectWithValue(
-				error.response?.data || "Error fetching user progress",
-			);
-		}
-	},
-);
-
-// Original backend call for saving user progress
-export const saveUserProgress = createAsyncThunk(
-	"userProgress/saveUserProgress",
-	async (userProgress: UserProgress, { rejectWithValue }) => {
-		try {
-			const cookies = new Cookies();
-			const token = cookies.get("token");
-
-			// Prepare the data to be sent to the backend API
-			const data = {
-				pages_completed: userProgress.pagesCompleted, // Send completed pages
-				questions_completed: userProgress.questionsCompleted, // Send completed questions
-				challenges_completed: userProgress.challengesCompleted, // Send completed challenges
-			};
-
-			// Determine the userProgressId to target the correct resource for update
-			const userProgressId = userProgress.userId;
-
-			// Make a PUT request to update user progress
-			const response = await axios.put(
-				`${BASE_URL}/user-progress/${userProgressId}/`,
-				data,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Token ${token}`,
-					},
-				},
-			);
-
-			// Check for both 200 OK and 204 No Content (no body returned on successful update)
-			if (![200, 204].includes(response.status)) {
-				throw new Error("Failed to update user progress");
-			}
-
-			// Return the updated progress from the backend
-			return response.data;
-		} catch (error) {
-			// Handle error by rejecting with a value
-			return rejectWithValue(
-				error.response?.data || "Error updating user progress",
-			);
-		}
-	},
-);
-*/

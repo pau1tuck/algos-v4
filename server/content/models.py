@@ -72,7 +72,7 @@ class Page(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="images/pages/", null=True, blank=True)
     banner = models.ImageField(upload_to="images/banners/", null=True, blank=True)
-    questions = models.ManyToManyField("Question", related_name="pages", blank=True)
+    # questions = models.ManyToManyField("Question", related_name="pages", blank=True)
     section = models.ForeignKey(Section, related_name="pages", on_delete=models.CASCADE)
     order = models.PositiveIntegerField(default=0)  # Order for the page
     points = models.IntegerField(default=0)  # Points for completing the page
