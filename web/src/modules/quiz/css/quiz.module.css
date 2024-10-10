@@ -113,3 +113,8 @@
 	background-color: #fafafa;
 	border-color: #ccc;
 }
+
+.incorrect-input {
+	border-color: #f44336 !important; /* Red border for incorrect answer */
+	background-color: #ffebee; /* Light red background like the other questions */
+}

@@ -1,7 +1,7 @@
 // web/src/modules/quiz/components/ShortAnswerQuestion.tsx
 
 import { useEffect, useState } from 'react';
-import { MdCheck, MdSend } from 'react-icons/md'; // React Icon for the send button
+import { MdCheck, MdClose } from 'react-icons/md'; // React Icon for the send button
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -111,42 +111,84 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 					type="text"
 					value={userAnswer}
 					onChange={(e) => setUserAnswer(e.target.value)}
-					className={styles["short-answer-input"]}
 					variant="outlined"
 					size="small"
 					label="Your Answer"
+					InputProps={{
+						readOnly: isCorrect !== null, // Make input read-only once an answer is submitted
+					}}
+					InputLabelProps={{
+						shrink: isCorrect !== null ? true : undefined, // Keep label in place after submission
+					}}
 					autoComplete="off"
 					onKeyPress={(e) => {
 						if (e.key === "Enter") {
 							handleAnswer(); // Call the submit function when Enter is pressed
 						}
 					}}
-				/>
-				<Button
-					id="user-submit"
-					type="button"
-					onClick={handleAnswer}
-					variant="contained"
 					sx={{
-						height: "39px",
-						marginLeft: "1px",
-						fontSize: "1.5rem",
-						borderRadius: "3px",
-						":hover": {},
+						"& .MuiOutlinedInput-input": {
+							color: isCorrect !== null ? "#808080" : "default", // Grey text when isCorrect is not null
+						},
+						"& .MuiOutlinedInput-root": {
+							"& fieldset": {
+								borderWidth: "2px",
+								borderColor:
+									isCorrect === true
+										? "#4caf50" // Green for correct
+										: isCorrect === false
+											? "#f44336" // Red for incorrect
+											: "default", // Default for when isCorrect is null
+							},
+							"&:hover": { borderColor: "#808080" },
+							"&:hover fieldset": {
+								borderColor:
+									isCorrect === true
+										? "#4caf50" // Green for correct
+										: isCorrect === false
+											? "#f44336" // Red for incorrect
+											: "default", // Default on hover
+							},
+							"&.Mui-focused fieldset": {
+								borderColor:
+									isCorrect === true
+										? "#4caf50" // Green when focused for correct
+										: isCorrect === false
+											? "#f44336" // Red when focused for incorrect
+											: "default", // Default when focused
+							},
+						},
+						backgroundColor:
+							isCorrect === true
+								? "#e8f5e9" // Light green for correct
+								: isCorrect === false
+									? "#ffebee" // Light red for incorrect
+									: "default", // Default background when isCorrect is null
 					}}
-				>
-					{<MdCheck />}
-				</Button>
+				/>
+				{isCorrect === null && (
+					<Button
+						id="user-submit"
+						type="button"
+						onClick={handleAnswer}
+						variant="contained"
+						sx={{
+							height: "39px",
+							padding: "5px",
+							marginLeft: "1px",
+							fontSize: "1.7rem",
+							borderRadius: "3px",
+							backgroundColor: "primary.main",
+							color: "white",
+							":hover": {
+								backgroundColor: "primary.dark",
+							},
+						}}
+					>
+						<MdCheck />
+					</Button>
+				)}
 			</div>
-			{isCorrect !== null && (
-				<p
-					className={`${styles["question-feedback"]} ${
-						isCorrect ? styles.correct : styles.incorrect
-					}`}
-				>
-					{isCorrect ? "Correct!" : "Incorrect. Try again!"}
-				</p>
-			)}
 		</div>
 	);
 };
