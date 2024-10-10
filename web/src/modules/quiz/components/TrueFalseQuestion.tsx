@@ -1,17 +1,19 @@
 // web/src/modules/quiz/components/TrueFalseQuestion.tsx
 
-import React, { useEffect, useState } from 'react';
+import type React from "react";
+import { useEffect, useState } from 'react';
 import { BsFillQuestionSquareFill } from 'react-icons/bs';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { Box } from '@mui/material';
-import styles from '@site/src/modules/quiz/css/quiz.module.css';
 import {
-    DifficultyLevel, QuestionStatus, QuestionType
+    DifficultyLevel, QuestionStatus, QuestionType, type
 } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
+
+import styles from '../css/quiz.module.css';
 
 type TrueFalseQuestionProps = {
 	questionId: number;

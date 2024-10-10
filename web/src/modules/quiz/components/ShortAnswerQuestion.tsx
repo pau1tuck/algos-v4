@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+// web/src/modules/quiz/components/ShortAnswerQuestion.tsx
+
+import { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import {
-	DifficultyLevel,
-	QuestionStatus,
-	QuestionType,
-} from "@site/src/modules/quiz/types/question.types";
-import { usePageContext } from "@site/src/modules/quiz/utils/usePageContext";
+    DifficultyLevel, QuestionStatus, QuestionType, type
+} from '@site/src/modules/quiz/types/question.types';
+import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
-import styles from "./css/quiz.module.css"; // Importing CSS Module
+import styles from '../css/quiz.module.css'; // Importing CSS Module
 
-type MultipleChoiceQuestionProps = {
+type ShortAnswerQuestionProps = {
 	questionId: number;
 	type: QuestionType;
 	difficulty: DifficultyLevel;
 	order: number;
 	question: string;
-	options: string[];
-	correctAnswer: number;
+	correctAnswer: string;
 	points: number;
 };
 
-const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
+const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 	questionId,
-	type = QuestionType.MultipleChoice,
+	type = QuestionType.ShortAnswer,
 	difficulty,
 	order,
 	question,
-	options,
 	correctAnswer,
 	points,
 }) => {
-	const [userAnswerIndex, setUserAnswerIndex] = useState<number | null>(null);
+	const [userAnswer, setUserAnswer] = useState<string>("");
 	const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
 	const { registerQuestion, updateQuestionStatus, resetFlag } =
@@ -61,16 +59,17 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 		}
 	}, [numericQuestionId, type, order, points, difficulty, registerQuestion]);
 
-	// Reset userAnswerIndex and isCorrect when resetFlag toggles
+	// Reset userAnswer and isCorrect when resetFlag toggles
 	useEffect(() => {
-		setUserAnswerIndex(null);
+		setUserAnswer("");
 		setIsCorrect(null);
 	}, [resetFlag]);
 
 	// Handle user's answer submission
-	const handleAnswer = (index: number) => {
-		setUserAnswerIndex(index);
-		const isAnswerCorrect = index === correctAnswer;
+	const handleAnswer = () => {
+		const isAnswerCorrect =
+			userAnswer.trim().toLowerCase() ===
+			correctAnswer.trim().toLowerCase();
 		setIsCorrect(isAnswerCorrect);
 
 		updateQuestionStatus(numericQuestionId, {
@@ -78,9 +77,6 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 			correct: isAnswerCorrect,
 		});
 	};
-
-	// Determine if options should be locked after an answer is selected
-	const isLocked = userAnswerIndex !== null;
 
 	return (
 		<div className={styles["question-container"]}>
@@ -107,30 +103,30 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 			>
 				{question}
 			</ReactMarkdown>
-			{options.map((option, index) => (
-				<div
-					key={index}
-					onClick={() => handleAnswer(index)}
-					className={`${styles["question-option"]} ${
-						userAnswerIndex === index
-							? isCorrect
-								? styles.correct
-								: styles.incorrect
-							: ""
-					}`}
-					role="button"
-					tabIndex={0}
-					onKeyPress={(e) => {
-						if (e.key === "Enter" || e.key === " ")
-							handleAnswer(index);
-					}}
-					aria-disabled={isLocked}
+			<input
+				id="user-answer"
+				type="text"
+				value={userAnswer}
+				onChange={(e) => setUserAnswer(e.target.value)}
+				className={styles["short-answer-input"]}
+			/>
+			<button
+				id="user-submit"
+				type="button"
+				onClick={handleAnswer}
+				className={styles["short-answer-submit"]}
+			>
+				Submit
+			</button>
+			{isCorrect !== null && (
+				<p
+					className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}
 				>
-					{option}
-				</div>
-			))}
+					{isCorrect ? "Correct!" : "Incorrect. Try again!"}
+				</p>
+			)}
 		</div>
 	);
 };
 
-export default MultipleChoiceQuestion;
+export default ShortAnswerQuestion;
