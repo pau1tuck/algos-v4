@@ -19,6 +19,7 @@ body {
 	font-family: var(--ifm-font-family-body);
 	font-weight: 500;
 	color: var(--text-color); /* Use variable for body text color */
+	font-size: 0.95rem;
 }
 
 code {
