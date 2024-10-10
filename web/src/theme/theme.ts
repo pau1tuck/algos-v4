@@ -1,5 +1,6 @@
-import { createTheme } from "@mui/material/styles";
-import { palette } from "./constants";
+import { createTheme } from '@mui/material/styles';
+
+import { palette } from './constants';
 
 // Extend the typography variants in Material UI
 declare module "@mui/material/styles" {
@@ -73,9 +74,9 @@ const theme = createTheme({
 				contained: {
 					// height: "48px",
 					color: "#fff",
-					"&:hover": {
+					/*"&:hover": {
 						color: "#fff",
-					},
+					}, */
 				},
 				outlined: {
 					height: "38px",

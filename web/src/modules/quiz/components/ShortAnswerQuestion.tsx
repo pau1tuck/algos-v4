@@ -1,10 +1,12 @@
 // web/src/modules/quiz/components/ShortAnswerQuestion.tsx
 
 import { useEffect, useState } from 'react';
+import { MdCheck, MdSend } from 'react-icons/md'; // React Icon for the send button
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
+import { Button, TextField } from '@mui/material'; // Material UI components
 import {
     DifficultyLevel, QuestionStatus, QuestionType, type
 } from '@site/src/modules/quiz/types/question.types';
@@ -42,10 +44,10 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 	// Register the question with the page context when the component mounts
 	useEffect(() => {
 		if (
-			!isNaN(numericQuestionId) &&
+			!Number.isNaN(numericQuestionId) &&
 			difficulty &&
 			order !== undefined &&
-			!isNaN(points)
+			!Number.isNaN(points)
 		) {
 			registerQuestion({
 				id: numericQuestionId,
@@ -103,24 +105,44 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 			>
 				{question}
 			</ReactMarkdown>
-			<input
-				id="user-answer"
-				type="text"
-				value={userAnswer}
-				onChange={(e) => setUserAnswer(e.target.value)}
-				className={styles["short-answer-input"]}
-			/>
-			<button
-				id="user-submit"
-				type="button"
-				onClick={handleAnswer}
-				className={styles["short-answer-submit"]}
-			>
-				Submit
-			</button>
+			<div className={styles["input-container"]}>
+				<TextField
+					id="user-answer"
+					type="text"
+					value={userAnswer}
+					onChange={(e) => setUserAnswer(e.target.value)}
+					className={styles["short-answer-input"]}
+					variant="outlined"
+					size="small"
+					label="Your Answer"
+					autoComplete="off"
+					onKeyPress={(e) => {
+						if (e.key === "Enter") {
+							handleAnswer(); // Call the submit function when Enter is pressed
+						}
+					}}
+				/>
+				<Button
+					id="user-submit"
+					type="button"
+					onClick={handleAnswer}
+					variant="contained"
+					sx={{
+						height: "39px",
+						marginLeft: "1px",
+						fontSize: "1.5rem",
+						borderRadius: "3px",
+						":hover": {},
+					}}
+				>
+					{<MdCheck />}
+				</Button>
+			</div>
 			{isCorrect !== null && (
 				<p
-					className={`${styles["question-feedback"]} ${isCorrect ? styles.correct : styles.incorrect}`}
+					className={`${styles["question-feedback"]} ${
+						isCorrect ? styles.correct : styles.incorrect
+					}`}
 				>
 					{isCorrect ? "Correct!" : "Incorrect. Try again!"}
 				</p>
