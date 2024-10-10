@@ -6,13 +6,13 @@ sidebar_label: "Test Page"
 
 import TestComponent from "@site/src/components/TestComponent";
 import TrueFalseQuestion from "@site/src/modules/quiz/components/TrueFalseQuestion";
-import MultipleChoiceQuestion from "@site/src/modules/quiz/MultipleChoiceQuestion";
-import ShortAnswerQuestion from "@site/src/modules/quiz/ShortAnswerQuestion";
+import MultipleChoiceQuestion from "@site/src/modules/quiz/components/MultipleChoiceQuestion";
+import ShortAnswerQuestion from "@site/src/modules/quiz/components/ShortAnswerQuestion";
 import Accordion1 from "@site/src/components/Accordion";
 import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
+import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
-import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 import { Blue } from "@site/src/components/Highlights";
 
 # Welcome (Test Page)
@@ -72,6 +72,26 @@ const user = {
 
 <br />
 
+## Parsing Integers
+
+<MultipleChoiceQuestion
+    questionId={2}
+    type="multipleChoice"
+    difficulty={DifficultyLevel.Junior}
+    order={2}
+    points={10}
+    question={`
+\`\`\`js
+const date = Number.parseInt("21 February 2024");
+\`\`\`
+
+What is the value of \`date\`?`}
+    options={["Null", "21", "NaN", "212024"]}
+    correctAnswer={1}
+/>
+
+<br />
+
 <CodeEditor
     height={300}
     minimap={false}
@@ -92,20 +112,13 @@ const user = {
     }`}
 />
 
-## Parsing Integers
-
-<MultipleChoiceQuestion
-  question={`
-\`\`\`js
-const date = Number.parseInt("21 February 2024");
-\`\`\`
-
-What is the value of \`date\`?`}
-options={["Null", "21", "NaN", "212024"]}
-correctAnswer={1}
-/>
 
 <ShortAnswerQuestion
+  questionId={3}
+  type="shortAnswer"
+  difficulty={DifficultyLevel.Junior}
+  order={3}
+  points={10}
   question={`
 \`\`\`js
 const array = [1, 2, 3, 4, 5, 6];
@@ -113,6 +126,7 @@ const output = 6 in array;
 \`\`\`
 
 What is the value of \`output\`?`}
+  correctAnswer={"false"} 
 />
 
 <TestComponent />
