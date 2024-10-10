@@ -147,7 +147,7 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 										? "#4caf50" // Green for correct
 										: isCorrect === false
 											? "#f44336" // Red for incorrect
-											: "default", // Default on hover
+											: "", // Default on hover
 							},
 							"&.Mui-focused fieldset": {
 								borderColor:
