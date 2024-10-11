@@ -1,7 +1,7 @@
 // docusaurus.config.ts
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
-import { themes as prismThemes } from "prism-react-renderer";
+import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
 	title: "AlgoBeast",
@@ -67,18 +67,13 @@ const config: Config = {
 				src: "img/logo.svg",
 			},
 			items: [
+				{ to: "/blog", label: "Dashboard", position: "left" },
 				{
 					type: "docSidebar",
 					sidebarId: "javascriptSidebar",
 					position: "left",
 					label: "Course",
 					docsPluginId: "javascript",
-				},
-				{
-					type: "docSidebar",
-					sidebarId: "tutorialSidebar",
-					position: "left",
-					label: "Dojo",
 				},
 				{ to: "/blog", label: "Blog", position: "left" },
 				/*{
@@ -87,6 +82,11 @@ const config: Config = {
 					position: "right",
 				},*/
 			],
+		},
+		docs: {
+			sidebar: {
+				hideable: true,
+			},
 		},
 		footer: {
 			style: "dark",
