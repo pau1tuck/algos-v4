@@ -75,39 +75,8 @@ const user = {
 
 ## Parsing Integers
 
-<CodeChoiceQuestion
-  questionId={1}
-  order={1}
-  points={10}
-  question={`Choose the correct code to parse an integer from a string.`}
-  options={[
-    `
-\`\`\`js
-const a = 5;
-const b = '5';
-console.log(a == b);
-\`\`\`
-    `,
-    `
-\`\`\`js
-const a = 5;
-const b = 5;
-console.log(a === b);
-\`\`\`
-    `,
-    `
-\`\`\`js
-const a = 5;
-const b = 6;
-console.log(a < b);
-\`\`\`
-    `
-  ]}
-  correctAnswer={0}
-/>
-
 <MultipleChoiceQuestion
-    questionId={2}
+    questionId={3}
     type="multipleChoice"
     difficulty={DifficultyLevel.Junior}
     order={2}
@@ -125,7 +94,7 @@ What is the value of \`date\`?`}
 <br />
 
 <ShortAnswerQuestion
-  questionId={3}
+  questionId={4}
   type="shortAnswer"
   difficulty={DifficultyLevel.Junior}
   order={3}
@@ -138,6 +107,32 @@ const output = 6 in array;
 
 What is the value of \`output\`?`}
   correctAnswer={"false"} 
+/>
+
+<br />
+
+
+```js
+const a = 5;
+const b = '5';
+console.log(a != b)
+```
+```js
+const a = 5;
+const b = '5';
+console.log(a == b)
+```
+```js
+const a = 5;
+const b = '5';
+console.log(a === b)
+```
+
+<CodeChoiceQuestion
+questionId={2}
+correctAnswer={2}
+points={10}
+question="Choose the correct block of code."
 />
 
 <br />
