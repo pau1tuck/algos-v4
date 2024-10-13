@@ -2,6 +2,7 @@ import json
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from content.models import Track  # Import Track model
 
 
@@ -90,11 +91,18 @@ class UserProgress(models.Model):
     pages_completed = models.TextField(default="[]")
     challenges_completed = models.TextField(default="[]")
 
-    # active_page
-    # created_at
-    # updated_at
-    current_page = models.PositiveIntegerField(null=True, blank=True)
-    last_completed = models.DateTimeField(auto_now=True)
+    active_page = models.PositiveIntegerField(null=True, blank=True)  # Active page ID
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(null=True, blank=True)  # Timestamp
+
+    def save(self, *args, **kwargs):
+        # Automatically set updated_at when saving active page
+        if self.active_page:
+            self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Progress for {self.user.username} in {self.track.title}"
 
     @property
     def xp(self):

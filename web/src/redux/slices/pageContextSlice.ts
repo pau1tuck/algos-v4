@@ -6,36 +6,34 @@ import type { PageData } from "@site/src/modules/quiz/types/page.types";
 
 interface PageContextState {
 	activePage?: PageData;
-	lastAccessed?: string; // Store timestamp of last access
+	updatedAt?: string; // Changed to updatedAt for clarity
 }
 
 const initialState: PageContextState = {};
 
-// Create the slice
 const pageContextSlice = createSlice({
 	name: "pageContext",
 	initialState,
 	reducers: {
 		setCurrentPage: (state, action: PayloadAction<PageData>) => {
 			state.activePage = action.payload;
-			state.lastAccessed = new Date().toISOString();
+			state.updatedAt = new Date().toISOString();
 
 			console.log("pageContextSlice: Set active page:", state);
 
-			// Write to localStorage for persistence
 			localStorage.setItem(
 				"activePage",
 				JSON.stringify(state.activePage),
 			);
-			localStorage.setItem("lastAccessed", state.lastAccessed);
+			localStorage.setItem("updatedAt", state.updatedAt);
 		},
 		clearCurrentPage: (state) => {
 			state.activePage = undefined;
-			state.lastAccessed = undefined;
+			state.updatedAt = undefined;
 
 			console.log("pageContextSlice: Cleared active page data.");
 			localStorage.removeItem("activePage");
-			localStorage.removeItem("lastAccessed");
+			localStorage.removeItem("updatedAt");
 		},
 	},
 });
