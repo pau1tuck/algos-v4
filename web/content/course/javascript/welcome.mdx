@@ -7,6 +7,7 @@ sidebar_label: "Test Page"
 import TestComponent from "@site/src/components/TestComponent";
 import TrueFalseQuestion from "@site/src/modules/quiz/components/TrueFalseQuestion";
 import MultipleChoiceQuestion from "@site/src/modules/quiz/components/MultipleChoiceQuestion";
+import CodeChoiceQuestion from "@site/src/modules/quiz/components/CodeChoiceQuestion";
 import ShortAnswerQuestion from "@site/src/modules/quiz/components/ShortAnswerQuestion";
 import Accordion1 from "@site/src/components/Accordion";
 import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
@@ -73,6 +74,37 @@ const user = {
 <br />
 
 ## Parsing Integers
+
+<CodeChoiceQuestion
+  questionId={1}
+  order={1}
+  points={10}
+  question={`Choose the correct code to parse an integer from a string.`}
+  options={[
+    `
+\`\`\`js
+const a = 5;
+const b = '5';
+console.log(a == b);
+\`\`\`
+    `,
+    `
+\`\`\`js
+const a = 5;
+const b = 5;
+console.log(a === b);
+\`\`\`
+    `,
+    `
+\`\`\`js
+const a = 5;
+const b = 6;
+console.log(a < b);
+\`\`\`
+    `
+  ]}
+  correctAnswer={0}
+/>
 
 <MultipleChoiceQuestion
     questionId={2}

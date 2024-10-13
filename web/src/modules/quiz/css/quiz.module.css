@@ -118,3 +118,49 @@
 	border-color: #f44336 !important; /* Red border for incorrect answer */
 	background-color: #ffebee; /* Light red background like the other questions */
 }
+
+/* Code Options Container */
+.code-options-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0px; /* Completely remove the gap */
+	margin-bottom: 5px; /* Keep a slight margin to separate from other content */
+}
+
+/* Code Option Styling */
+.code-option {
+	width: 100%;
+	background-color: var(--code-bg-color) !important;
+	color: var(--code-text-color);
+	border: 1px solid #e2e2e2;
+	border-radius: 12px;
+	padding: 0.75rem; /* Adjust padding for a tighter look */
+	cursor: pointer;
+	transition: background-color 0.2s, border-color 0.2s;
+	white-space: pre-wrap; /* Ensure code wraps properly */
+	word-wrap: break-word; /* Handle long words nicely */
+	margin-bottom: 5px; /* Minimal margin to separate each block */
+}
+
+.code-option:hover {
+	background-color: #f4f4f4;
+	border-color: #ccc;
+}
+
+/* Correct and Incorrect Feedback */
+.code-option.correct {
+	border-color: #4caf50;
+	background-color: #e8f5e9;
+}
+
+.code-option.incorrect {
+	border-color: #f44336;
+	background-color: #ffebee;
+}
+
+/* Ensure code inside the block doesn't introduce extra padding/margin */
+.code-option > code {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
