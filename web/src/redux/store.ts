@@ -1,12 +1,14 @@
 // src/redux/store.ts
-import { configureStore } from "@reduxjs/toolkit";
-import userProgressReducer from "@site/src/redux/slices/userProgressSlice";
-import authReducer from "@site/src/redux/slices/authSlice"; // Import auth slice
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from '@site/src/redux/slices/authSlice';
+import pageContextReducer from '@site/src/redux/slices/pageContextSlice'; // Import the new slice
+import userProgressReducer from '@site/src/redux/slices/userProgressSlice';
 
 const store = configureStore({
 	reducer: {
-		userProgress: userProgressReducer, // User progress
-		auth: authReducer, // Add auth slice
+		userProgress: userProgressReducer,
+		auth: authReducer,
+		pageContext: pageContextReducer, // Add pageContext slice
 	},
 });
 

@@ -28,7 +28,6 @@ export interface PageData {
 	tags?: string[];
 	lastAccessed?: Date | null; // Make lastAccessed optional here
 	questions?: QuestionProps[]; // Stores question data related to the page
-	completed: QuestionStatus; // Required to track if the page is completed
 	coursePathProgress: number; // Required progress tracking for user course
 	trackId: number; // Add trackId to associate the page with a specific track
 }
@@ -39,10 +38,7 @@ export interface ChallengePageData extends PageData {
 }
 
 export interface PageProgress
-	extends Pick<
-		PageData,
-		"page_id" | "completed" | "module" | "difficulty" | "questions"
-	> {
+	extends Pick<PageData, "page_id" | "module" | "difficulty" | "questions"> {
 	score?: number; // The calculated score for the page (based on questions)
 	// Removed lastAccessed field as it's managed by the backend
 }
