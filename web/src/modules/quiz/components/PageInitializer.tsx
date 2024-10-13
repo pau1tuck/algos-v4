@@ -1,14 +1,17 @@
 // web/src/modules/quiz/components/PageInitializer.tsx
-import React, { useEffect } from 'react';
+import type React from "react";
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import usePageAuthorization from '@site/src/modules/auth/utils/usePageAuthorization';
 import SubmitButton from '@site/src/modules/quiz/components/SubmitButton';
 import { PageProvider } from '@site/src/modules/quiz/utils/PageProvider';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
+import { setCurrentPage } from '@site/src/redux/slices/pageContextSlice'; // Import action
+import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch'; // Import dispatch hook
 
-import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { PageType } from "@site/src/modules/quiz/types/page.types";
+import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { UserRole } from "@site/src/modules/user/types/user.type";
 
 interface PageInitializerProps {
@@ -39,10 +42,17 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 }) => {
 	const { resetPage } = usePageContext();
 	const history = useHistory();
+	const dispatch = useAppDispatch(); // Initialize dispatch
+
+	// Dispatch page data to Redux on component mount
+	useEffect(() => {
+		dispatch(setCurrentPage(pageData));
+		console.log("PageInitializer: Dispatched pageData to Redux:", pageData);
+	}, [dispatch, pageData]);
 
 	// Check if the user is authorized to access the page
 	const isAuthorized = usePageAuthorization(
-		pageData.roles, // Pass an array of roles
+		pageData.roles,
 		pageData.requiresAuth,
 	);
 
