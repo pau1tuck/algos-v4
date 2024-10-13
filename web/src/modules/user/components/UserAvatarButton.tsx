@@ -58,7 +58,7 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ avatar }) => {
 						<DashboardIcon />
 					</ListItemIcon>
 					<Link
-						to="/user/profile"
+						to="/user/dashboard"
 						style={{ textDecoration: "none", color: "inherit" }}
 					>
 						Dashboard
