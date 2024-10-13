@@ -118,3 +118,41 @@
 	border-color: #f44336 !important; /* Red border for incorrect answer */
 	background-color: #ffebee; /* Light red background like the other questions */
 }
+
+/* Code Options Container */
+.code-options-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0px; /* Completely remove the gap */
+	margin-bottom: 5px; /* Keep a slight margin to separate from other content */
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 1rem;
+}
+
+.code-choice-button {
+	padding: 10px 20px;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	background-color: #fff;
+	cursor: pointer;
+	transition: background-color 0.2s, border-color 0.2s;
+}
+
+.code-choice-button:hover {
+	background-color: #f4f4f4;
+}
+
+.code-choice-button.correct {
+	border-color: #4caf50;
+	background-color: #e8f5e9;
+}
+
+.code-choice-button.incorrect {
+	border-color: #f44336;
+	background-color: #ffebee;
+}

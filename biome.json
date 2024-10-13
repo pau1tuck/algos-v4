@@ -35,6 +35,7 @@
 				"useNamingConvention": "off"
 			},
 			"suspicious": {
+				"noArrayIndexKey": "warn",
 				"noExplicitAny": "warn",
 				"noConsoleLog": "info"
 			},

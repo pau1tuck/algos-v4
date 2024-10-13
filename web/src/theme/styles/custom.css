@@ -52,7 +52,7 @@ pre {
 	overflow: auto; /* Ensure long code does not overflow */
 	border: 1px solid #e2e2e2; /* Very subtle or no border */
 }
-x /* Inline Code */ :not(pre) > code {
+/* Inline Code */ :not(pre) > code {
 	background-color: var(--inline-code-bg-color); /* Use variable for inline code background */
 	color: var(--inline-code-text-color); /* Use variable for inline code text */
 	margin: 0 1px;
@@ -62,8 +62,4 @@ x /* Inline Code */ :not(pre) > code {
 	font-weight: 500;
 	line-height: 1; /* Adjusted line-height for better alignment */
 	vertical-align: middle; /* Align inline code with the middle of the text */
-}
-
-:not(pre) > code:hover {
-	background-color: #f4f4f4;
 }
