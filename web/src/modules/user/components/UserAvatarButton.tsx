@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Avatar, Box, Menu, MenuItem, ListItemIcon } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { logout } from "@site/src/redux/slices/authSlice";
-import Link from "@docusaurus/Link"; // Import Docusaurus Link
-import { useHistory } from "@docusaurus/router"; // Use Docusaurus router for navigation
-import PersonIcon from "@mui/icons-material/Person"; // Profile icon
-import SettingsIcon from "@mui/icons-material/Settings"; // Settings icon
-import LogoutIcon from "@mui/icons-material/Logout"; // Logout icon
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
+import Link from '@docusaurus/Link'; // Import Docusaurus Link
+import { useHistory } from '@docusaurus/router'; // Use Docusaurus router for navigation
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoutIcon from '@mui/icons-material/Logout'; // Logout icon
+import PersonIcon from '@mui/icons-material/Person'; // Profile icon
+import SettingsIcon from '@mui/icons-material/Settings'; // Settings icon
+import { Avatar, Box, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { logout } from '@site/src/redux/slices/authSlice';
+
+import type React from "react";
 interface UserAvatarButtonProps {
 	avatar: string | null;
 }
@@ -50,6 +53,17 @@ const UserAvatarButton: React.FC<UserAvatarButtonProps> = ({ avatar }) => {
 				onClose={handleMenuClose}
 				sx={{ "& .MuiPaper-root": { width: 175 } }}
 			>
+				<MenuItem onClick={handleMenuClose}>
+					<ListItemIcon>
+						<DashboardIcon />
+					</ListItemIcon>
+					<Link
+						to="/user/profile"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
+						Dashboard
+					</Link>
+				</MenuItem>
 				{/* Profile link */}
 				<MenuItem onClick={handleMenuClose}>
 					<ListItemIcon>
