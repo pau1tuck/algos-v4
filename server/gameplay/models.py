@@ -90,6 +90,9 @@ class UserProgress(models.Model):
     pages_completed = models.TextField(default="[]")
     challenges_completed = models.TextField(default="[]")
 
+    # active_page
+    # created_at
+    # updated_at
     current_page = models.PositiveIntegerField(null=True, blank=True)
     last_completed = models.DateTimeField(auto_now=True)
 

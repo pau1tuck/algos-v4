@@ -2,12 +2,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from "@reduxjs/toolkit";
-
 import type { PageData } from "@site/src/modules/quiz/types/page.types";
 
-// Define the initial state with optional page data
 interface PageContextState {
-	currentPage?: PageData;
+	activePage?: PageData;
+	lastAccessed?: string; // Store timestamp of last access
 }
 
 const initialState: PageContextState = {};
@@ -18,15 +17,25 @@ const pageContextSlice = createSlice({
 	initialState,
 	reducers: {
 		setCurrentPage: (state, action: PayloadAction<PageData>) => {
-			state.currentPage = action.payload;
-			console.log(
-				"pageContextSlice: Set current page data:",
-				action.payload,
+			state.activePage = action.payload;
+			state.lastAccessed = new Date().toISOString();
+
+			console.log("pageContextSlice: Set active page:", state);
+
+			// Write to localStorage for persistence
+			localStorage.setItem(
+				"activePage",
+				JSON.stringify(state.activePage),
 			);
+			localStorage.setItem("lastAccessed", state.lastAccessed);
 		},
 		clearCurrentPage: (state) => {
-			state.currentPage = undefined;
-			console.log("pageContextSlice: Cleared current page data.");
+			state.activePage = undefined;
+			state.lastAccessed = undefined;
+
+			console.log("pageContextSlice: Cleared active page data.");
+			localStorage.removeItem("activePage");
+			localStorage.removeItem("lastAccessed");
 		},
 	},
 });
