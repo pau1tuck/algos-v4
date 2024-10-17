@@ -4,15 +4,15 @@ import type React from "react";
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 import { updatePageProgress } from '@site/src/redux/slices/userProgressSlice';
 import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 import type { RootState } from "@site/src/redux/store";
+
 const SubmitButton: React.FC = () => {
-	const { page_id, questions, module, difficulty, calculatePageScore } =
+	const { pageId, questions, difficulty, calculatePageScore } =
 		usePageContext();
 	const dispatch = useAppDispatch();
 
@@ -29,8 +29,7 @@ const SubmitButton: React.FC = () => {
 		// Dispatch updated page progress to Redux
 		dispatch(
 			updatePageProgress({
-				page_id,
-				module,
+				pageId,
 				difficulty,
 				questions,
 				score,
@@ -46,7 +45,7 @@ const SubmitButton: React.FC = () => {
 		if (isPageUpdated) {
 			// Save user progress with the updated pagesCompleted array
 			const userProgressToSave = {
-				...updatedUserProgress, // Get the fully updated state (with the new page_id included)
+				...updatedUserProgress, // Get the fully updated state (with the new pageId included)
 				trackId: updatedUserProgress.trackId || 1,
 			};
 

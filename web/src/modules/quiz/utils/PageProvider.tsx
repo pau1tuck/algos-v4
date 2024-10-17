@@ -1,13 +1,15 @@
 // web/src/modules/quiz/utils/PageProvider.tsx
 
-import React, { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 import { PageType } from '@site/src/modules/quiz/types/page.types';
-import {
-    DifficultyLevel, QuestionProps, QuestionStatus, QuestionType
-} from '@site/src/modules/quiz/types/question.types';
-import { PageContext, PageContextProps } from '@site/src/modules/quiz/utils/PageContext';
+import { DifficultyLevel, QuestionStatus } from '@site/src/modules/quiz/types/question.types';
+import { PageContext } from '@site/src/modules/quiz/utils/PageContext';
 import { UserRole } from '@site/src/modules/user/types/user.type';
+
+import type { QuestionProps } from "@site/src/modules/quiz/types/question.types";
+import type { PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
+import type React from "react";
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -98,24 +100,30 @@ export const PageProvider: React.FC<{
 	children: React.ReactNode;
 }> = ({ children, pageData = {} }) => {
 	const {
-		page_id = 0,
-		title = "",
+		pageId = 0,
+		trackId = 1, // Add trackId to the pageData
+		// Metadata
+		type = PageType.Quiz,
+		course = "",
 		module = "",
 		section = "",
+		title = "",
 		topic = "",
+		description = "",
+		tags = [],
+		// Images
+		image = "",
+		banner = "",
+		// Data
 		order = 0,
-		type = PageType.Quiz,
-		roles = [UserRole.Guest],
-		prerequisites = [],
+		coursePathProgress = 0,
 		difficulty = DifficultyLevel.Junior,
 		points = 0,
-		completed = QuestionStatus.NotStarted,
-		tags = [],
-		lastAccessed = null,
-		coursePathProgress = 0,
-		questions = [],
+		// Access
 		requiresAuth = false,
-		trackId = 1, // Add trackId to the pageData
+		roles = [UserRole.Guest],
+		prerequisites = [],
+		questions = [],
 	} = pageData;
 
 	// Initialize state
@@ -181,29 +189,36 @@ export const PageProvider: React.FC<{
 
 	// Provide context value without memoization
 	const contextValue = {
-		page_id,
-		title,
-		section,
-		module,
-		topic,
-		order,
-		type,
-		roles,
-		prerequisites,
-		difficulty,
-		points,
-		completed,
-		tags,
-		lastAccessed,
-		coursePathProgress,
-		questions: state.questions,
-		resetFlag: state.resetFlag,
+		pageId,
 		trackId,
+		// Metadata
+		course,
+		module,
+		section,
+		title,
+		topic,
+		description,
+		tags,
+		// Images
+		image,
+		banner,
+		// Data
+		order,
+		coursePathProgress,
+		type,
+		difficulty,
+		prerequisites,
+		points,
+		questions: state.questions,
+		// Access
+		requiresAuth,
+		roles,
+		// State
+		resetFlag: state.resetFlag,
 		registerQuestion,
 		updateQuestionStatus,
 		calculatePageScore,
 		resetPage,
-		requiresAuth,
 	};
 
 	return (

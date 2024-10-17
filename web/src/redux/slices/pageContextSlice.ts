@@ -2,10 +2,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { PageData } from "@site/src/modules/quiz/types/page.types";
+import type { Page } from "@site/src/modules/quiz/types/page.types";
 
 interface PageContextState {
-	activePage?: PageData;
+	activePage?: Page;
 	updatedAt?: string; // Changed to updatedAt for clarity
 }
 
@@ -15,7 +15,7 @@ const pageContextSlice = createSlice({
 	name: "pageContext",
 	initialState,
 	reducers: {
-		setCurrentPage: (state, action: PayloadAction<PageData>) => {
+		setCurrentPage: (state, action: PayloadAction<Page>) => {
 			state.activePage = action.payload;
 			state.updatedAt = new Date().toISOString();
 

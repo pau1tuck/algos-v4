@@ -20,23 +20,30 @@ import { Blue } from "@site/src/components/Highlights";
 
 <PageInitializer
     pageData={{
-        trackId: 1, // Add trackId to associate this page with the correct track
-        page_id: 1,
-        title: "Test Page",
-        section: "Introduction",
-        module: "Introduction",
-        topic: "Topic 1",
-        order: 1,
+        trackId: 1,
+        pageId: 1,
+        // Metadata
         type: "quiz",
-        roles: [UserRole.Admin],
-        requiresAuth: false, // FIXME: Test requiresAuth true for this page
-        prerequisites: [],
-        difficulty: DifficultyLevel.Junior,
-        pageScore: 0,
-        points: 10,
-        tags: ["test", "intro"],
+        course: "Welcome",
+        module: "Introduction",
+        section: "Introduction",
+        title: "Test Page",
+        topic: "Topic 1",
+        description: "This is the welcome.mdx test page.",
+        tags: ["test", "welcome", "intro"],
+        // Images
+        image: "images/levels/junior-developer.png",
+        banner: "images/levels/junior-developer.png",
+        // Data
+        order: 1,
         coursePathProgress: 1, // Keep the fields relevant to the progress tracking and quizzes
-        lastAccessed: null,
+        difficulty: DifficultyLevel.Junior,
+        prerequisites: [],
+        points: 10,
+        pageScore: 0, // FIXME: Remove property
+        // Access
+        requiresAuth: false, // FIXME: Test requiresAuth true for this page
+        roles: [UserRole.Admin],
     }}
 />
 
@@ -76,7 +83,7 @@ const user = {
 ## Parsing Integers
 
 <MultipleChoiceQuestion
-    questionId={3}
+    questionId={2}
     type="multipleChoice"
     difficulty={DifficultyLevel.Junior}
     order={2}
@@ -94,7 +101,7 @@ What is the value of \`date\`?`}
 <br />
 
 <ShortAnswerQuestion
-  questionId={4}
+  questionId={3}
   type="shortAnswer"
   difficulty={DifficultyLevel.Junior}
   order={3}
@@ -129,7 +136,7 @@ console.log(a === b)
 ```
 
 <CodeChoiceQuestion
-questionId={2}
+questionId={4}
 correctAnswer={2}
 points={10}
 question="Choose the correct block of code."
