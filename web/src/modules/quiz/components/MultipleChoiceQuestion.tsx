@@ -1,14 +1,16 @@
+// web/src/modules/quiz/components/MultipleChoiceQuestion.tsx
+
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import {
-    DifficultyLevel, QuestionStatus, QuestionType, type
-} from '@site/src/modules/quiz/types/question.types';
+import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
 import styles from '../css/quiz.module.css'; // Importing CSS Module
+
+import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 
 type MultipleChoiceQuestionProps = {
 	questionId: number;
@@ -105,6 +107,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 			>
 				{question}
 			</ReactMarkdown>
+
 			{options.map((option, index) => (
 				<div
 					key={index}
@@ -121,6 +124,14 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 					onKeyPress={(e) => {
 						if (e.key === "Enter" || e.key === " ")
 							handleAnswer(index);
+					}}
+					style={{
+						cursor: isLocked ? "not-allowed" : "pointer",
+						pointerEvents: isLocked ? "none" : "auto", // Lock all buttons after an answer
+						color:
+							userAnswerIndex !== index && isLocked
+								? "gray"
+								: "inherit", // Grey out unselected options
 					}}
 					aria-disabled={isLocked}
 				>
