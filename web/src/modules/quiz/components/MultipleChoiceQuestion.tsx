@@ -89,6 +89,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 			<Box mb={-2} textAlign="right">
 				<BsFillQuestionSquareFill size={22} color="lightgray" />
 			</Box>
+
 			<ReactMarkdown
 				components={{
 					code({ node, inline, className, children, ...props }) {
@@ -110,9 +111,8 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 					},
 				}}
 			>
-				{question}
+				{`${questionId}.&nbsp;&nbsp;${question}`}
 			</ReactMarkdown>
-
 			{options.map((option, index) => (
 				<div
 					key={index}

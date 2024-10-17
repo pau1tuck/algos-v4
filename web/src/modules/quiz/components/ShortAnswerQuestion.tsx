@@ -1,18 +1,18 @@
 // web/src/modules/quiz/components/ShortAnswerQuestion.tsx
 
 import { useEffect, useState } from 'react';
+import { BsFillQuestionSquareFill } from 'react-icons/bs';
 import { MdCheck, MdClose } from 'react-icons/md'; // React Icon for the send button
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import { Button, TextField } from '@mui/material'; // Material UI components
-import {
-    DifficultyLevel, QuestionStatus, QuestionType, type
-} from '@site/src/modules/quiz/types/question.types';
+import { Box, Button, TextField } from '@mui/material'; // Material UI components
+import styles from '@site/src/modules/quiz/css/quiz.module.css'; // Importing CSS Module
+import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
-import styles from '../css/quiz.module.css'; // Importing CSS Module
+import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 
 type ShortAnswerQuestionProps = {
 	questionId: number;
@@ -82,6 +82,9 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 
 	return (
 		<div className={styles["question-container"]}>
+			<Box mb={-2} textAlign="right">
+				<BsFillQuestionSquareFill size={22} color="lightgray" />
+			</Box>
 			<ReactMarkdown
 				components={{
 					code({ node, inline, className, children, ...props }) {
@@ -103,7 +106,7 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 					},
 				}}
 			>
-				{question}
+				{`${questionId}.&nbsp;&nbsp;${question}`}
 			</ReactMarkdown>
 			<div className={styles["input-container"]}>
 				<TextField

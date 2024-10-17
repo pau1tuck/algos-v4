@@ -109,9 +109,8 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 					},
 				}}
 			>
-				_
+				{`${questionId}.&nbsp;&nbsp;${question}`}
 			</ReactMarkdown>
-			{questionId.toString()}.&nbsp;&nbsp;{question}
 			<div className={styles["true-false-options"]}>
 				<button
 					type="button"
