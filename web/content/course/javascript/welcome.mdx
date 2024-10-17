@@ -47,7 +47,7 @@ import { Blue } from "@site/src/components/Highlights";
 />
 
 
-### True or False Question
+### User Profile Summary
 
 Given a JavaScript object containing basic profile data (e.g., name, email, etc.), iterate over its properties and display a formatted summary.
 
@@ -65,7 +65,7 @@ const user = {
     questionId={1}
     order={1}
     difficulty={DifficultyLevel.Junior}
-    question="🤔 JavaScript is a strongly-typed language."
+    question="JavaScript is a strongly-typed language."
     correctAnswer={false}
     points={10}
 />
@@ -81,18 +81,17 @@ const user = {
 
 ## Parsing Integers
 
+```js
+const date = Number.parseInt("21 February 2024");
+```
+
 <MultipleChoiceQuestion
     questionId={2}
     type="multipleChoice"
     difficulty={DifficultyLevel.Junior}
     order={2}
     points={10}
-    question={`
-\`\`\`js
-const date = Number.parseInt("21 February 2024");
-\`\`\`
-
-What is the value of \`date\`?`}
+    question={`What is the value of \`date\`?`}
     options={["Null", "21", "NaN", "212024"]}
     correctAnswer={1}
 />

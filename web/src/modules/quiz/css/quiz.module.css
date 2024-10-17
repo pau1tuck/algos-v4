@@ -1,14 +1,14 @@
 /* Shared Container Styling for All Questions */
 .question-container {
-	border-radius: 8px;
-	padding: 20px;
-	max-width: 600px;
-	background-color: #fafafa;
-	/*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
 	display: flex;
 	flex-direction: column;
-	align-items: left;
+	width: 100%;
 	margin-bottom: 25px; /* Consistent margin for all question types */
+	padding: 20px;
+	border-radius: 8px;
+	background-color: #fafafa;
+	/*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+	align-items: left;
 }
 
 /* Common Title Styling */

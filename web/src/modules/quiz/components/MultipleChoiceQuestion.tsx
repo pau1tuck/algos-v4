@@ -1,10 +1,12 @@
 // web/src/modules/quiz/components/MultipleChoiceQuestion.tsx
 
 import { useEffect, useState } from 'react';
+import { BsFillQuestionSquareFill } from 'react-icons/bs';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
+import { Box } from '@mui/material';
 import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
@@ -84,6 +86,9 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 
 	return (
 		<div className={styles["question-container"]}>
+			<Box mb={-2} textAlign="right">
+				<BsFillQuestionSquareFill size={22} color="lightgray" />
+			</Box>
 			<ReactMarkdown
 				components={{
 					code({ node, inline, className, children, ...props }) {
