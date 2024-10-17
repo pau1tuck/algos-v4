@@ -101,22 +101,29 @@ export const PageProvider: React.FC<{
 }> = ({ children, pageData = {} }) => {
 	const {
 		pageId = 0,
-		title = "",
+		trackId = 1, // Add trackId to the pageData
+		// Metadata
+		type = PageType.Quiz,
+		course = "",
 		module = "",
 		section = "",
+		title = "",
 		topic = "",
+		description = "",
+		tags = [],
+		// Images
+		image = "",
+		banner = "",
+		// Data
 		order = 0,
-		type = PageType.Quiz,
-		roles = [UserRole.Guest],
-		prerequisites = [],
+		coursePathProgress = 0,
 		difficulty = DifficultyLevel.Junior,
 		points = 0,
-		tags = [],
-		lastAccessed = null,
-		coursePathProgress = 0,
-		questions = [],
+		// Access
 		requiresAuth = false,
-		trackId = 1, // Add trackId to the pageData
+		roles = [UserRole.Guest],
+		prerequisites = [],
+		questions = [],
 	} = pageData;
 
 	// Initialize state
@@ -183,27 +190,35 @@ export const PageProvider: React.FC<{
 	// Provide context value without memoization
 	const contextValue = {
 		pageId,
-		title,
-		section,
-		module,
-		topic,
-		order,
-		type,
-		roles,
-		prerequisites,
-		difficulty,
-		points,
-		tags,
-		lastAccessed,
-		coursePathProgress,
-		questions: state.questions,
-		resetFlag: state.resetFlag,
 		trackId,
+		// Metadata
+		course,
+		module,
+		section,
+		title,
+		topic,
+		description,
+		tags,
+		// Images
+		image,
+		banner,
+		// Data
+		order,
+		coursePathProgress,
+		type,
+		difficulty,
+		prerequisites,
+		points,
+		questions: state.questions,
+		// Access
+		requiresAuth,
+		roles,
+		// State
+		resetFlag: state.resetFlag,
 		registerQuestion,
 		updateQuestionStatus,
 		calculatePageScore,
 		resetPage,
-		requiresAuth,
 	};
 
 	return (

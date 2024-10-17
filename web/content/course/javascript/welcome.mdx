@@ -22,21 +22,28 @@ import { Blue } from "@site/src/components/Highlights";
     pageData={{
         trackId: 1,
         pageId: 1,
-        title: "Test Page",
-        section: "Introduction",
-        module: "Introduction",
-        topic: "Topic 1",
-        order: 1,
+        // Metadata
         type: "quiz",
-        roles: [UserRole.Admin],
-        requiresAuth: false, // FIXME: Test requiresAuth true for this page
-        prerequisites: [],
-        difficulty: DifficultyLevel.Junior,
-        pageScore: 0,
-        points: 10,
-        tags: ["test", "intro"],
+        course: "Welcome",
+        module: "Introduction",
+        section: "Introduction",
+        title: "Test Page",
+        topic: "Topic 1",
+        description: "This is the welcome.mdx test page.",
+        tags: ["test", "welcome", "intro"],
+        // Images
+        image: "images/levels/junior-developer.png",
+        banner: "images/levels/junior-developer.png",
+        // Data
+        order: 1,
         coursePathProgress: 1, // Keep the fields relevant to the progress tracking and quizzes
-        lastAccessed: null,
+        difficulty: DifficultyLevel.Junior,
+        prerequisites: [],
+        points: 10,
+        pageScore: 0, // FIXME: Remove property
+        // Access
+        requiresAuth: false, // FIXME: Test requiresAuth true for this page
+        roles: [UserRole.Admin],
     }}
 />
 

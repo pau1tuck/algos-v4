@@ -2,6 +2,7 @@ from django.db import models
 
 
 class DifficultyLevel(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(
         max_length=50, unique=True
     )  # E.g., Trainee, Junior, Middle, Senior, Lead

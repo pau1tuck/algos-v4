@@ -4,15 +4,15 @@ import type React from "react";
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 import { updatePageProgress } from '@site/src/redux/slices/userProgressSlice';
 import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 import type { RootState } from "@site/src/redux/store";
+
 const SubmitButton: React.FC = () => {
-	const { pageId, questions, module, difficulty, calculatePageScore } =
+	const { pageId, questions, difficulty, calculatePageScore } =
 		usePageContext();
 	const dispatch = useAppDispatch();
 
@@ -30,7 +30,6 @@ const SubmitButton: React.FC = () => {
 		dispatch(
 			updatePageProgress({
 				pageId,
-				module,
 				difficulty,
 				questions,
 				score,

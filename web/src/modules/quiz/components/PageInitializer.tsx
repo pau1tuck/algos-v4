@@ -10,29 +10,12 @@ import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 import { setCurrentPage } from '@site/src/redux/slices/pageContextSlice';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
-import type { PageType } from "@site/src/modules/quiz/types/page.types";
+import type { Page } from "@site/src/modules/quiz/types/page.types";
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import type { UserRole } from "@site/src/modules/user/types/user.type";
 
 interface PageInitializerProps {
-	pageData: {
-		trackId: number;
-		pageId: number;
-		title: string;
-		section: string;
-		module: string;
-		topic: string;
-		order: number;
-		type: PageType;
-		requiresAuth: boolean;
-		roles: UserRole[];
-		prerequisites: number[];
-		difficulty: DifficultyLevel;
-		points: number;
-		tags?: string[];
-		coursePathProgress: number;
-		lastAccessed: Date | null;
-	};
+	pageData: Page;
 	children: React.ReactNode;
 }
 
