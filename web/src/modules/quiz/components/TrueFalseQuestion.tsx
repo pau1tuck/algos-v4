@@ -8,13 +8,12 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { Box } from '@mui/material';
-import {
-    DifficultyLevel, QuestionStatus, QuestionType, type
-} from '@site/src/modules/quiz/types/question.types';
+import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
 import styles from '../css/quiz.module.css';
 
+import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 type TrueFalseQuestionProps = {
 	questionId: number;
 	type: QuestionType;
