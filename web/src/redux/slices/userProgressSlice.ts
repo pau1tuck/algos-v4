@@ -1,31 +1,28 @@
 // web/src/redux/slices/userProgressSlice.ts
 
-import { createSlice } from "@reduxjs/toolkit";
-import { initialState } from "@site/src/redux/utils/userProgressState";
+import { createSlice } from '@reduxjs/toolkit';
+import { initialState } from '@site/src/redux/utils/userProgressState';
 
-import {
-	fetchUserProgress,
-	saveUserProgress,
-} from "../thunks/userProgressThunk";
+import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
 
-import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
 
 const userProgressSlice = createSlice({
 	name: "userProgress",
 	initialState,
 	reducers: {
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
-			const { page_id, score } = action.payload;
+			const { pageId, score } = action.payload;
 
 			console.log(
 				"updatePageProgress: Received action.payload:",
 				action.payload,
 			);
 
-			// Append the new page_id to the existing pagesCompleted array, ensuring no duplicates
+			// Append the new pageId to the existing pagesCompleted array, ensuring no duplicates
 			state.pagesCompleted = Array.from(
-				new Set([...state.pagesCompleted, page_id]),
+				new Set([...state.pagesCompleted, pageId]),
 			);
 
 			// Update the total points by adding the score (points) from this page

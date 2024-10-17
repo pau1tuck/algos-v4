@@ -12,7 +12,7 @@ import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 import type { RootState } from "@site/src/redux/store";
 const SubmitButton: React.FC = () => {
-	const { page_id, questions, module, difficulty, calculatePageScore } =
+	const { pageId, questions, module, difficulty, calculatePageScore } =
 		usePageContext();
 	const dispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ const SubmitButton: React.FC = () => {
 		// Dispatch updated page progress to Redux
 		dispatch(
 			updatePageProgress({
-				page_id,
+				pageId,
 				module,
 				difficulty,
 				questions,
@@ -46,7 +46,7 @@ const SubmitButton: React.FC = () => {
 		if (isPageUpdated) {
 			// Save user progress with the updated pagesCompleted array
 			const userProgressToSave = {
-				...updatedUserProgress, // Get the fully updated state (with the new page_id included)
+				...updatedUserProgress, // Get the fully updated state (with the new pageId included)
 				trackId: updatedUserProgress.trackId || 1,
 			};
 

@@ -1,13 +1,15 @@
 // web/src/modules/quiz/utils/PageProvider.tsx
 
-import React, { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 import { PageType } from '@site/src/modules/quiz/types/page.types';
-import {
-    DifficultyLevel, QuestionProps, QuestionStatus, QuestionType
-} from '@site/src/modules/quiz/types/question.types';
-import { PageContext, PageContextProps } from '@site/src/modules/quiz/utils/PageContext';
+import { DifficultyLevel, QuestionStatus } from '@site/src/modules/quiz/types/question.types';
+import { PageContext } from '@site/src/modules/quiz/utils/PageContext';
 import { UserRole } from '@site/src/modules/user/types/user.type';
+
+import type { QuestionProps } from "@site/src/modules/quiz/types/question.types";
+import type { PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
+import type React from "react";
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -98,7 +100,7 @@ export const PageProvider: React.FC<{
 	children: React.ReactNode;
 }> = ({ children, pageData = {} }) => {
 	const {
-		page_id = 0,
+		pageId = 0,
 		title = "",
 		module = "",
 		section = "",
@@ -109,7 +111,6 @@ export const PageProvider: React.FC<{
 		prerequisites = [],
 		difficulty = DifficultyLevel.Junior,
 		points = 0,
-		completed = QuestionStatus.NotStarted,
 		tags = [],
 		lastAccessed = null,
 		coursePathProgress = 0,
@@ -181,7 +182,7 @@ export const PageProvider: React.FC<{
 
 	// Provide context value without memoization
 	const contextValue = {
-		page_id,
+		pageId,
 		title,
 		section,
 		module,
@@ -192,7 +193,6 @@ export const PageProvider: React.FC<{
 		prerequisites,
 		difficulty,
 		points,
-		completed,
 		tags,
 		lastAccessed,
 		coursePathProgress,

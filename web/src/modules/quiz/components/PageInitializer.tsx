@@ -17,7 +17,7 @@ import type { UserRole } from "@site/src/modules/user/types/user.type";
 interface PageInitializerProps {
 	pageData: {
 		trackId: number;
-		page_id: number;
+		pageId: number;
 		title: string;
 		section: string;
 		module: string;
