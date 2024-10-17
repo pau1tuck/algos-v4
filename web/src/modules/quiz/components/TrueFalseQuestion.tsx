@@ -8,12 +8,12 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { Box } from '@mui/material';
+import styles from '@site/src/modules/quiz/css/quiz.module.css';
 import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
-import styles from '../css/quiz.module.css';
-
 import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
+
 type TrueFalseQuestionProps = {
 	questionId: number;
 	type: QuestionType;
@@ -78,13 +78,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			status: QuestionStatus.Complete,
 			correct: isAnswerCorrect,
 		});
-
-		// After updating question status
-		console.log("TrueFalseQuestion: Updated question status:", {
-			id: numericQuestionId,
-			status: QuestionStatus.Complete,
-			correct: isAnswerCorrect,
-		});
 	};
 
 	// Determine if buttons should be locked after an answer is selected
@@ -123,7 +116,6 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 				<button
 					type="button"
 					onClick={() => handleAnswer(true)}
-					disabled={isLocked}
 					className={`${styles["true-false-option"]} ${
 						userAnswer === true
 							? isCorrect
@@ -131,13 +123,20 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 								: styles.incorrect
 							: ""
 					}`}
+					style={{
+						cursor: isLocked ? "not-allowed" : "pointer",
+						pointerEvents: isLocked ? "none" : "auto", // Lock both buttons after an answer
+						color:
+							userAnswer === false && isLocked
+								? "gray"
+								: "inherit", // Grey out the unselected button
+					}}
 				>
 					True
 				</button>
 				<button
 					type="button"
 					onClick={() => handleAnswer(false)}
-					disabled={isLocked}
 					className={`${styles["true-false-option"]} ${
 						userAnswer === false
 							? isCorrect
@@ -145,6 +144,14 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 								: styles.incorrect
 							: ""
 					}`}
+					style={{
+						cursor: isLocked ? "not-allowed" : "pointer",
+						pointerEvents: isLocked ? "none" : "auto", // Lock both buttons after an answer
+						color:
+							userAnswer === true && isLocked
+								? "gray"
+								: "inherit", // Grey out the unselected button
+					}}
 				>
 					False
 				</button>
