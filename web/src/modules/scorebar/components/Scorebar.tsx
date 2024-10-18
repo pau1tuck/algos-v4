@@ -28,8 +28,13 @@ const Scorebar = () => {
 	return (
 		<AppBar
 			position="fixed"
-			color="default"
-			sx={{ top: 60, zIndex: 99, height: "40px" }}
+			sx={{
+				top: 60,
+				zIndex: 101,
+				height: "40px",
+				backgroundColor: "white",
+				color: "black",
+			}}
 		>
 			<Toolbar
 				variant="dense"
@@ -65,6 +70,7 @@ const Scorebar = () => {
 
 					<Box display="flex" alignItems="center">
 						<StarIcon color="secondary" />
+						XP:
 						<Box sx={{ ml: 1, width: 100 }}>
 							<Tooltip title={`XP: ${xp}/100`}>
 								<LinearProgress
