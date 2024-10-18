@@ -27,11 +27,14 @@ const Scorebar = () => {
 
 	return (
 		<AppBar
-			position="static"
+			position="fixed"
 			color="default"
-			sx={{ top: 64, zIndex: 1100 }}
+			sx={{ top: 60, zIndex: 99, height: "40px" }}
 		>
-			<Toolbar>
+			<Toolbar
+				variant="dense"
+				sx={{ minHeight: "40px", alignItems: "center" }}
+			>
 				<Box
 					display="flex"
 					alignItems="center"
@@ -70,9 +73,9 @@ const Scorebar = () => {
 									sx={{ height: 10 }}
 								/>
 							</Tooltip>
-							<Typography variant="body2" sx={{ mt: 0.5 }}>
+							{/*<Typography variant="body2" sx={{ mt: 0.5 }}>
 								XP: {xp}/100
-							</Typography>
+							</Typography>*/}
 						</Box>
 					</Box>
 
