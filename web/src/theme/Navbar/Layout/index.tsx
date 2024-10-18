@@ -46,6 +46,7 @@ export default function NavbarLayout({ children }: Props): JSX.Element {
 					"navbar-sidebar--show": mobileSidebar.shown,
 				},
 			)}
+			style={{ borderBottom: "1px solid #DADDE2", boxShadow: "none" }}
 		>
 			{children}
 			<NavbarBackdrop onClick={mobileSidebar.toggle} />

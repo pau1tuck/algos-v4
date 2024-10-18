@@ -35,7 +35,9 @@ const Scorebar = () => {
 				backgroundColor: "white",
 				color: "black",
 				fontWeight: 500,
-				boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+				boxShadow: "none",
+				borderBottom: "1px solid #DADDE2",
+				// boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
 			}}
 		>
 			<Toolbar
@@ -63,29 +65,26 @@ const Scorebar = () => {
 					</Box>
 
 					<Box display="flex" alignItems="center">
-						<FavoriteIcon
-							fontSize="small"
-							color="error"
-							sx={{ mr: 1 }}
-						/>
-						Health:
+						<FavoriteIcon fontSize="small" color="error" />
 						<Box sx={{ ml: 1, width: 100 }}>
-							<Tooltip title={`Health: ${xp}/100`}>
+							<Typography variant="body1">
+								Health: {health}
+							</Typography>
+						</Box>
+					</Box>
+					{/*<Tooltip title={`Health: ${xp}/100`}>
 								<LinearProgress
 									variant="determinate"
 									value={(health / 100) * 100}
 									color="success"
 									sx={{ height: 10 }}
-								/>
-							</Tooltip>
-						</Box>
-					</Box>
+								/></Tooltip>*/}
 
 					<Box display="flex" alignItems="center">
 						<StarIcon fontSize="small" color="secondary" />
 						<Box sx={{ ml: 1, width: 100 }}>
 							<Typography variant="body1">
-								XP: {xp} / 100
+								XP: {xp} / 420
 							</Typography>
 						</Box>
 					</Box>
