@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 
 import { PageType } from '@site/src/modules/quiz/types/page.types';
-import { DifficultyLevel, QuestionStatus } from '@site/src/modules/quiz/types/question.types';
+import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
 import { PageContext } from '@site/src/modules/quiz/utils/PageContext';
 import { UserRole } from '@site/src/modules/user/types/user.type';
 
@@ -117,7 +117,7 @@ export const PageProvider: React.FC<{
 		// Data
 		order = 0,
 		coursePathProgress = 0,
-		difficulty = DifficultyLevel.Junior,
+		difficulty = 0,
 		points = 0,
 		// Access
 		requiresAuth = false,

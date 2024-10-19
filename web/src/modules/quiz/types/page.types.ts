@@ -1,10 +1,6 @@
 // web/src/modules/quiz/types/page.types.ts
 import type { UserRole } from "@site/src/modules/user/types/user.type";
-import type {
-	DifficultyLevel,
-	QuestionProps,
-	QuestionStatus,
-} from "./question.types";
+import type { QuestionProps } from "./question.types";
 
 export enum PageType {
 	Challenge = "challenge",
@@ -30,7 +26,7 @@ export interface Page {
 	// Data
 	order: number;
 	coursePathProgress: number; // Required progress tracking for user course
-	difficulty: DifficultyLevel;
+	difficulty: number;
 	points: number; // Points earned for the entire page
 	questions?: QuestionProps[]; // Stores question data related to the page
 	// Access
