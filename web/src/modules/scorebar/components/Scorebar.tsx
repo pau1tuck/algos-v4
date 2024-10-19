@@ -27,11 +27,26 @@ const Scorebar = () => {
 
 	return (
 		<AppBar
-			position="static"
-			color="default"
-			sx={{ top: 64, zIndex: 1100 }}
+			position="fixed"
+			sx={{
+				top: 60,
+				zIndex: 101,
+				height: "40px",
+				backgroundColor: "white",
+				color: "black",
+				fontWeight: 500,
+				boxShadow: "none",
+				borderBottom: "1px solid #DADDE2",
+				// boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+			}}
 		>
-			<Toolbar>
+			<Toolbar
+				variant="dense"
+				sx={{
+					minHeight: "40px",
+					alignItems: "center",
+				}}
+			>
 				<Box
 					display="flex"
 					alignItems="center"
@@ -39,7 +54,10 @@ const Scorebar = () => {
 					width="100%"
 				>
 					<Box display="flex" alignItems="center">
-						<PointOfSaleIcon color="primary" />
+						<EmojiEventsIcon
+							fontSize="small"
+							sx={{ color: "#FFCC6F" }}
+						/>
 						<Typography
 							variant="body1"
 							component="div"
@@ -50,34 +68,32 @@ const Scorebar = () => {
 					</Box>
 
 					<Box display="flex" alignItems="center">
-						<FavoriteIcon color="error" />
-						<Typography
-							variant="body1"
-							component="div"
-							sx={{ ml: 1 }}
-						>
-							Health: {health}
-						</Typography>
-					</Box>
-
-					<Box display="flex" alignItems="center">
-						<StarIcon color="secondary" />
+						<FavoriteIcon fontSize="small" color="error" />
 						<Box sx={{ ml: 1, width: 100 }}>
-							<Tooltip title={`XP: ${xp}/100`}>
+							<Typography variant="body1">
+								Health: {health}
+							</Typography>
+						</Box>
+					</Box>
+					{/*<Tooltip title={`Health: ${xp}/100`}>
 								<LinearProgress
 									variant="determinate"
-									value={(xp / 100) * 100}
+									value={(health / 100) * 100}
+									color="success"
 									sx={{ height: 10 }}
-								/>
-							</Tooltip>
-							<Typography variant="body2" sx={{ mt: 0.5 }}>
-								XP: {xp}/100
+								/></Tooltip>*/}
+
+					<Box display="flex" alignItems="center">
+						<StarIcon fontSize="small" color="secondary" />
+						<Box sx={{ ml: 1, width: 100 }}>
+							<Typography variant="body1">
+								XP: {xp} / 420
 							</Typography>
 						</Box>
 					</Box>
 
 					<Box display="flex" alignItems="center">
-						<GradeIcon color="warning" />
+						<GradeIcon fontSize="small" color="warning" />
 						<Typography
 							variant="body1"
 							component="div"
@@ -88,7 +104,7 @@ const Scorebar = () => {
 					</Box>
 
 					<Box display="flex" alignItems="center">
-						<EmojiEventsIcon color="action" />
+						<EmojiEventsIcon fontSize="small" color="action" />
 						<Typography
 							variant="body1"
 							component="div"

@@ -5,4 +5,5 @@ export const HIDDEN_SCOREBAR_PAGES = [
 	"/register",
 	"/forgot-password",
 	"/user/profile",
+	"/blog",
 ];

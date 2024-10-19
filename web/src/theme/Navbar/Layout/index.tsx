@@ -1,16 +1,14 @@
-import React, { type ComponentProps } from "react";
-import clsx from "clsx";
-import { useThemeConfig } from "@docusaurus/theme-common";
-import {
-	useHideableNavbar,
-	useNavbarMobileSidebar,
-} from "@docusaurus/theme-common/internal";
-import { translate } from "@docusaurus/Translate";
-import NavbarMobileSidebar from "@theme/Navbar/MobileSidebar";
+import clsx from 'clsx';
+import React, { ComponentProps, type } from 'react';
+
+import { useThemeConfig } from '@docusaurus/theme-common';
+import { useHideableNavbar, useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
+import { translate } from '@docusaurus/Translate';
+import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
+
+import styles from './styles.module.css';
+
 import type { Props } from "@theme/Navbar/Layout";
-
-import styles from "./styles.module.css";
-
 function NavbarBackdrop(props: ComponentProps<"div">) {
 	return (
 		<div
@@ -48,6 +46,7 @@ export default function NavbarLayout({ children }: Props): JSX.Element {
 					"navbar-sidebar--show": mobileSidebar.shown,
 				},
 			)}
+			style={{ borderBottom: "1px solid #DADDE2", boxShadow: "none" }}
 		>
 			{children}
 			<NavbarBackdrop onClick={mobileSidebar.toggle} />
