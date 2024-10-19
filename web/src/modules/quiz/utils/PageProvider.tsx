@@ -181,6 +181,7 @@ export const PageProvider: React.FC<{
 	const resetPage = useCallback(() => {
 		dispatch({ type: "RESET_PAGE" });
 		dispatch({ type: "TOGGLE_RESET_FLAG" });
+		console.log("Provider: ✓ Page Reset");
 	}, []);
 
 	useEffect(() => {

@@ -4,14 +4,16 @@ sidebar_label: "Test Page"
 ---
 {/* content/course/javascript/welcome.mdx */}
 
+import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
+import ResetButton from "@site/src/modules/quiz/components/ResetButton";
+import SubmitButton from "@site/src/modules/quiz/components/SubmitButton";
 import TestComponent from "@site/src/components/TestComponent";
 import TrueFalseQuestion from "@site/src/modules/quiz/components/TrueFalseQuestion";
 import MultipleChoiceQuestion from "@site/src/modules/quiz/components/MultipleChoiceQuestion";
 import CodeChoiceQuestion from "@site/src/modules/quiz/components/CodeChoiceQuestion";
 import ShortAnswerQuestion from "@site/src/modules/quiz/components/ShortAnswerQuestion";
-import Accordion1 from "@site/src/components/Accordion";
-import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
 import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
+import Accordion1 from "@site/src/components/Accordion";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { Blue } from "@site/src/components/Highlights";
 
@@ -161,3 +163,6 @@ question="Choose the correct block of code."
         }
     }`}
 />
+
+<ResetButton />
+<SubmitButton />
