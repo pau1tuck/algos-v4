@@ -68,7 +68,7 @@ const TrueFalseQuestion: React.FC<TrueFalseQuestionProps> = ({
 			"TFQuestion: User answered:",
 			answer,
 			"Correct answer:",
-			isAnswerCorrect,
+			isAnswerCorrect ? "yes" : "no",
 		);
 
 		// Update both completeness and correctness in PageContext

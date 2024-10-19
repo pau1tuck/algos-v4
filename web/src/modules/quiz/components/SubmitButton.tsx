@@ -14,6 +14,12 @@ import type { RootState } from "@site/src/redux/store";
 const SubmitButton: React.FC = () => {
 	const { pageId, questions, difficulty, calculatePageScore } =
 		usePageContext();
+
+	// Log the values received from the PageContext
+	console.log("SubmitButton - pageId:", pageId);
+	console.log("SubmitButton - difficulty:", difficulty);
+	console.log("SubmitButton - questions:", questions);
+
 	const dispatch = useAppDispatch();
 	const updatedUserProgress = useSelector(
 		(state: RootState) => state.userProgress,
@@ -54,7 +60,7 @@ const SubmitButton: React.FC = () => {
 			variant="outlined"
 			endIcon={<SendIcon />} // Send icon
 			onClick={handleSubmit}
-			sx={{ mt: 2, mr: 2 }} // Add margin for spacing
+			sx={{ mt: 2, mr: 2 }}
 		>
 			Submit
 		</Button>
