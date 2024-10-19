@@ -11,13 +11,14 @@ import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 import type { RootState } from "@site/src/redux/store";
+
 const SubmitButton: React.FC = () => {
-	const { pageId, questions, difficulty, calculatePageScore } =
-		usePageContext();
+	const { pageId, questions, difficulty, points } = usePageContext();
 
 	// Log the values received from the PageContext
 	console.log("SubmitButton - pageId:", pageId);
 	console.log("SubmitButton - difficulty:", difficulty);
+	console.log("SubmitButton - points:", points);
 	console.log("SubmitButton - questions:", questions);
 
 	const dispatch = useAppDispatch();
@@ -27,8 +28,8 @@ const SubmitButton: React.FC = () => {
 	const [isPageUpdated, setIsPageUpdated] = React.useState(false);
 
 	const handleSubmit = async () => {
-		const score = calculatePageScore();
-		console.log("SubmitButton: Calculated score:", score);
+		const score = points; // Use points directly from PageContext
+		console.log("SubmitButton: Using score from pageData:", score);
 
 		dispatch(
 			updatePageProgress({

@@ -1,4 +1,5 @@
-//web/src/modules/quiz/utils/PageContext.tsx
+// web/src/modules/quiz/utils/PageContext.tsx
+
 import { createContext } from 'react';
 
 import type { Page } from "@site/src/modules/quiz/types/page.types";
@@ -9,7 +10,6 @@ export interface PageContextProps extends Page {
 	// Functions that modify the context
 	registerQuestion: (question: QuestionProps) => void;
 	updateQuestionStatus: (id: number, status: Partial<QuestionProps>) => void;
-	calculatePageScore: () => number;
 	resetPage: () => void;
 }
 

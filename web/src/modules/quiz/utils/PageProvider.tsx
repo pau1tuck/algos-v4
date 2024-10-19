@@ -98,13 +98,11 @@ export const PageProvider: React.FC<{
 	pageData?: Partial<PageContextProps>;
 	children: React.ReactNode;
 }> = ({ children, pageData = {} }) => {
-	// **Modification Start**
 	// Store the initial pageData in a ref
 	const initialPageDataRef = useRef(pageData);
 
 	// Use the initial pageData throughout the component's lifecycle
 	const validPageData = initialPageDataRef.current;
-	// **Modification End**
 
 	console.log("Received pageData in PageProvider:", validPageData);
 
@@ -124,7 +122,7 @@ export const PageProvider: React.FC<{
 		order = 0,
 		coursePathProgress = 0,
 		difficulty,
-		points = 0,
+		points = 0, // We'll use this points value directly
 		requiresAuth = false,
 		roles = [UserRole.Guest],
 		prerequisites = [],
@@ -177,14 +175,7 @@ export const PageProvider: React.FC<{
 		[],
 	);
 
-	const calculatePageScore = useCallback(() => {
-		const questionScore = state.questions.reduce((total, question) => {
-			return question.correct ? total + question.points : total;
-		}, 0);
-
-		const totalScore = questionScore + points;
-		return totalScore;
-	}, [state.questions, points]);
+	// **Removed calculatePageScore function**
 
 	const resetPage = useCallback(() => {
 		dispatch({ type: "RESET_PAGE" });
@@ -220,7 +211,7 @@ export const PageProvider: React.FC<{
 		resetFlag: state.resetFlag,
 		registerQuestion,
 		updateQuestionStatus,
-		calculatePageScore,
+		// **Removed calculatePageScore from contextValue**
 		resetPage,
 	};
 
