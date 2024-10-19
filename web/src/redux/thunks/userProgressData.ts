@@ -1,10 +1,10 @@
 // web/src/redux/thunks/userProgressData.ts
 
 import type {
-	UserProgress,
-	Level,
 	Grade,
+	Level,
 	Rank,
+	UserProgress,
 } from "@site/src/modules/user/types/progress.types";
 
 // Expanded dummy data for Level
@@ -24,12 +24,12 @@ export const dummyLevel: Level = {
 // Expanded dummy data for Grade
 export const dummyGrade: Grade = {
 	id: 1,
-	title: "Blue Belt",
-	slug: "blue-belt",
-	description: "You have attained the Blue Belt of JavaScript mastery!",
+	title: "White Belt",
+	slug: "white-belt",
+	description: "You have attained the White Belt of JavaScript mastery!",
 	order: 1,
-	image: "images/grades/blue-belt.png",
-	thumbnail: "images/grades/blue-belt-thumb.png",
+	image: "images/grades/white-belt.png",
+	thumbnail: "images/grades/white-belt-thumb.png",
 	icon: "🔵",
 };
 

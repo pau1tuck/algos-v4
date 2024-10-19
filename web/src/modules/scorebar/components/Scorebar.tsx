@@ -54,7 +54,10 @@ const Scorebar = () => {
 					width="100%"
 				>
 					<Box display="flex" alignItems="center">
-						<PointOfSaleIcon fontSize="small" color="primary" />
+						<EmojiEventsIcon
+							fontSize="small"
+							sx={{ color: "#FFCC6F" }}
+						/>
 						<Typography
 							variant="body1"
 							component="div"
