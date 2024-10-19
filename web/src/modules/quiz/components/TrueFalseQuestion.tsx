@@ -12,12 +12,10 @@ import styles from '@site/src/modules/quiz/css/quiz.module.css';
 import { QuestionStatus, QuestionType } from '@site/src/modules/quiz/types/question.types';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 
-import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
-
 type TrueFalseQuestionProps = {
 	questionId: number;
 	type: QuestionType;
-	difficulty: DifficultyLevel;
+	difficulty: number;
 	order: number;
 	question: string;
 	correctAnswer: boolean;

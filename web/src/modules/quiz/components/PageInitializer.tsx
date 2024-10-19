@@ -11,8 +11,6 @@ import { setCurrentPage } from '@site/src/redux/slices/pageContextSlice';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 import type { Page } from "@site/src/modules/quiz/types/page.types";
-import type { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
-import type { UserRole } from "@site/src/modules/user/types/user.type";
 
 interface PageInitializerProps {
 	pageData: Page;

@@ -13,7 +13,6 @@ import Accordion1 from "@site/src/components/Accordion";
 import PageInitializer from "@site/src/modules/quiz/components/PageInitializer";
 import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 import { UserRole } from "@site/src/modules/user/types/user.type";
-import { DifficultyLevel } from "@site/src/modules/quiz/types/question.types";
 import { Blue } from "@site/src/components/Highlights";
 
 # Welcome (Test Page)
@@ -37,7 +36,7 @@ import { Blue } from "@site/src/components/Highlights";
         // Data
         order: 1,
         coursePathProgress: 1, // Keep the fields relevant to the progress tracking and quizzes
-        difficulty: DifficultyLevel.Junior,
+        difficulty: 3,
         prerequisites: [],
         points: 10,
         // Access
@@ -64,7 +63,7 @@ const user = {
 <TrueFalseQuestion
     questionId={1}
     order={1}
-    difficulty={DifficultyLevel.Junior}
+    difficulty={2}
     question="JavaScript is a strongly-typed language."
     correctAnswer={false}
     points={10}
@@ -88,7 +87,7 @@ const date = Number.parseInt("21 February 2024");
 <MultipleChoiceQuestion
     questionId={2}
     type="multipleChoice"
-    difficulty={DifficultyLevel.Junior}
+    difficulty={3}
     order={2}
     points={10}
     question={`What is the value of \`date\`?`}
@@ -106,7 +105,7 @@ const output = 6 in array;
 <ShortAnswerQuestion
   questionId={3}
   type="shortAnswer"
-  difficulty={DifficultyLevel.Junior}
+  difficulty={3}
   order={3}
   points={10}
   question={`What is the correct value of \`output\`?`}

@@ -13,14 +13,6 @@ export enum QuestionStatus {
 	Correct = "correct",
 	Incorrect = "incorrect",
 }
-
-export enum DifficultyLevel {
-	Junior = "junior",
-	Middle = "middle",
-	Senior = "senior",
-	Lead = "lead",
-}
-
 export interface QuestionProps {
 	id: number;
 	type: QuestionType;
@@ -28,7 +20,7 @@ export interface QuestionProps {
 	points: number; // The potential score for this question (renamed from value)
 	status: QuestionStatus;
 	correct: boolean;
-	difficulty: DifficultyLevel;
+	difficulty: number;
 	// Optional: Additional properties like timeSpent, attempts, etc.
 }
 
@@ -37,5 +29,5 @@ export interface QuestionProgress {
 	status: string; // Status: notStarted, inProgress, complete, correct, incorrect
 	correct: boolean; // Whether the question was answered correctly
 	points: number; // Points associated with the question (renamed from value)
-	difficulty: DifficultyLevel;
+	difficulty: number;
 }
