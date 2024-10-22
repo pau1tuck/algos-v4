@@ -1,6 +1,7 @@
 // web/src/modules/quiz/utils/PageProvider.tsx
 
-import { useCallback, useEffect, useReducer } from 'react';
+import type React from "react";
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import { PageType } from '@site/src/modules/quiz/types/page.types';
 import { QuestionStatus } from '@site/src/modules/quiz/types/question.types';
@@ -9,7 +10,6 @@ import { UserRole } from '@site/src/modules/user/types/user.type';
 
 import type { QuestionProps } from "@site/src/modules/quiz/types/question.types";
 import type { PageContextProps } from "@site/src/modules/quiz/utils/PageContext";
-import type React from "react";
 
 // Action types
 const REGISTER_QUESTION = "REGISTER_QUESTION";
@@ -34,7 +34,6 @@ type PageAction =
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION: {
-			// Ensure question ID is a number
 			const newQuestion = {
 				...action.payload,
 				id: Number(action.payload.id),
@@ -99,10 +98,17 @@ export const PageProvider: React.FC<{
 	pageData?: Partial<PageContextProps>;
 	children: React.ReactNode;
 }> = ({ children, pageData = {} }) => {
+	// Store the initial pageData in a ref
+	const initialPageDataRef = useRef(pageData);
+
+	// Use the initial pageData throughout the component's lifecycle
+	const validPageData = initialPageDataRef.current;
+
+	console.log("Received pageData in PageProvider:", validPageData);
+
 	const {
-		pageId = 0,
-		trackId = 1, // Add trackId to the pageData
-		// Metadata
+		pageId,
+		trackId = 1,
 		type = PageType.Quiz,
 		course = "",
 		module = "",
@@ -111,22 +117,24 @@ export const PageProvider: React.FC<{
 		topic = "",
 		description = "",
 		tags = [],
-		// Images
 		image = "",
 		banner = "",
-		// Data
 		order = 0,
 		coursePathProgress = 0,
-		difficulty = 0,
-		points = 0,
-		// Access
+		difficulty,
+		points = 0, // We'll use this points value directly
 		requiresAuth = false,
 		roles = [UserRole.Guest],
 		prerequisites = [],
 		questions = [],
-	} = pageData;
+	} = validPageData;
 
-	// Initialize state
+	console.log("Extracted values in PageProvider: ", {
+		pageId,
+		difficulty,
+		questions,
+	});
+
 	const [state, dispatch] = useReducer(pageReducer, {
 		questions,
 		resetFlag: false,
@@ -167,31 +175,21 @@ export const PageProvider: React.FC<{
 		[],
 	);
 
-	const calculatePageScore = useCallback(() => {
-		const questionScore = state.questions.reduce((total, question) => {
-			return question.correct ? total + question.points : total;
-		}, 0);
-
-		// Add the page's points to the question score
-		const totalScore = questionScore + points; // 'points' is from pageData
-
-		return totalScore;
-	}, [state.questions, points]);
+	// **Removed calculatePageScore function**
 
 	const resetPage = useCallback(() => {
 		dispatch({ type: "RESET_PAGE" });
 		dispatch({ type: "TOGGLE_RESET_FLAG" });
+		console.log("Provider: ✓ Page Reset");
 	}, []);
 
 	useEffect(() => {
 		console.log("Provider: Page State Updated:", state);
 	}, [state]);
 
-	// Provide context value without memoization
 	const contextValue = {
 		pageId,
 		trackId,
-		// Metadata
 		course,
 		module,
 		section,
@@ -199,10 +197,8 @@ export const PageProvider: React.FC<{
 		topic,
 		description,
 		tags,
-		// Images
 		image,
 		banner,
-		// Data
 		order,
 		coursePathProgress,
 		type,
@@ -210,14 +206,12 @@ export const PageProvider: React.FC<{
 		prerequisites,
 		points,
 		questions: state.questions,
-		// Access
 		requiresAuth,
 		roles,
-		// State
 		resetFlag: state.resetFlag,
 		registerQuestion,
 		updateQuestionStatus,
-		calculatePageScore,
+		// **Removed calculatePageScore from contextValue**
 		resetPage,
 	};
 

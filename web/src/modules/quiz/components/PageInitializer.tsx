@@ -1,12 +1,11 @@
 // web/src/modules/quiz/components/PageInitializer.tsx
+
 import type React from "react";
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import usePageAuthorization from '@site/src/modules/auth/utils/usePageAuthorization';
-import SubmitButton from '@site/src/modules/quiz/components/SubmitButton';
 import { PageProvider } from '@site/src/modules/quiz/utils/PageProvider';
-import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
 import { setCurrentPage } from '@site/src/redux/slices/pageContextSlice';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
@@ -21,7 +20,6 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 	pageData,
 	children,
 }) => {
-	const { resetPage } = usePageContext();
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 
@@ -51,17 +49,7 @@ const PageInitializer: React.FC<PageInitializerProps> = ({
 		return <div>Loading...</div>;
 	}
 
-	return (
-		<PageProvider pageData={pageData}>
-			{children}
-			<div className="page-actions">
-				<SubmitButton />
-				<button className="reset-button" onClick={resetPage}>
-					Reset Page
-				</button>
-			</div>
-		</PageProvider>
-	);
+	return <PageProvider pageData={pageData}>{children}</PageProvider>;
 };
 
 export default PageInitializer;
