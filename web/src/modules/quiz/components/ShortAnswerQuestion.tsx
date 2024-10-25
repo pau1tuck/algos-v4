@@ -68,8 +68,7 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 	// Handle user's answer submission
 	const handleAnswer = () => {
 		const isAnswerCorrect =
-			userAnswer.trim().toLowerCase() ===
-			correctAnswer.trim().toLowerCase();
+			userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase();
 		setIsCorrect(isAnswerCorrect);
 
 		updateQuestionStatus(numericQuestionId, {
@@ -164,7 +163,7 @@ const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 								? "#e8f5e9" // Light green for correct
 								: isCorrect === false
 									? "#ffebee" // Light red for incorrect
-									: "default", // Default background when isCorrect is null
+									: "ffffff", // Default background when isCorrect is null
 					}}
 				/>
 				{isCorrect === null && (
