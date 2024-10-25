@@ -18,7 +18,7 @@ const ResetButton: React.FC = () => {
 			onClick={resetPage}
 			sx={{ mt: 2, mr: 2 }} // Add some margin for better spacing
 		>
-			TRY AGAIN
+			RESET PAGE
 		</Button>
 	);
 };

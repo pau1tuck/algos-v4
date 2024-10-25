@@ -38,8 +38,6 @@ export interface Level {
 
 // Define the structure for each completed page in the hashmap
 interface PageCompletion {
-	userId: number;
-	trackId: number;
 	completedAt?: string; // ISO timestamp of completion
 }
 

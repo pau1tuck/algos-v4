@@ -56,12 +56,12 @@ export const dummyUserProgress: UserProgress = {
 	questionsCompleted: [7, 9],
 	pagesCompleted: {
 		4: {
-			// The page ID is now inside the `pagesCompleted` hashmap
-			userId: 1,
-			trackId: 1,
-			completedAt: "2023-10-10T14:30:00Z", // Example of a past completion datetime (ISO format)
+			completedAt: "2023-10-10T14:30:00Z",
 		},
-	}, // Converted to a hashmap
+		5: {
+			completedAt: "2023-10-11T15:00:00Z",
+		},
+	}, // Hashmap of page completions
 	challengesCompleted: [3],
 	currentPage: 4,
 	lastCompleted: null, // No last completed timestamp

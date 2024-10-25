@@ -13,48 +13,54 @@ const userProgressSlice = createSlice({
 	reducers: {
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { pageId, score } = action.payload;
-			const userId = state.userId;
-			const trackId = state.trackId;
 
 			console.log(
 				"updatePageProgress: Received action.payload:",
 				action.payload,
 			);
 
-			// Check if the pageId already exists in the pagesCompleted hashmap
+			// If the page is already completed, skip updating
 			if (state.pagesCompleted[pageId]) {
 				console.warn(
-					`Page ID ${pageId} already completed by user ${userId}. No further action taken.`,
+					`Page ID ${pageId} already completed. No further action taken.`,
 				);
-				// Early return to prevent further processing and saveUserProgress call
 				return;
 			}
 
-			// Insert or update the pageId entry in the pagesCompleted hashmap without completedAt
-			state.pagesCompleted[pageId] = {
-				userId, // Associate with the current userId
-				trackId, // Associate with the current trackId
-				// completedAt is handled by the backend, so we remove it here
-			};
-
-			// Update the total points by adding the score (points) from this page
+			// Update the points
 			state.points += score;
+
+			// Add the page to pagesCompleted
+			state.pagesCompleted[pageId] = {
+				completedAt: new Date().toISOString(),
+			};
 
 			// Log the updated state
 			console.log("updatePageProgress: Updated state:", {
-				pagesCompleted: state.pagesCompleted,
 				points: state.points,
+				pagesCompleted: state.pagesCompleted,
 			});
 		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchUserProgress.fulfilled, (state, action) => {
 			// Initialize state with fetched user progress data
+			state.userId = action.payload.userId;
+			state.trackId = action.payload.trackId;
+			state.points = action.payload.points;
+			state.xp = action.payload.xp;
+			state.health = action.payload.health;
+			state.questionsCompleted = action.payload.questionsCompleted;
+			state.challengesCompleted = action.payload.challengesCompleted;
+			state.currentPage = action.payload.currentPage;
+			state.lastCompleted = action.payload.lastCompleted;
 			state.level = action.payload.level;
 			state.grade = action.payload.grade;
 			state.rank = action.payload.rank;
-			state.pagesCompleted = action.payload.pagesCompleted; // Fetch existing pagesCompleted
-			state.points = action.payload.points; // Initialize points from fetched data
+
+			// Assign pagesCompleted directly since it's now a hashmap
+			state.pagesCompleted = action.payload.pagesCompleted;
+
 			console.log(
 				"Fetched user progress with points:",
 				action.payload.points,

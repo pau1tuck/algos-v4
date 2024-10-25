@@ -12,17 +12,23 @@ export const fetchUserProgress = createAsyncThunk(
 		try {
 			const state = getState() as any;
 			const userId = state.auth.user?.pk || 0;
+			const trackId = 1;
+
 			console.log("User ID (pk):", userId);
 
-			const userProgress = {
+			// Simulate fetching data from the backend
+			const userProgress: UserProgress = {
 				...dummyUserProgress,
-				userId, // Ensure we are using the current user's ID
+				userId,
+				trackId,
+				// pagesCompleted is already in the expected format from the backend (hashmap)
 			};
 
 			console.log("Fetching user progress (dummy data)...", userProgress);
 			return userProgress;
 		} catch (error) {
-			return rejectWithValue("Error fetching dummy user progress");
+			console.log("Error fetching user progress:", error);
+			return rejectWithValue("Error fetching user progress");
 		}
 	},
 );
@@ -30,19 +36,27 @@ export const fetchUserProgress = createAsyncThunk(
 // Prepare only the necessary fields for saving user progress
 export const saveUserProgress = createAsyncThunk(
 	"userProgress/saveUserProgress",
-	async (userProgress: UserProgress, { getState, rejectWithValue }) => {
+	async (_, { getState, rejectWithValue }) => {
 		try {
 			const state = getState() as any;
-			const userId = state.auth.user?.pk;
+			const userProgress: UserProgress = state.userProgress;
 
-			// Prepare the data to be saved, excluding completedAt (handled by backend)
+			// Prepare the data to be saved
 			const progressToSave = {
-				userId: userId,
+				// Include only the fields that the backend expects and allows to be updated.
 				trackId: userProgress.trackId,
-				pagesCompleted: userProgress.pagesCompleted, // No completedAt here
+				questionsCompleted: userProgress.questionsCompleted,
+				pagesCompleted: Object.keys(userProgress.pagesCompleted).reduce(
+					(acc, pageId) => {
+						acc[pageId] = {}; // Empty object since we don't send `completedAt`
+						return acc;
+					},
+					// biome-ignore lint/complexity/noBannedTypes: <explanation>
+					{} as { [key: number]: {} }, // Empty objects serve as placeholders. Only the key (pageId) is read by the serializer.
+				),
 				challengesCompleted: userProgress.challengesCompleted,
-				health: userProgress.health,
-				points: userProgress.points, // Save the updated points
+				currentPage: userProgress.currentPage,
+				lastCompleted: userProgress.lastCompleted,
 			};
 
 			// Simulate saving user progress by logging it
@@ -51,10 +65,16 @@ export const saveUserProgress = createAsyncThunk(
 				progressToSave,
 			);
 
-			return progressToSave; // Return the prepared progress for now
+			// Here you would make the actual API call to save the data
+			// For example:
+			// const response = await api.saveUserProgress(progressToSave);
+			// return response.data;
+
+			// For now, we just return the progressToSave object
+			return progressToSave;
 		} catch (error) {
 			console.log("Error saving user progress:", error);
-			return rejectWithValue("Error saving dummy user progress");
+			return rejectWithValue("Error saving user progress");
 		}
 	},
 );
