@@ -1,9 +1,8 @@
 // web/src/redux/slices/userProgressSlice.ts
 
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { initialState } from '@site/src/redux/utils/userProgressState';
-
-import { fetchUserProgress, saveUserProgress } from '../thunks/userProgressThunk';
 
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { PageProgress } from "@site/src/modules/quiz/types/page.types";
@@ -14,16 +13,29 @@ const userProgressSlice = createSlice({
 	reducers: {
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
 			const { pageId, score } = action.payload;
+			const userId = state.userId;
+			const trackId = state.trackId;
 
 			console.log(
 				"updatePageProgress: Received action.payload:",
 				action.payload,
 			);
 
-			// Append the new pageId to the existing pagesCompleted array, ensuring no duplicates
-			state.pagesCompleted = Array.from(
-				new Set([...state.pagesCompleted, pageId]),
-			);
+			// Check if the pageId already exists in the pagesCompleted hashmap
+			if (state.pagesCompleted[pageId]) {
+				console.warn(
+					`Page ID ${pageId} already completed by user ${userId}. No further action taken.`,
+				);
+				// Early return to prevent further processing and saveUserProgress call
+				return;
+			}
+
+			// Insert or update the pageId entry in the pagesCompleted hashmap without completedAt
+			state.pagesCompleted[pageId] = {
+				userId, // Associate with the current userId
+				trackId, // Associate with the current trackId
+				// completedAt is handled by the backend, so we remove it here
+			};
 
 			// Update the total points by adding the score (points) from this page
 			state.points += score;

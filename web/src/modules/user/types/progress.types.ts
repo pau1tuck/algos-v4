@@ -40,7 +40,7 @@ export interface Level {
 interface PageCompletion {
 	userId: number;
 	trackId: number;
-	completedAt: string; // ISO timestamp of completion
+	completedAt?: string; // ISO timestamp of completion
 }
 
 // Main interface for tracking the user's progress
