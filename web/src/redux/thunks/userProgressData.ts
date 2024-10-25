@@ -54,7 +54,11 @@ export const dummyUserProgress: UserProgress = {
 	xp: 57, // XP value here
 	health: 85,
 	questionsCompleted: [7, 9],
-	pagesCompleted: [4],
+	4: {
+		userId: 1,
+		trackId: 1,
+		completedAt: "2023-10-10T14:30:00Z", // Example of a past completion datetime (ISO format)
+	},
 	challengesCompleted: [3],
 	currentPage: 4,
 	lastCompleted: null, // No last completed timestamp
