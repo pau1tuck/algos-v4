@@ -3,6 +3,7 @@ export enum QuestionType {
 	TrueFalse = "trueFalse",
 	MultipleChoice = "multipleChoice",
 	ShortAnswer = "shortAnswer",
+	CodeChoice = "codeChoice",
 	CodingChallenge = "codingChallenge",
 }
 

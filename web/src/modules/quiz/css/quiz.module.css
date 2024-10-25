@@ -111,7 +111,6 @@
 }
 
 /* Custom button styling to match input */
-
 .short-answer-submit:hover {
 	background-color: #fafafa;
 	border-color: #ccc;
@@ -122,34 +121,37 @@
 	background-color: #ffebee; /* Light red background like the other questions */
 }
 
-/* Code Options Container */
-.code-options-container {
+/* New container for CodeChoice buttons */
+.code-choice-container {
 	display: flex;
-	flex-direction: column;
-	gap: 0px; /* Completely remove the gap */
-	margin-bottom: 5px; /* Keep a slight margin to separate from other content */
+	justify-content: space-evenly; /* Evenly space buttons across the container */
+	align-items: center;
+	width: 100%; /* Ensure the container spans the full width */
+	gap: 10px; /* Add spacing between buttons */
 }
 
-.button-container {
-	display: flex;
-	justify-content: center;
-	gap: 10px;
-	margin-top: 1rem;
-}
-
+/* Adjusted CodeChoiceQuestion Buttons to Match MCQ Buttons */
 .code-choice-button {
-	padding: 10px 20px;
+	flex: 1; /* Allow buttons to shrink responsively */
+	max-width: 200px; /* Same max width as the MCQ buttons */
+	height: 40px; /* Same height as MCQ buttons */
+	font-size: 1rem; /* Consistent font size */
+	padding: 5px 16px; /* Consistent padding */
 	border: 2px solid #ddd;
-	border-radius: 8px;
+	border-radius: 4px;
 	background-color: #fff;
 	cursor: pointer;
 	transition: background-color 0.2s, border-color 0.2s;
+	text-align: center;
 }
 
+/* Hover effect consistent with MCQ */
 .code-choice-button:hover {
-	background-color: #f4f4f4;
+	background-color: #fafafa;
+	border-color: #ccc;
 }
 
+/* Correct and Incorrect Styling for Code Choice Buttons */
 .code-choice-button.correct {
 	border-color: #4caf50;
 	background-color: #e8f5e9;
