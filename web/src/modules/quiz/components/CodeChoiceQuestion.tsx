@@ -26,7 +26,9 @@ const CodeChoiceQuestion: React.FC<CodeChoiceQuestionProps> = ({
 
 	return (
 		<div className={styles["question-container"]}>
-			<div className={styles["button-container"]}>
+			<div className={styles["code-choice-container"]}>
+				{" "}
+				{/* New container for CodeChoice buttons */}
 				{["Block 1", "Block 2", "Block 3"].map((label, index) => (
 					<button
 						key={index}
