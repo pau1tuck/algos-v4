@@ -1,3 +1,4 @@
+# server/gameplay/models.py
 import json
 from django.conf import settings
 from django.db import models
@@ -25,6 +26,29 @@ class MaxAttainable(models.Model):
     class Meta:
         verbose_name = "Max Attainable Value"
         verbose_name_plural = "Max Attainable Values"
+
+
+class PagesCompleted(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )  # Reference the user who completed the page
+    track = models.ForeignKey(
+        Track, on_delete=models.CASCADE
+    )  # Reference the track this page belongs to
+    page_id = models.PositiveIntegerField()  # Store the page ID
+    completed_at = models.DateTimeField(
+        default=timezone.now
+    )  # Store when the page was completed
+
+    class Meta:
+        unique_together = (
+            "user",
+            "track",
+            "page_id",
+        )  # Ensure uniqueness per user, track, and page
+
+    def __str__(self):
+        return f"Page {self.page_id} completed by {self.user.username} on {self.track.title} at {self.completed_at}"
 
 
 # * GRADE
@@ -86,19 +110,25 @@ class UserProgress(models.Model):
     points = models.IntegerField(default=0)
     health = models.IntegerField(default=100)
 
-    # Store list as JSON string for SQLite compatibility
-    questions_completed = models.TextField(default="[]")
-    pages_completed = models.TextField(default="[]")
-    challenges_completed = models.TextField(default="[]")
+    # Related field for PagesCompleted
+    pages_completed = models.ManyToManyField(
+        "PagesCompleted", blank=True
+    )  # Use ManyToManyField for related pages
 
-    active_page = models.PositiveIntegerField(null=True, blank=True)  # Active page ID
+    # Allow blanks for questions_completed and challenges_completed
+    questions_completed = models.TextField(
+        default="[]", blank=True  # Allow blank fields
+    )  # Store as JSON for SQLite compatibility
+    challenges_completed = models.TextField(
+        default="[]", blank=True  # Allow blank fields
+    )  # Store as JSON for SQLite compatibility
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, blank=True)  # Timestamp
 
     def save(self, *args, **kwargs):
-        # Automatically set updated_at when saving active page
-        if self.active_page:
-            self.updated_at = timezone.now()
+        # Automatically set updated_at when saving the instance
+        self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -106,8 +136,12 @@ class UserProgress(models.Model):
 
     @property
     def xp(self):
+        # Get the count of completed pages using Django ORM
+        completed_pages_count = self.pages_completed.count()
+
+        # Calculate xp based on pages, questions, and challenges
         return (
-            len(self.get_pages_completed()) * 5
+            completed_pages_count * 5
             + len(self.get_questions_completed())
             + len(self.get_challenges_completed()) * 10
         )
@@ -132,21 +166,30 @@ class UserProgress(models.Model):
 
     @property
     def level(self):
-        if not self.get_pages_completed():
+        # If the user has no completed pages, return the default level
+        if not self.pages_completed.exists():
             return Level.objects.get(title="Aspiring Developer")
 
+        # Fetch all levels for the user's track, ordered by progression order
         levels = Level.objects.filter(track=self.track).order_by("order")
-        completed_pages = set(self.get_pages_completed())
+
+        # Get the set of completed page IDs using ORM
+        completed_page_ids = set(self.pages_completed.values_list("page_id", flat=True))
+
+        # Loop through the levels and check if all required pages are completed
         for level in levels:
-            if set(json.loads(level.pages_required)).issubset(completed_pages):
+            required_page_ids = set(json.loads(level.pages_required))
+            if required_page_ids.issubset(completed_page_ids):
                 return level
-        return None
+
+        return None  # Return None if no level is satisfied
 
     def get_questions_completed(self):
         return json.loads(self.questions_completed)
 
     def get_pages_completed(self):
-        return json.loads(self.pages_completed)
+        # Retrieve completed page IDs using Django ORM
+        return list(self.pages_completed.values_list("page_id", flat=True))
 
     def get_challenges_completed(self):
         return json.loads(self.challenges_completed)
@@ -154,36 +197,13 @@ class UserProgress(models.Model):
     def set_questions_completed(self, data):
         self.questions_completed = json.dumps(data)
 
-    def set_pages_completed(self, data):
-        self.pages_completed = json.dumps(data)
+    def set_pages_completed(self, page_ids):
+        # Set completed pages by clearing the current ones and adding new ones
+        self.pages_completed.clear()  # Clear current completed pages
+        for page_id in page_ids:
+            self.pages_completed.create(
+                page_id=page_id, user=self.user, track=self.track
+            )
 
     def set_challenges_completed(self, data):
         self.challenges_completed = json.dumps(data)
-
-    # Overriding save to handle array logic and calculate points and health
-    def save(self, *args, **kwargs):
-        if self.get_pages_completed():
-            self.current_page = self.get_pages_completed()[
-                -1
-            ]  # Most recent completed page
-
-        # Calculate points based on completed pages, questions, and challenges
-        self.points = (
-            len(self.get_pages_completed()) * 5
-            + len(self.get_questions_completed())
-            + len(self.get_challenges_completed()) * 10
-        )
-
-        # Calculate health
-        self.health = 100 - (
-            len(self.get_questions_completed()) * 2
-        )  # Deduct 2 points per question completed
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Progress for {self.user.username} in {self.track.title}"
-
-    class Meta:
-        verbose_name = "User Progress Record"
-        verbose_name_plural = "User Progress Records"

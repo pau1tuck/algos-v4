@@ -10,7 +10,7 @@ export const initialState: UserProgress = {
 	xp: 0,
 	health: 100,
 	questionsCompleted: [],
-	pagesCompleted: [],
+	pagesCompleted: {}, // Hashmap for pagesCompleted
 	challengesCompleted: [],
 	lastCompleted: new Date().toISOString(),
 	level: {

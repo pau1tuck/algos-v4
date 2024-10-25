@@ -1,7 +1,7 @@
 // web/src/redux/thunks/userProgressThunk.ts
 
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { dummyUserProgress } from "@site/src/redux/thunks/userProgressData";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { dummyUserProgress } from '@site/src/redux/thunks/userProgressData';
 
 import type { UserProgress } from "@site/src/modules/user/types/progress.types";
 
@@ -35,11 +35,11 @@ export const saveUserProgress = createAsyncThunk(
 			const state = getState() as any;
 			const userId = state.auth.user?.pk;
 
-			// Prepare the data to be saved, including the updated points
+			// Prepare the data to be saved, excluding completedAt (handled by backend)
 			const progressToSave = {
 				userId: userId,
 				trackId: userProgress.trackId,
-				pagesCompleted: userProgress.pagesCompleted,
+				pagesCompleted: userProgress.pagesCompleted, // No completedAt here
 				challengesCompleted: userProgress.challengesCompleted,
 				health: userProgress.health,
 				points: userProgress.points, // Save the updated points
