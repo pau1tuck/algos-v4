@@ -7,6 +7,7 @@ import type { QuestionProps } from "@site/src/modules/quiz/types/question.types"
 
 export interface PageContextProps extends Page {
 	resetFlag: boolean;
+	canSubmit: boolean; // New property added to PageContextProps
 	// Functions that modify the context
 	registerQuestion: (question: QuestionProps) => void;
 	updateQuestionStatus: (id: number, status: Partial<QuestionProps>) => void;
