@@ -1,8 +1,23 @@
-# /server/gameplay/serializers.py
+# server/gameplay/serializers.py
 
 from rest_framework import serializers
-from .models import UserProgress
-from content.models import Track  # Ensure correct import for Track model
+from .models import UserProgress, PagesCompleted
+from content.models import Track
+
+
+class PagesCompletedSerializer(serializers.ModelSerializer):
+    """Serializer for the PagesCompleted model."""
+
+    pageId = serializers.IntegerField(
+        source="page_id"
+    )  # Convert snake_case to camelCase
+    completedAt = serializers.DateTimeField(
+        source="completed_at"
+    )  # Convert snake_case to camelCase
+
+    class Meta:
+        model = PagesCompleted
+        fields = ["pageId", "completedAt"]  # Use camelCase for the frontend
 
 
 class UserProgressSerializer(serializers.ModelSerializer):
@@ -16,6 +31,19 @@ class UserProgressSerializer(serializers.ModelSerializer):
         read_only=False,  # Allow it to be writable during creation
     )
 
+    # Serialize pages_completed using PagesCompletedSerializer
+    pagesCompleted = PagesCompletedSerializer(
+        many=True, source="pages_completed", required=False
+    )
+
+    # Convert questions_completed and challenges_completed to camelCase
+    questionsCompleted = serializers.ListField(
+        source="questions_completed", child=serializers.IntegerField(), required=False
+    )
+    challengesCompleted = serializers.ListField(
+        source="challenges_completed", child=serializers.IntegerField(), required=False
+    )
+
     # Make points and health read-only
     points = serializers.IntegerField(read_only=True)
     health = serializers.IntegerField(read_only=True)
@@ -27,10 +55,9 @@ class UserProgressSerializer(serializers.ModelSerializer):
             "trackId",  # Writable on create but locked after creation
             "points",  # Read-only, calculated by the backend
             "health",  # Read-only, calculated by the backend
-            "questions_completed",
-            "pages_completed",
-            "challenges_completed",
-            "current_page",
+            "questionsCompleted",  # Now serialized to camelCase
+            "pagesCompleted",  # Serialized with the PagesCompletedSerializer
+            "challengesCompleted",  # Now serialized to camelCase
             "last_completed",
         ]
         read_only_fields = (
@@ -43,7 +70,18 @@ class UserProgressSerializer(serializers.ModelSerializer):
         # Set the user to the authenticated user
         user = self.context["request"].user
         validated_data["user"] = user
-        return super().create(validated_data)
+
+        # Extract and handle pages_completed if present
+        pages_data = validated_data.pop("pages_completed", [])
+        user_progress = super().create(validated_data)
+
+        # Create PagesCompleted records
+        for page_data in pages_data:
+            PagesCompleted.objects.create(
+                user=user, track=user_progress.track, **page_data
+            )
+
+        return user_progress
 
     def update(self, instance, validated_data):
         # Prevent changing the user and any frontend manipulation of points, health, and trackId
@@ -61,15 +99,15 @@ class UserProgressSerializer(serializers.ModelSerializer):
                 "track", None
             )  # Prevent track from being updated if it's an existing instance
 
-        # Merge and remove duplicates for completed fields
+        # Handle pages_completed updates
+        pages_data = validated_data.pop("pages_completed", [])
+
+        # Merge and remove duplicates for other completed fields
         instance.questions_completed = list(
             set(
                 instance.questions_completed
                 + validated_data.get("questions_completed", [])
             )
-        )
-        instance.pages_completed = list(
-            set(instance.pages_completed + validated_data.get("pages_completed", []))
         )
         instance.challenges_completed = list(
             set(
@@ -78,10 +116,17 @@ class UserProgressSerializer(serializers.ModelSerializer):
             )
         )
 
-        # Only update current_page from validated_data if provided
-        instance.current_page = validated_data.get(
-            "current_page", instance.current_page
-        )
+        # Update PagesCompleted records
+        for page_data in pages_data:
+            page_id = page_data.get("page_id")
+            page_completed, created = PagesCompleted.objects.get_or_create(
+                user=instance.user, track=instance.track, page_id=page_id
+            )
+            if not created:
+                page_completed.completed_at = page_data.get(
+                    "completed_at", page_completed.completed_at
+                )
+                page_completed.save()
 
         # Save instance and let the model handle points and health calculation
         instance.save()

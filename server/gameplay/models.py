@@ -115,21 +115,20 @@ class UserProgress(models.Model):
         "PagesCompleted", blank=True
     )  # Use ManyToManyField for related pages
 
+    # Allow blanks for questions_completed and challenges_completed
     questions_completed = models.TextField(
-        default="[]"
+        default="[]", blank=True  # Allow blank fields
     )  # Store as JSON for SQLite compatibility
     challenges_completed = models.TextField(
-        default="[]"
+        default="[]", blank=True  # Allow blank fields
     )  # Store as JSON for SQLite compatibility
 
-    active_page = models.PositiveIntegerField(null=True, blank=True)  # Active page ID
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, blank=True)  # Timestamp
 
     def save(self, *args, **kwargs):
-        # Automatically set updated_at when saving active page
-        if self.active_page:
-            self.updated_at = timezone.now()
+        # Automatically set updated_at when saving the instance
+        self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -143,11 +142,8 @@ class UserProgress(models.Model):
         # Calculate xp based on pages, questions, and challenges
         return (
             completed_pages_count * 5
-            + len(
-                self.get_questions_completed()
-            )  # Using existing method to get questions
-            + len(self.get_challenges_completed())
-            * 10  # Using existing method to get challenges
+            + len(self.get_questions_completed())
+            + len(self.get_challenges_completed()) * 10
         )
 
     @property
@@ -171,9 +167,7 @@ class UserProgress(models.Model):
     @property
     def level(self):
         # If the user has no completed pages, return the default level
-        if (
-            not self.pages_completed.exists()
-        ):  # Use ORM to check if pages_completed is empty
+        if not self.pages_completed.exists():
             return Level.objects.get(title="Aspiring Developer")
 
         # Fetch all levels for the user's track, ordered by progression order
@@ -213,27 +207,3 @@ class UserProgress(models.Model):
 
     def set_challenges_completed(self, data):
         self.challenges_completed = json.dumps(data)
-
-    # Overriding save to handle array logic and calculate points and health
-    def save(self, *args, **kwargs):
-        # Use ORM to get the most recent completed page ID
-        completed_pages = self.get_pages_completed()
-        if completed_pages:
-            self.current_page = completed_pages[-1]  # Most recent completed page
-
-        # Calculate points based on completed pages, questions, and challenges
-        self.points = (
-            len(self.get_pages_completed()) * 5  # Pages completed from ManyToManyField
-            + len(self.get_questions_completed())  # Questions completed from JSON field
-            + len(self.get_challenges_completed())
-            * 10  # Challenges completed from JSON field
-        )
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Progress for {self.user.username} in {self.track.title}"
-
-    class Meta:
-        verbose_name = "User Progress Record"
-        verbose_name_plural = "User Progress Records"
