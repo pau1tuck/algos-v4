@@ -124,8 +124,27 @@ const output = 6 in array;
 
 <br />
 
+<CodeEditor
+    height={300}
+    minimap={false}
+    initialCode={`function sum(a, b) {\n    // Your code here\n}`}
+    testCases={[
+        { input: [1, 2], expected: 3 },
+        { input: [5, 5], expected: 10 },
+    ]}
+    testCode={`function runTest(userCode, testCase) {
+        const { input, expected } = testCase;
+        try {
+            const userFunction = new Function('return ' + userCode)();
+            const result = userFunction(...input);
+            return result === expected ? 'Pass' : 'Fail';
+        } catch (error) {
+            return 'Error';
+        }
+    }`}
+/>
 
-
+<br />
 
 ```js title="Block 1"
 const a = 5;
@@ -154,27 +173,7 @@ console.log(a === b)
 
 <br />
 <TestComponent />
-<br />
 
-<CodeEditor
-    height={300}
-    minimap={false}
-    initialCode={`function sum(a, b) {\n    // Your code here\n}`}
-    testCases={[
-        { input: [1, 2], expected: 3 },
-        { input: [5, 5], expected: 10 },
-    ]}
-    testCode={`function runTest(userCode, testCase) {
-        const { input, expected } = testCase;
-        try {
-            const userFunction = new Function('return ' + userCode)();
-            const result = userFunction(...input);
-            return result === expected ? 'Pass' : 'Fail';
-        } catch (error) {
-            return 'Error';
-        }
-    }`}
-/>
 
 <ResetButton />
 <SubmitButton />
