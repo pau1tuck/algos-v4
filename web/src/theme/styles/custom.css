@@ -64,3 +64,16 @@ pre {
 	vertical-align: middle; /* Align inline code with the middle of the text */
 	cursor: default;
 }
+
+/* Use a generic code block container and adjust the title */
+div[class*="codeBlockTitle"] {
+	font-size: 0.7rem; /* Reduce font size */
+	padding: 4px 8px;
+	background-color: #fafafa;
+	color: #999999;
+}
+
+/* Adjust the code block title globally if it's inside a code block */
+.theme-code-block .codeBlockTitle {
+	font-size: 0.9rem;
+}

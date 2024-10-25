@@ -16,6 +16,8 @@ import CodeEditor from "@site/src/modules/editor/components/CodeEditor";
 import Accordion1 from "@site/src/components/Accordion";
 import { UserRole } from "@site/src/modules/user/types/user.type";
 import { Blue } from "@site/src/components/Highlights";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Welcome (Test Page)
 
@@ -117,28 +119,31 @@ const output = 6 in array;
 <br />
 
 
-```js
+
+
+```js title="Block 1"
 const a = 5;
 const b = '5';
 console.log(a != b)
 ```
-```js
+```js title="Block 2"
 const a = 5;
 const b = '5';
 console.log(a == b)
 ```
-```js
+```js title="Block 3"
 const a = 5;
 const b = '5';
 console.log(a === b)
 ```
 
 <CodeChoiceQuestion
-questionId={4}
-correctAnswer={2}
-points={10}
-question="Choose the correct block of code."
+  questionId={4}
+  correctAnswer={2}
+  points={10}
+  question="Choose the correct block of code."
 />
+
 
 <br />
 <TestComponent />
