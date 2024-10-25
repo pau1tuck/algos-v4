@@ -18,6 +18,7 @@ import { UserRole } from "@site/src/modules/user/types/user.type";
 import { Blue } from "@site/src/components/Highlights";
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import CodeBlock from "@theme/CodeBlock"
 
 # Welcome (Test Page)
 
@@ -54,6 +55,7 @@ import TabItem from '@theme/TabItem';
 
 Given a JavaScript object containing basic profile data (e.g., name, email, etc.), iterate over its properties and display a formatted summary.
 
+
 A `user` <Blue>**object**</Blue> containing user profile data.
 
 ```JavaScript
@@ -63,6 +65,10 @@ const user = {
     phone: "555-555-5555",
 }
 ```
+<CodeBlock className="codeblock">
+  <b>Input: </b>1 2 3 4
+  <b>Output: </b>"366300745"
+</CodeBlock>
 
 <TrueFalseQuestion
     questionId={1}

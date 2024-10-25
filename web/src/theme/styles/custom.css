@@ -42,9 +42,11 @@
 
 /* Code Blocks */
 pre {
-	border-radius: 12px; /* Subtle rounded corners */
-	/*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05), /* Lighter shadow for a softer effect
+	border-radius: 8px; /* Subtle rounded corners */
+	/* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05); /* Lighter shadow for a softer effect
 		0 10px 20px rgba(0, 0, 0, 0.05); /* More blurred, lighter shadow for depth */
+	/*box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1), 0px 3px 6px rgba(0, 0, 0, 0.2); */
+	box-shadow: none;
 	background-color: var(--code-bg-color) !important; /* Use variable for background color */
 	color: var(--code-text-color); /* Use variable for text color */
 	padding: 1rem; /* Padding for spacing */
@@ -69,11 +71,16 @@ pre {
 div[class*="codeBlockTitle"] {
 	font-size: 0.7rem; /* Reduce font size */
 	padding: 4px 8px;
+	border: 1px solid #e2e2e2;
 	background-color: #fafafa;
 	color: #999999;
 }
 
-/* Adjust the code block title globally if it's inside a code block */
-.theme-code-block .codeBlockTitle {
-	font-size: 0.9rem;
+/* General container for the CodeBlock component */
+div[class*="codeBlockStandalone"] {
+	background-color: red; /* Change background color */
+	padding: 16px; /* Adjust padding */
+	border-radius: 8px; /* Add rounded corners */
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Add shadow for a "paper" effect */
+	color: red;
 }
