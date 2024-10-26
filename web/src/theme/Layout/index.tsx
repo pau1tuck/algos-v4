@@ -39,7 +39,6 @@ export default function Layout(props: Props): JSX.Element {
 			<Navbar />
 
 			<Scorebar />
-			<div style={{ marginTop: "2.5rem" }} />
 
 			<div
 				id={SkipToContentFallbackId}

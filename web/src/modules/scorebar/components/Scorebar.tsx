@@ -26,69 +26,87 @@ const Scorebar = () => {
 	if (!isAuthenticated || !isVisible) return null;
 
 	return (
-		<AppBar
-			position="fixed"
-			sx={{
-				top: 60,
-				zIndex: 101,
-				height: "40px",
-				backgroundColor: "white",
-				color: "black",
-				fontWeight: 500,
-				boxShadow: "none",
-				borderBottom: "1px solid #DADDE2",
-			}}
-		>
-			<Toolbar
-				variant="dense"
+		<div id="scorebar-container" style={{ marginBottom: "2.5rem" }}>
+			<AppBar
+				position="fixed"
 				sx={{
-					minHeight: "40px",
-					alignItems: "center",
+					top: 60,
+					zIndex: 101,
+					height: "40px",
+					backgroundColor: "white",
+					color: "black",
+					fontWeight: 500,
+					boxShadow: "none",
+					borderBottom: "1px solid #DADDE2",
 				}}
 			>
-				<Box
-					display="flex"
-					alignItems="center"
-					justifyContent="space-between"
-					width="100%"
+				<Toolbar
+					variant="dense"
+					sx={{
+						minHeight: "40px",
+						alignItems: "center",
+					}}
 				>
-					<Box display="flex" alignItems="center">
-						<RiNumbersFill fontSize="large" color="green" />
-						<Typography variant="body1" component="div" sx={{ ml: 1 }}>
-							Score: {score} {/* Updated to use 'score' */}
-						</Typography>
-					</Box>
+					<Box
+						display="flex"
+						alignItems="center"
+						justifyContent="space-between"
+						width="100%"
+					>
+						<Box display="flex" alignItems="center">
+							<RiNumbersFill fontSize="large" color="green" />
+							<Typography
+								variant="body1"
+								component="div"
+								sx={{ ml: 1 }}
+							>
+								Score: {score} {/* Updated to use 'score' */}
+							</Typography>
+						</Box>
 
-					<Box display="flex" alignItems="center">
-						<FavoriteIcon fontSize="small" color="error" />
-						<Box sx={{ ml: 1, width: 100 }}>
-							<Typography variant="body1">Health: {health}</Typography>
+						<Box display="flex" alignItems="center">
+							<FavoriteIcon fontSize="small" color="error" />
+							<Box sx={{ ml: 1, width: 100 }}>
+								<Typography variant="body1">
+									Health: {health}
+								</Typography>
+							</Box>
+						</Box>
+
+						<Box display="flex" alignItems="center">
+							<StarIcon fontSize="small" color="secondary" />
+							<Box sx={{ ml: 1, width: 100 }}>
+								<Typography variant="body1">
+									XP: {xp} / 420
+								</Typography>
+							</Box>
+						</Box>
+
+						<Box display="flex" alignItems="center">
+							<GradeIcon fontSize="small" color="warning" />
+							<Typography
+								variant="body1"
+								component="div"
+								sx={{ ml: 1 }}
+							>
+								{grade?.title}
+							</Typography>
+						</Box>
+
+						<Box display="flex" alignItems="center">
+							<EmojiEventsIcon fontSize="small" color="action" />
+							<Typography
+								variant="body1"
+								component="div"
+								sx={{ ml: 1 }}
+							>
+								{rank?.title}
+							</Typography>
 						</Box>
 					</Box>
-
-					<Box display="flex" alignItems="center">
-						<StarIcon fontSize="small" color="secondary" />
-						<Box sx={{ ml: 1, width: 100 }}>
-							<Typography variant="body1">XP: {xp} / 420</Typography>
-						</Box>
-					</Box>
-
-					<Box display="flex" alignItems="center">
-						<GradeIcon fontSize="small" color="warning" />
-						<Typography variant="body1" component="div" sx={{ ml: 1 }}>
-							{grade?.title}
-						</Typography>
-					</Box>
-
-					<Box display="flex" alignItems="center">
-						<EmojiEventsIcon fontSize="small" color="action" />
-						<Typography variant="body1" component="div" sx={{ ml: 1 }}>
-							{rank?.title}
-						</Typography>
-					</Box>
-				</Box>
-			</Toolbar>
-		</AppBar>
+				</Toolbar>
+			</AppBar>
+		</div>
 	);
 };
 
