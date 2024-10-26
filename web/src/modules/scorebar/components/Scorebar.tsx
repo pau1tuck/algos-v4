@@ -1,13 +1,11 @@
-// web/src/modules/scorebar/components/Scorebar.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import GradeIcon from '@mui/icons-material/Grade';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import StarIcon from '@mui/icons-material/Star';
-import { AppBar, Box, LinearProgress, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import useAuthState from '@site/src/modules/auth/utils/useAuthState'; // Authentication hook
 
 import { useScorebarVisibility } from '../utils/useScorebarVisibility'; // Visibility hook
@@ -15,7 +13,8 @@ import { useScorebarVisibility } from '../utils/useScorebarVisibility'; // Visib
 import type { RootState } from "@site/src/redux/store";
 
 const Scorebar = () => {
-	const { points, health, xp, rank, grade } = useSelector(
+	// Destructure 'score' from the userProgress slice (retrieved from the backend)
+	const { score, health, xp, rank, grade } = useSelector(
 		(state: RootState) => state.userProgress,
 	);
 
@@ -37,7 +36,6 @@ const Scorebar = () => {
 				fontWeight: 500,
 				boxShadow: "none",
 				borderBottom: "1px solid #DADDE2",
-				// boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
 			}}
 		>
 			<Toolbar
@@ -63,7 +61,7 @@ const Scorebar = () => {
 							component="div"
 							sx={{ ml: 1 }}
 						>
-							Score: {points}
+							Score: {score} {/* Updated to use 'score' */}
 						</Typography>
 					</Box>
 
@@ -75,13 +73,6 @@ const Scorebar = () => {
 							</Typography>
 						</Box>
 					</Box>
-					{/*<Tooltip title={`Health: ${xp}/100`}>
-								<LinearProgress
-									variant="determinate"
-									value={(health / 100) * 100}
-									color="success"
-									sx={{ height: 10 }}
-								/></Tooltip>*/}
 
 					<Box display="flex" alignItems="center">
 						<StarIcon fontSize="small" color="secondary" />
