@@ -27,6 +27,7 @@
 				"useExhaustiveDependencies": "info"
 			},
 			"complexity": {
+				"noBannedTypes": "warn",
 				"noForEach": "warn"
 			},
 			"style": {

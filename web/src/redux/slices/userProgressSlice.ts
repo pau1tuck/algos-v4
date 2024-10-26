@@ -12,7 +12,7 @@ const userProgressSlice = createSlice({
 	initialState,
 	reducers: {
 		updatePageProgress: (state, action: PayloadAction<PageProgress>) => {
-			const { pageId, score } = action.payload;
+			const { pageId, points } = action.payload;
 
 			console.log(
 				"updatePageProgress: Received action.payload:",
@@ -27,27 +27,24 @@ const userProgressSlice = createSlice({
 				return;
 			}
 
-			// Update the points
-			state.points += score;
-
-			// Add the page to pagesCompleted
+			// We're only saving points, not updating the total score on the frontend
 			state.pagesCompleted[pageId] = {
 				completedAt: new Date().toISOString(),
 			};
 
 			// Log the updated state
-			console.log("updatePageProgress: Updated state:", {
-				points: state.points,
+			console.log("updatePageProgress: Updated state (points only):", {
 				pagesCompleted: state.pagesCompleted,
+				points, // Page-specific points
 			});
 		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchUserProgress.fulfilled, (state, action) => {
-			// Initialize state with fetched user progress data
+			// Initialize state with fetched user progress data from the backend
 			state.userId = action.payload.userId;
 			state.trackId = action.payload.trackId;
-			state.points = action.payload.points;
+			state.score = action.payload.score; // Total score is fetched from the backend
 			state.xp = action.payload.xp;
 			state.health = action.payload.health;
 			state.questionsCompleted = action.payload.questionsCompleted;
@@ -61,9 +58,10 @@ const userProgressSlice = createSlice({
 			// Assign pagesCompleted directly since it's now a hashmap
 			state.pagesCompleted = action.payload.pagesCompleted;
 
+			// Log the fetched score from the backend
 			console.log(
-				"Fetched user progress with points:",
-				action.payload.points,
+				"Fetched user progress with score:",
+				action.payload.score,
 			);
 		});
 	},

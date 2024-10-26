@@ -3,7 +3,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { dummyUserProgress } from '@site/src/redux/thunks/userProgressData';
 
-import type { UserProgress } from "@site/src/modules/user/types/progress.types";
+import type {
+	SaveUserProgress,
+	UserProgress,
+} from "@site/src/modules/user/types/progress.types";
 
 // Fetch user progress (dummy implementation)
 export const fetchUserProgress = createAsyncThunk(
@@ -39,20 +42,19 @@ export const saveUserProgress = createAsyncThunk(
 	async (_, { getState, rejectWithValue }) => {
 		try {
 			const state = getState() as any;
-			const userProgress: UserProgress = state.userProgress;
+			const userProgress: SaveUserProgress = state.userProgress;
 
 			// Prepare the data to be saved
 			const progressToSave = {
 				// Include only the fields that the backend expects and allows to be updated.
 				trackId: userProgress.trackId,
-				points: userProgress.points,
+				points: userProgress.points, // Send page-specific points if provided
 				questionsCompleted: userProgress.questionsCompleted,
 				pagesCompleted: Object.keys(userProgress.pagesCompleted).reduce(
 					(acc, pageId) => {
 						acc[pageId] = {}; // Empty object since we don't send `completedAt`
 						return acc;
 					},
-					// biome-ignore lint/complexity/noBannedTypes: <explanation>
 					{} as { [key: number]: {} }, // Empty objects serve as placeholders. Only the key (pageId) is read by the serializer.
 				),
 				challengesCompleted: userProgress.challengesCompleted,
