@@ -24,7 +24,6 @@ export const fetchUserProgress = createAsyncThunk(
 				...dummyUserProgress,
 				userId,
 				trackId,
-				// pagesCompleted is already in the expected format from the backend (hashmap)
 			};
 
 			console.log("Fetching user progress (dummy data)...", userProgress);
@@ -46,9 +45,8 @@ export const saveUserProgress = createAsyncThunk(
 
 			// Prepare the data to be saved
 			const progressToSave = {
-				// Include only the fields that the backend expects and allows to be updated.
 				trackId: userProgress.trackId,
-				points: userProgress.points, // Send page-specific points if provided
+				points: userProgress.points, // Send the latest page-specific points from Redux
 				questionsCompleted: userProgress.questionsCompleted,
 				pagesCompleted: Object.keys(userProgress.pagesCompleted).reduce(
 					(acc, pageId) => {

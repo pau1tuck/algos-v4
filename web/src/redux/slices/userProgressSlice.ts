@@ -27,7 +27,10 @@ const userProgressSlice = createSlice({
 				return;
 			}
 
-			// We're only saving points, not updating the total score on the frontend
+			// Save points to the state so they can be sent to the backend
+			state.points = points; // Track the page-specific points temporarily in Redux
+
+			// Mark the page as completed
 			state.pagesCompleted[pageId] = {
 				completedAt: new Date().toISOString(),
 			};
@@ -35,7 +38,7 @@ const userProgressSlice = createSlice({
 			// Log the updated state
 			console.log("updatePageProgress: Updated state (points only):", {
 				pagesCompleted: state.pagesCompleted,
-				points, // Page-specific points
+				points: state.points, // Page-specific points
 			});
 		},
 	},
@@ -44,7 +47,7 @@ const userProgressSlice = createSlice({
 			// Initialize state with fetched user progress data from the backend
 			state.userId = action.payload.userId;
 			state.trackId = action.payload.trackId;
-			state.score = action.payload.score; // Total score is fetched from the backend
+			state.score = action.payload.score; // Total score fetched from the backend
 			state.xp = action.payload.xp;
 			state.health = action.payload.health;
 			state.questionsCompleted = action.payload.questionsCompleted;
