@@ -41,6 +41,4 @@ export interface ChallengePage extends Page {
 }
 
 export interface PageProgress
-	extends Pick<Page, "pageId" | "difficulty" | "questions"> {
-	score?: number; // The calculated score for the page (based on questions)
-}
+	extends Pick<Page, "pageId" | "difficulty" | "questions" | "points"> {}

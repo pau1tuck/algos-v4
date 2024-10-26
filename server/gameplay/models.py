@@ -2,7 +2,6 @@
 import json
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
 from content.models import Track  # Import Track model
 
@@ -55,7 +54,7 @@ class PagesCompleted(models.Model):
 class Grade(models.Model):
     id = models.PositiveIntegerField(primary_key=True)  # Manual ID input
     title = models.CharField(max_length=100)  # e.g., "Purple Belt"
-    slug = models.SlugField(unique=True)  # e.g. "purple-belt"
+    slug = models.SlugField(unique=True)  # e.g., "purple-belt"
     description = models.TextField(null=True, blank=True)
     order = models.PositiveIntegerField()  # Order of progression
     image = models.ImageField(upload_to="images/grades/", null=True, blank=True)
@@ -107,7 +106,7 @@ class UserProgress(models.Model):
     )  # Use custom user model
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
-    points = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)  # Changed from points to score
     health = models.IntegerField(default=100)
 
     # Related field for PagesCompleted

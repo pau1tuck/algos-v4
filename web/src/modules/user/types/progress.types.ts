@@ -45,15 +45,18 @@ interface PageCompletion {
 export interface UserProgress {
 	userId: number;
 	trackId: number;
-	points: number; // Calculated by the backend
-	xp: number; // Calculated by the backend
-	health: number; // Calculated by the backend
+	score: number; // Fetched from the backend (total score)
+	points?: number; // Optional field, used when saving page-specific points
+	xp: number; // Fetched from the backend
+	health: number; // Fetched from the backend
 	questionsCompleted: number[];
-	pagesCompleted: { [key: number]: PageCompletion }; // hashmap
-	challengesCompleted: number[]; // Optional
-	currentPage?: number; // Tracks the last accessed page
-	lastCompleted: string; // Timestamp of the last progress update
-	level: Level; // Fetched from the backend
-	grade: Grade; // Fetched from the backend
-	rank: Rank; // Fetched from the backend
+	pagesCompleted: { [key: number]: PageCompletion }; // Hashmap
+	challengesCompleted: number[];
+	currentPage?: number;
+	lastCompleted: string; // ISO timestamp of the last progress update
+	level: Level;
+	grade: Grade;
+	rank: Rank;
 }
+
+export type SaveUserProgress = Omit<UserProgress, "score" | "health">; // Utility type

@@ -17,11 +17,14 @@ const UPDATE_QUESTION_STATUS = "UPDATE_QUESTION_STATUS";
 const RESET_PAGE = "RESET_PAGE";
 const TOGGLE_RESET_FLAG = "TOGGLE_RESET_FLAG";
 
+// PageState now includes canSubmit
 type PageState = {
 	questions: QuestionProps[];
 	resetFlag: boolean;
+	canSubmit: boolean; // New property to track if the submit button should be enabled
 };
 
+// PageAction updated to reflect the actions
 type PageAction =
 	| { type: "REGISTER_QUESTION"; payload: QuestionProps }
 	| {
@@ -31,6 +34,12 @@ type PageAction =
 	| { type: "RESET_PAGE" }
 	| { type: "TOGGLE_RESET_FLAG" };
 
+// Helper function to check if all questions are correct
+const areAllQuestionsCorrect = (questions: QuestionProps[]) => {
+	return questions.every((question) => question.correct === true);
+};
+
+// Reducer handling the state updates
 const pageReducer = (state: PageState, action: PageAction): PageState => {
 	switch (action.type) {
 		case REGISTER_QUESTION: {
@@ -63,13 +72,20 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 					? { ...question, ...action.payload.updates }
 					: question,
 			);
+
+			// Recompute the canSubmit flag by checking if all questions are correct
+			const canSubmit = areAllQuestionsCorrect(updatedStatusQuestions);
+
 			console.log(
 				"Provider: Updated Question Status:",
 				updatedStatusQuestions,
 			);
+			console.log("Provider: canSubmit flag value:", canSubmit); // Added console log for canSubmit
+
 			return {
 				...state,
 				questions: updatedStatusQuestions,
+				canSubmit, // Update canSubmit in the state
 			};
 		}
 
@@ -81,6 +97,7 @@ const pageReducer = (state: PageState, action: PageAction): PageState => {
 					status: QuestionStatus.NotStarted,
 					correct: false,
 				})),
+				canSubmit: false, // Reset canSubmit to false on page reset
 			};
 
 		case TOGGLE_RESET_FLAG:
@@ -135,9 +152,11 @@ export const PageProvider: React.FC<{
 		questions,
 	});
 
+	// Initialize state with canSubmit set to false
 	const [state, dispatch] = useReducer(pageReducer, {
 		questions,
 		resetFlag: false,
+		canSubmit: false, // Initialize canSubmit as false
 	});
 
 	const registerQuestion = useCallback(
@@ -175,8 +194,6 @@ export const PageProvider: React.FC<{
 		[],
 	);
 
-	// **Removed calculatePageScore function**
-
 	const resetPage = useCallback(() => {
 		dispatch({ type: "RESET_PAGE" });
 		dispatch({ type: "TOGGLE_RESET_FLAG" });
@@ -187,6 +204,7 @@ export const PageProvider: React.FC<{
 		console.log("Provider: Page State Updated:", state);
 	}, [state]);
 
+	// Update context value with canSubmit added to state
 	const contextValue = {
 		pageId,
 		trackId,
@@ -206,12 +224,12 @@ export const PageProvider: React.FC<{
 		prerequisites,
 		points,
 		questions: state.questions,
+		resetFlag: state.resetFlag,
+		canSubmit: state.canSubmit, // Provide canSubmit to context
 		requiresAuth,
 		roles,
-		resetFlag: state.resetFlag,
 		registerQuestion,
 		updateQuestionStatus,
-		// **Removed calculatePageScore from contextValue**
 		resetPage,
 	};
 

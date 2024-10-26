@@ -50,7 +50,7 @@ export const dummyRank: Rank = {
 export const dummyUserProgress: UserProgress = {
 	userId: 1,
 	trackId: 1, // JavaScript track
-	points: 27,
+	score: 27, // Total score, renamed from 'points'
 	xp: 57, // XP value here
 	health: 85,
 	questionsCompleted: [7, 9],

@@ -1,8 +1,5 @@
 // web/src/modules/quiz/components/SubmitButton.tsx
 
-import type React from "react";
-import { useSelector } from 'react-redux';
-
 import SendIcon from '@mui/icons-material/Send';
 import { Button } from '@mui/material';
 import { usePageContext } from '@site/src/modules/quiz/utils/usePageContext';
@@ -11,41 +8,44 @@ import { saveUserProgress } from '@site/src/redux/thunks/userProgressThunk';
 import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 
 const SubmitButton: React.FC = () => {
-	const { pageId, questions, difficulty, points } = usePageContext();
-
-	// Log the values received from the PageContext
-	console.log("SubmitButton - pageId:", pageId);
-	console.log("SubmitButton - difficulty:", difficulty);
-	console.log("SubmitButton - points:", points);
-	console.log("SubmitButton - questions:", questions);
-
+	const { pageId, questions, difficulty, points, canSubmit } =
+		usePageContext();
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async () => {
-		const score = points; // Use points directly from PageContext
-		console.log("SubmitButton: Using score from pageData:", score);
+		// Guard clause: if canSubmit is false, prevent submission
+		if (!canSubmit) {
+			console.warn(
+				"SubmitButton: Cannot submit, not all questions are correct.",
+			);
+			return;
+		}
 
-		// Dispatch updatePageProgress to update the Redux state
+		// Log the points for debugging
+		console.log("SubmitButton: Submitting page with points:", points);
+
+		// Dispatch updatePageProgress with the correct points and pageId
 		dispatch(
 			updatePageProgress({
 				pageId,
 				difficulty,
 				questions,
-				score,
+				points, // Send the page-specific points from PageContext
 			}),
 		);
 
-		// After updating the state, dispatch saveUserProgress to save the progress to the backend
+		// Dispatch the action to save user progress
 		dispatch(saveUserProgress());
 	};
 
 	return (
 		<Button
 			type="button"
-			color="success"
+			color="primary"
 			variant="contained"
-			endIcon={<SendIcon />} // Send icon
+			endIcon={<SendIcon />}
 			onClick={handleSubmit}
+			disabled={!canSubmit} // Disable the button if canSubmit is false
 			sx={{ mt: 2, mr: 2 }}
 		>
 			SUBMIT
