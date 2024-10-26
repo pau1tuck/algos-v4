@@ -27,8 +27,13 @@ class UserProgressSerializer(serializers.ModelSerializer):
         source="challenges_completed", child=serializers.IntegerField(), required=False
     )
 
-    # Make points and health read-only
-    points = serializers.IntegerField(read_only=True)
+    # Make points (received from frontend) read-only, but allow score manipulation
+    points = serializers.IntegerField(
+        write_only=True, required=False
+    )  # Accept points from frontend
+    score = serializers.IntegerField(
+        read_only=True
+    )  # Backend calculates and stores the final score
     health = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -36,7 +41,8 @@ class UserProgressSerializer(serializers.ModelSerializer):
         fields = [
             "userId",  # Read-only, obtained from the authenticated user
             "trackId",  # Writable on create but locked after creation
-            "points",  # Read-only, calculated by the backend
+            "points",  # Write-only: Incoming points from the frontend
+            "score",  # Read-only: Final score stored in the backend
             "health",  # Read-only, calculated by the backend
             "questionsCompleted",  # Serialized to camelCase
             "pagesCompleted",  # Serialized as a dictionary
@@ -45,9 +51,9 @@ class UserProgressSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = (
             "userId",
-            "points",
+            "score",  # The score is read-only on the frontend, calculated by the backend
             "health",
-        )  # Prevent frontend modification
+        )
 
     def get_pagesCompleted(self, obj):
         """Serialize pagesCompleted as a dictionary with pageId as key."""
@@ -85,16 +91,24 @@ class UserProgressSerializer(serializers.ModelSerializer):
         # Bulk create PagesCompleted records
         PagesCompleted.objects.bulk_create(pages_completed_list)
 
+        # If points are provided, add them to the current score
+        points = validated_data.get("points", 0)
+        if points:
+            user_progress.score += points  # Add incoming points to the current score
+            user_progress.save()
+
         return user_progress
 
     def update(self, instance, validated_data):
-        # Prevent changing the user and any frontend manipulation of points, health, and trackId
+        # Prevent changing the user and any frontend manipulation of health and trackId
         validated_data.pop("user", None)
-        validated_data.pop("points", None)
         validated_data.pop("health", None)
-
-        # Prevent changing the track once it has been set
         validated_data.pop("track", None)
+
+        # Handle points by adding the incoming points to the existing score
+        points = validated_data.pop("points", 0)
+        if points:
+            instance.score += points  # Add incoming points to the existing score
 
         # Handle pagesCompleted updates
         pages_completed_data = validated_data.pop("pagesCompleted", {})
@@ -122,6 +136,6 @@ class UserProgressSerializer(serializers.ModelSerializer):
             # No need to set completed_at; it's automatically set on creation
             page_completed.save()
 
-        # Save instance and let the model handle points and health calculation
+        # Save the updated instance with the new score
         instance.save()
         return instance

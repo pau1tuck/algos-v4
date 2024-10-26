@@ -45,6 +45,7 @@ export const saveUserProgress = createAsyncThunk(
 			const progressToSave = {
 				// Include only the fields that the backend expects and allows to be updated.
 				trackId: userProgress.trackId,
+				points: userProgress.points,
 				questionsCompleted: userProgress.questionsCompleted,
 				pagesCompleted: Object.keys(userProgress.pagesCompleted).reduce(
 					(acc, pageId) => {

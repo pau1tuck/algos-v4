@@ -10,33 +10,34 @@ import { useAppDispatch } from '@site/src/redux/utils/useAppDispatch';
 import type React from "react";
 
 const SubmitButton: React.FC = () => {
-	// Destructure values from PageContext, including canSubmit
+	// Destructure values from PageContext, including points and canSubmit
 	const { pageId, questions, difficulty, points, canSubmit } =
 		usePageContext();
 
 	// Log the values received from the PageContext
 	console.log("SubmitButton - pageId:", pageId);
 	console.log("SubmitButton - difficulty:", difficulty);
-	console.log("SubmitButton - points:", points);
+	console.log("SubmitButton - points:", points); // Page-specific points
 	console.log("SubmitButton - questions:", questions);
 	console.log("SubmitButton - canSubmit:", canSubmit);
 
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async () => {
-		const score = points; // Use points directly from PageContext
-		console.log("SubmitButton: Using score from pageData:", score);
+		// Use points directly from PageContext (page-specific points)
+		console.log("SubmitButton: Using points from pageData:", points);
 
-		// Dispatch updatePageProgress to update the Redux state
+		// Dispatch updatePageProgress to update the Redux state with page-specific points
 		dispatch(
 			updatePageProgress({
 				pageId,
 				difficulty,
 				questions,
-				score,
+				points, // Send the page-specific points to the backend
 			}),
 		);
 
+		// Dispatch the saveUserProgress action to save progress to the backend
 		dispatch(saveUserProgress());
 	};
 
@@ -45,7 +46,7 @@ const SubmitButton: React.FC = () => {
 			type="button"
 			color="primary"
 			variant="contained"
-			endIcon={<SendIcon />}
+			endIcon={<SendIcon />} // Submit icon
 			onClick={handleSubmit}
 			disabled={!canSubmit} // Disable the button if canSubmit is false
 			sx={{ mt: 2, mr: 2 }}
